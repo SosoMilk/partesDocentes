@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# PROJECT=restuix_rodrigo
+
+# if [ -z "$PROJECT" ]
+# then
+#      echo "Debe editar el script labprog y definir la variable \$PROJECT con su nombre"
+#      exit 1
+# fi
+
+case "$1" in
+	build ) echo "Instalando..."
+  	docker compose -f docker-compose.yml build
+    ;;
+  up ) echo "Iniciando servidores.."
+    docker compose -f docker-compose.yml up -d
+    ;;
+  down ) echo "Deteniendo servidores.."
+    docker compose -f docker-compose.yml down
+    ;;
+	restart ) echo "Reiniciando servicio $2..."
+		docker compose -f docker-compose.yml restart $2
+		;;
+	restart-all ) echo "Reiniciando servidores.."
+		docker compose -f docker-compose.yml restart
+		;;
+	log ) docker compose -f docker-compose.yml logs -f $2
+		;;
+	logs ) docker compose -f docker-compose.yml logs -f
+		;;
+  sh ) echo "Conectando con $2"
+    docker exec -it $2 sh
+    ;;
+  test ) echo "Testing"
+    docker exec -t -w /home/node/app test npm test
+    ;;
+  * ) echo "Opción inválida."
+      ;;
+esac
