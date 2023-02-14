@@ -42,15 +42,20 @@
 1. Hacer el build de las imágenes Docker `./lpl build` 
 
 1. Levantar los servidores `./lpl up`
+      > Este paso toma un tiempo debido a que debe descargar las dependencias del proyecto. Para monitorear el progreso utilizar `./lpl logs`.
+      >
+      > Cuando la aplicación esté lista se verá el mensaje:
+      >
+      > `backend | [...] Started BackendApplication in xxx seconds`
 
 1. Verificar funcionamiento ingresando a http://localhost:8080/ . Si todo funciona correctamente debería responder el siguiente JSON:
-```json
-{
-"data": "Hello Labprog!",
-"message": "Server Online",
-"status": 200
-}
-```
+      ```json
+      {
+      "data": "Hello Labprog!",
+      "message": "Server Online",
+      "status": 200
+      }
+      ```
 
 
 Aquí finaliza la instalación y configuración del ambiente de desarrollo, a continuación se detallan los pasos para comenzar con el desarrollo.
