@@ -22,9 +22,10 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     container_name: backend
+    # user: 1000:1000
     volumes:
       - ./backend:/app
-      - maven-m2:/root/.m2
+      - ../common/m2:/root/.m2
     working_dir: /app
     command: sh run.sh
     ports:
@@ -35,5 +36,4 @@ services:
       - database
 
 volumes:
-  maven-m2:
   postgres:

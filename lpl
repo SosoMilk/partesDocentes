@@ -1,13 +1,14 @@
 #!/bin/bash
 
-# PROJECT=restuix_rodrigo
+# Crea el directorio para las instalaciones
+LABPROG_DIR="../common/m2"
+ 
+if [ ! -d "$LABPROG_DIR" ]; then
+  mkdir -p $LABPROG_DIR
+  echo "Se creó el directorio $LABPROG_DIR"
+fi
 
-# if [ -z "$PROJECT" ]
-# then
-#      echo "Debe editar el script labprog y definir la variable \$PROJECT con su nombre"
-#      exit 1
-# fi
-
+# Comandos
 case "$1" in
 	build ) echo "Instalando..."
   	docker compose -f docker-compose.yml build
@@ -30,6 +31,9 @@ case "$1" in
 		;;
   sh ) echo "Conectando con $2"
     docker exec -it $2 sh
+    ;;
+  mvn ) echo "Ejecutando Maven en servidor backend: $2"
+    docker exec -t backend mvn $2
     ;;
   test ) echo "Testing"
     docker exec -t -w /home/node/app test npm test

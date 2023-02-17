@@ -18,7 +18,8 @@ public class BackendApplication {
 	@RequestMapping(value = "/", method=RequestMethod.GET)
 	public ResponseEntity home() {
 		return Response.response(
-			HttpStatus.OK, "Server Online",
+			HttpStatus.OK,
+			"Server Online",
 			"Hello Labprog!");
 	}
 

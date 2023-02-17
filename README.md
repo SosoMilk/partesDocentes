@@ -19,6 +19,19 @@
 1. Instalar [Git](https://git-scm.com/download/linux)
 
 1. Instalar [Docker](https://docs.docker.com/install/linux/docker-ce/ubuntu/) y [Docker Compose](https://docs.docker.com/compose/install/)
+    > **¡CONFIGURACIÓN IMPORTANTE ANTES DE CONTINUAR!**
+    >
+    1. No olvidar los instructivos de post instalación para ejecutar docker sin priviliegios de `root`.
+    1. Crear el archivo `/etc/docker/daemon.json` con el siguiente conenido:
+        ```json
+        {
+          "userns-remap": "TU_NOMBRE_DE_USUARIO"
+        }
+        ```
+    1. Editar los archivos `/etc/subuid` y `/etc/subgid`. Agregar la línea:
+        ```
+        TU_NOMBRE_DE_USUARIO:1000:65536
+        ```
 
 1. Iniciar servicio docker `sudo systemctl start docker`
     > Este comando puede variar según la distro de linux utilizada.
@@ -38,6 +51,8 @@
 1. Desde la línea de comandos, clonar este repositorio con sus submodulos `git clone <repo_url>` con la url ssh.
 
 1. Ir al directorio clonado `cd <repo_dir>`
+
+1. Dar permisos de ejecución al script `lpl`: `chmod +x lpl`.
 
 1. Hacer el build de las imágenes Docker `./lpl build` 
 
@@ -67,7 +82,11 @@ Aquí finaliza la instalación y configuración del ambiente de desarrollo, a co
 
 ## Desarrollar con Docker
 
+
+
 Para los siguientes pasos asegurarse de que el servicio de Docker esté corriendo, se puede ejecutar el comando `docker ps`.
+
+El script `lpl` en la raíz del repositorio tiene una serie de comandos útiles abreviados para asistir en el proceso de desarrollo.
 
 ### Levantar los servidores
 Desde la carpeta raíz ```./labprog up```
