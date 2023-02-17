@@ -75,41 +75,22 @@
 
 Aquí finaliza la instalación y configuración del ambiente de desarrollo, a continuación se detallan los pasos para comenzar con el desarrollo.
 
----
-### HASTA AQUÍ
----
-
-
 ## Desarrollar con Docker
-
 
 
 Para los siguientes pasos asegurarse de que el servicio de Docker esté corriendo, se puede ejecutar el comando `docker ps`.
 
 El script `lpl` en la raíz del repositorio tiene una serie de comandos útiles abreviados para asistir en el proceso de desarrollo.
 
-### Levantar los servidores
-Desde la carpeta raíz ```./labprog up```
-
-> La primera vez que se ejecute este comando descargará las imagenes asociadas de Docker.
->
-> Luego, es recomendable esperar un minuto a que inicien los servicios.
-
-Para verificar su funcionamiento debería poder ingresar a `http://localhost:8080` y ver la página de bienvenida de Glassfish.
-Para ingresar a la aplicación acceder a `http://localhost:4200` y ver la página de bienvenida de Angular.
-
-En algunas ocasiones, puede ser necesario observar el administrador de Glassfish en `https://localhost:4848/` con usuario _admin_ y clave _admin_.
-
-
 ### Conectarse a los servidores por línea de comandos
 
-Para conectarse al servidor **back-end** de Glassfish, una vez corriendo los servicios, ejecutar: ```./labprog bash server```
+Para conectarse al servidor **backend**, una vez corriendo los servicios, ejecutar: ```./lpl sh backend```
 
-Para conectarse al servidor **front-end** de Angular y ejecutar los test de Cucumber, una vez corriendo los servicios, ejecutar: ```./labprog bash client```
+De la misma forma es posible conectarse a cualquiera de los contenedores solo indicando el nombre del mismo.
 
 ### Detener los servicios
 
-Para detener los servicios configurados en el archivo de docker-compose ejecutar: ```./labprog down```
+Para detener los servicios configurados en el archivo de docker-compose ejecutar: ```./lpl down```
 
 El siguiente comando es para detener por completo el servicio de docker. En este caso, si los servicios están corriendo se detendrán y cuando docker sea iniciado nuevamente, estos contenedores serán levantados de forma automática.
 
@@ -117,21 +98,11 @@ El siguiente comando es para detener por completo el servicio de docker. En este
 
 ## Desarrollar en Java en el servidor
 
-Al conectarse al servidor `server`
-
-1. Crear la base de datos `ant createdb`. Una única vez.
-
-> Este paso sólo crea la conexión a la base de datos, la misma debe ser creada manualmente desde el administrador de bases de datos con el nombre que figura en la propiedad `DB_NAME` del archivo de configuración `server/build.xml`.
-
-1. Para compilar el código `ant compile`.
-
-1. Una vez compilado el código, desplegar la aplicación con `ant deploy`.
+1. `./lpl compile`
 
 ## Staging de datos
 
-Para establecer un staging de la base de datos mediante sql, se deben agregar los archivos .sql en el directorio `src/server/etc/sql`.
-
-Para efectivamente carga el staging en la base de datos, es necesario ejecutar en el server `ant stage -Dstage <nombre de archivo sql>`.
+> PENDIENTE
 
 ## Stack tecnológico
 Además de cumplir con los requerimientos funcionales planteados en cada TP, el desarrollo de la aplicación deberá garantizar las siguientes premisas:
