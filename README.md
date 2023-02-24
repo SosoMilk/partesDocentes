@@ -77,7 +77,6 @@ Aquí finaliza la instalación y configuración del ambiente de desarrollo, a co
 
 ## Desarrollar con Docker
 
-
 Para los siguientes pasos asegurarse de que el servicio de Docker esté corriendo, se puede ejecutar el comando `docker ps`.
 
 El script `lpl` en la raíz del repositorio tiene una serie de comandos útiles abreviados para asistir en el proceso de desarrollo.
@@ -96,9 +95,17 @@ El siguiente comando es para detener por completo el servicio de docker. En este
 
 `sudo systemctl stop docker`
 
-## Desarrollar en Java en el servidor
+## Desarrollar en Java en el backend
+
+El servidor de backend despliga automáticamente el código compilado. Luego de modificar los archivos locales se debe ejecutar el siguiente comando:
 
 1. `./lpl compile`
+
+Esto compilará el código en el servidor. Si no hay errores de compilación se desplegará al instante.
+
+En ciertas ocaciones, debido a algún error de compilación que haya sido corregido, es posible que el backend no vuelva a desplegar la aplicación. En este caso, sólo es necesario reiniciar el backend.
+
+1. `./lpl restart backend`
 
 ## Staging de datos
 
@@ -111,11 +118,14 @@ Además de cumplir con los requerimientos funcionales planteados en cada TP, el 
 * La aplicación deberá garantizar transacciones ACID. Especialmente para los procesos.
 * Siempre que se pueda y deba, garantizar los principios SOLID de la programación Orientada a Objetos. (SRP, OCP, LSP, ISP, DIP).
 * El stack tecnológico requerido para la solución contempla el uso de:
-  + **Angular**  para la capa front end en clientes web
-  + **JAX-RS** para la capa de servicios RESTfull. Capa presenter.
-  + **JavaEE** para la capa de controladores y servicios.
-  + **JPA** como ORM para la capa model.
-  + **Derby** como motor de persistencia de datos administrada por Glassfish. Capa de base de datos.
+  + **Git** para el control de versiones y distribución del código.
+  + **Docker** para la administración de la virtualización en contenedores de los servidores.
+  + **Docker compose** pra la coordinación de multiples contenedores.
+  + **Angular**  para el desarrollo de la aplicación frontend en javascript.
+  + **Spring Boot** para el desarrollo de la aplicación backend en java.
+  + **JPA** como ORM para la implementación del modelo.
+  + **Postgres** cómo motor de base de datos.
+  + **Cucumber-js** para el testing de los servicios REST.
 * La gestión de tablas se realizará exclusivamente desde el modelo provisto a continuación y generado desde el ORM. **No se permite ingeniería inversa desde la DB.**
 
 ## Forma de entrega
