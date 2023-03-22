@@ -22,7 +22,6 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     container_name: backend
-    # user: 1000:1000
     volumes:
       - ./backend:/app
       - ../common/backend/m2:/root/.m2
@@ -34,6 +33,28 @@ services:
       - 5005:5005
     depends_on:
       - database
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: frontend
+    ### --- SEGUIR INSTRUCIVO AQUI ####
+    working_dir: /home/node # -- Descomentar luego de ng new
+    # working_dir: /home/node/cli
+    # command: ng serve --host=0.0.0.0
+    ### ------------------------- ####
+    restart: always
+    ports:
+      - "4200:4200"
+    # stdin_open y tty mantienen el servidor funcionando sin commandos en ejecución
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./frontend:/home/node      
+    # Activar lo siguiente luego del taller End-to-end
+    # depends_on: 
+      # - backend
 
   testing:
     image: node:alpine

@@ -71,7 +71,15 @@
       "status": 200
       }
       ```
+1. Crear el proyecto Angular en el front:
+    ```sh
+    $ ./lpl sh front
+    [frontend]$ ng new cli --minimal -S -g --defaults 
+    ```
+    
+1. Descomentar linea indicadas en `docker-compose.yml`.
 
+1. Verificar funcionamiento ingresando a http://localhost:4200/ .
 
 Aquí finaliza la instalación y configuración del ambiente de desarrollo, a continuación se detallan los pasos para comenzar con el desarrollo.
 
