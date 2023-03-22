@@ -12,6 +12,7 @@ fi
 case "$1" in
 	build ) echo "Instalando..."
   	docker compose -f docker-compose.yml build
+    docker compose run --rm testing npm install
     ;;
   up ) echo "Iniciando servidores.."
     docker compose -f docker-compose.yml up -d
@@ -36,7 +37,7 @@ case "$1" in
     docker exec -t backend mvn $2
     ;;
   test ) echo "Testing"
-    docker exec -t -w /home/node/app test npm test
+    docker compose run --rm testing
     ;;
   * ) echo "Opción inválida."
       ;;

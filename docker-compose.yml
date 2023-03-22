@@ -25,7 +25,7 @@ services:
     # user: 1000:1000
     volumes:
       - ./backend:/app
-      - ../common/m2:/root/.m2
+      - ../common/backend/m2:/root/.m2
     working_dir: /app
     command: sh run.sh
     ports:
