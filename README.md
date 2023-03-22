@@ -48,7 +48,10 @@
 
 1. Realizar el **Fork** y dirigirse al repositorio nuevo.
 
-1. Desde la línea de comandos, clonar este repositorio con sus submodulos `git clone <repo_url>` con la url ssh.
+1. Desde la línea de comandos, clonar este repositorio con la url ssh. 
+    ```sh
+    git clone ssh://git@git.fi.mdn.unp.edu.ar:30000/<repo>`
+    ```
 
 1. Ir al directorio clonado `cd <repo_dir>`
 
@@ -76,7 +79,7 @@
     $ ./lpl sh front
     [frontend]$ ng new cli --minimal -S -g --defaults 
     ```
-    
+
 1. Descomentar linea indicadas en `docker-compose.yml`.
 
 1. Verificar funcionamiento ingresando a http://localhost:4200/ .
