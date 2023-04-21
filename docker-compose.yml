@@ -40,9 +40,9 @@ services:
       dockerfile: Dockerfile
     container_name: frontend
     ### --- SEGUIR INSTRUCIVO AQUI ####
-    working_dir: /home/node # -- Descomentar luego de ng new
-    # working_dir: /home/node/cli
-    # command: ng serve --host=0.0.0.0
+    #working_dir: /home/node # -- Descomentar luego de ng new
+    working_dir: /home/node/cli
+    command: ng serve --host=0.0.0.0
     ### ------------------------- ####
     restart: always
     ports:
