@@ -1,10 +1,17 @@
+export enum CHARACTER {
+    M= "Masculino",
+    F= "Femenino",
+    O= "Otro"
+}
+
 export interface Persona {
-    Dni: number; //BigInt
-    Cuit: String[30];
-    Nombre: String[90];
-    Apellido: String[90];
-    Titulo: String[90];
-    Sexo: String[1];  //CharacterData
-    Domicilio: String[90];
-    Telefono: String[30];
+    id: number;
+    dni: BigInt;
+    cuit: String[30];
+    nombre: String[90];
+    apellido: String[90];
+    titulo: String[90];
+    sexo: CHARACTER;
+    domicilio: String[90];
+    telefono: String[30];
 }

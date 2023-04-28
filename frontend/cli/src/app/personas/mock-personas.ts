@@ -1,24 +1,26 @@
-import { Persona } from "./persona";
+import { CHARACTER, Persona } from "./persona";
 
 export const PERSONAS: Persona[]=[
     {
-        Dni: 44849670,
-        Cuit: "27-44849670-3",
-        Nombre: "Juana",
-        Apellido: "De Arco",
-        Titulo: "Profeta iluminada",
-        Sexo: "F",
-        Domicilio: "con diosito",
-        Telefono: "101010101010",
+        id:1,
+        dni: 44849670n,
+        cuit: "27-44849670-3",
+        nombre: "Juana",
+        apellido: "De Arco",
+        titulo: "Profeta iluminada",
+        sexo: CHARACTER.F,
+        domicilio: "con diosito",
+        telefono: "101010101010",
     },
     {
-        Dni: 23719670,
-        Cuit: "67-23719670-8",
-        Nombre: "Mario",
-        Apellido: "Cazas",
-        Titulo: "Profesor en ingenieria civil",
-        Sexo: "M",
-        Domicilio: "civil",
-        Telefono: "97651682",
+        id: 2,
+        dni: 23719670n,
+        cuit: "67-23719670-8",
+        nombre: "Mario",
+        apellido: "Cazas",
+        titulo: "Profesor en ingenieria civil",
+        sexo: CHARACTER.M,
+        domicilio: "civil",
+        telefono: "97651682",
     }
 ]

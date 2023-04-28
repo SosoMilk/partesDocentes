@@ -19,7 +19,7 @@ public class BackendApplication {
 	public ResponseEntity home() {
 		return Response.response(
 			HttpStatus.OK,
-			"Server Online",
+			"Server de partes Docentes",
 			"Hello Labprog!");
 	}
 

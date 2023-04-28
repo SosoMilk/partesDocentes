@@ -1,38 +1,39 @@
 import { Injectable } from "@angular/core";
+import { Observable, of } from "rxjs";
+import { HttpClient } from "@angular/common/http";
+import { DataPackage } from "../data-package";
+
 import { PERSONAS } from "./mock-personas";
 import { Persona } from "./persona";
-import { Observable, distinct, of } from 'rxjs';
+import { Data } from "@angular/router";
 
 @Injectable({
     providedIn: "root",
 })
+
 export class PersonaService {
+    private personasUrl = 'rest/personas';  // URL to web api
+
     constructor(
-        //private http: HttpClient
+        private http: HttpClient
     ) { }
 
-    //all(): Observable<DataPackage>
-    get(Dni: number): Observable<Persona> {
-        return of({ ...PERSONAS.find((persona) => persona.Dni === Dni)! }); //esto es< sincronico
-        //creamos un objeto observable
+    all(): Observable<DataPackage> {
+        return this.http.get<DataPackage>(this.personasUrl); // REST
     }
 
-    save(persona: Persona): Observable<Persona> {
-        if (persona.Dni) {
-            // buscamos play que corresponde
-            let formerPersona = PERSONAS.find((formerPersona) => formerPersona.Dni === persona.Dni)!;
-            // modificamos sus valores
-            Object.assign(formerPersona, persona);
-            // devolvemos observable
-            return of(formerPersona);
-        } else {
-            persona.Dni = PERSONAS.length + 1;
-            PERSONAS.push(persona);
-            return of(persona);
-        }
+
+    get(id: number): Observable<DataPackage> {
+        return this.http.get<DataPackage>(this.personasUrl + "/id/"+id); //
     }
 
-    /*delete(id: number): void{
-      PLAYS.splice(PLAYS.findIndex(play => play.id == ))
-    }*/
+    save(persona: Persona): Observable<DataPackage> {
+        return this.http.post<DataPackage>(this.personasUrl, persona);
+    }
+
+    
+    // delete(id: number): void{
+    //     PERSONAS.splice(PERSONAS.findIndex(persona => persona.Dni == persona.Dni)!);
+    // }
+
 }

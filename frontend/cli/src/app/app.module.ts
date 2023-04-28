@@ -7,6 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './home/home.component';
 import { PersonasComponent } from './personas/personas.component';
 import { DetailComponent } from './personas/detail.component';
+import { HttpClientModule } from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { DetailComponent } from './personas/detail.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
