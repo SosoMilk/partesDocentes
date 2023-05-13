@@ -3,8 +3,6 @@ package unpsjb.labprog.backend;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import unpsjb.labprog.backend.model.Persona;
-
 import java.util.HashMap;
 import java.util.Map;
 

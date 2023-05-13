@@ -42,5 +42,9 @@ public class PersonaService {
 
         return Persona;
     }
+
+    public Persona findByDna(String dni, String nombre, String apellido) {
+        return repository.findByDna(dni,nombre,apellido).orElse(null);
+    }
     
 }

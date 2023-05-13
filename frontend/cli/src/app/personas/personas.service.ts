@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { DataPackage } from "../data-package";
 
 import { PERSONAS } from "./mock-personas";
@@ -28,12 +28,18 @@ export class PersonaService {
     }
 
     save(persona: Persona): Observable<DataPackage> {
-        return this.http.post<DataPackage>(this.personasUrl, persona);
+        return this.http[persona.id ? 'put':'post']<DataPackage>(this.personasUrl, persona);
     }
 
+    existe(cuit: string): Observable<DataPackage> {
+        const params = new HttpParams()
+            .set('cuil', cuit);
+
+        return this.http.get<DataPackage>(`${this.personasUrl}`, { params });
+    }
     
-    // delete(id: number): void{
-    //     PERSONAS.splice(PERSONAS.findIndex(persona => persona.Dni == persona.Dni)!);
-    // }
+    delete(persona: Persona): Observable<DataPackage>{
+        return this.http.delete<DataPackage>(`${this.personasUrl}/${persona.cuit}`);
+    }
 
 }

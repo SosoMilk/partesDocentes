@@ -15,9 +15,9 @@ import unpsjb.labprog.backend.business.PersonaService;
 import unpsjb.labprog.backend.model.Persona;
 
 @RestController
-@RequestMapping("personas")     //por este nos conectamos medio internes
+@RequestMapping("personas") // por este nos conectamos medio internes
 public class PersonaPresenter {
-    
+
     @Autowired
     PersonaService service;
 
@@ -39,6 +39,14 @@ public class PersonaPresenter {
                 : Response.notFound("La persona no existe");
     }
 
+    @RequestMapping(value = "/{dni}/{nombre}/{apellido}", method = RequestMethod.GET)
+    public ResponseEntity<Object> findByDna(@PathVariable("dni") String dni, @PathVariable("nombre") String nombre,
+            @PathVariable("apellido") String apellido) {
+        Persona PersonaOrNull = service.findByDna(dni, nombre, apellido);
+        return (PersonaOrNull != null) ? Response.ok(PersonaOrNull, "Persona encontrada correctamente")
+                : Response.notFound("La Persona no existe");
+    }
+
     @RequestMapping(method = RequestMethod.PUT)
     public ResponseEntity<Object> update(@RequestBody Persona persona) {
 
@@ -52,8 +60,9 @@ public class PersonaPresenter {
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Object> create(@RequestBody Persona persona) {
         try {
-            return Response.ok(service.save(persona), "La persona: "+persona.getNombre()+" "+persona.getApellido()+" con DNI "
-            +persona.getDni()+" ingresado/a correctamente");
+            return Response.ok(service.save(persona),
+                    "La persona: " + persona.getNombre() + " " + persona.getApellido() + " con DNI "
+                            + persona.getDni() + " ingresado/a correctamente");
         } catch (DataIntegrityViolationException e) {
             return Response.response(HttpStatus.CONFLICT, "La persona con el id " + persona.getId()
                     + " ya existe", null);
@@ -69,7 +78,8 @@ public class PersonaPresenter {
 
     // @RequestMapping(method = RequestMethod.DELETE)
     // public ResponseEntity<Object> delete(@PathVariable("id") int id) {
-    //     Persona apersonaOrNull = service.findById(id);
-    //     return (apersonaOrNull != null) ? Response.ok(apersonaOrNull) : Response.notFound();
+    // Persona apersonaOrNull = service.findById(id);
+    // return (apersonaOrNull != null) ? Response.ok(apersonaOrNull) :
+    // Response.notFound();
     // }
 }

@@ -4,10 +4,10 @@ import { DivisionService } from "./divisiones.service";
 import { Division } from "./division";
 
 @Component({
-    selector: "app-divisiones",
+    selector: "app-division",
     template: `
     <h2>divisiones&nbsp;
-      <a routerLink="/divisiones/new" class="btn btn-success float-right">Nueva</a>
+      <a routerLink="/division/new" class="btn btn-success float-right">Nueva</a>
     </h2>
     <div class="table-responsive">
       <table class="table table-striped table-sm">
@@ -25,13 +25,14 @@ import { Division } from "./division";
           <tr *ngFor="let division of divisiones; index as i">
             <td>{{ i + 1 }}</td>
             <td>{{ division.anio }}</td>
-            <td>{{ division.numDivision }}</td>
+            <td>{{ division.numero }}</td>
             <td>{{ division.orientacion }}</td>
             <td>{{ division.turno }}</td>
             <td>
               
+                <a routerLink="/division/{{ division.id }}">
                 <i class="fa fa-pencil mx-2"></i>
-
+                </a>
               
                 <i class="fa fa-trash-o text-danger mx-2 "></i>
             </td>

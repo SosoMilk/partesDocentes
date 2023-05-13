@@ -8,13 +8,25 @@ import { HomeComponent } from './home/home.component';
 import { PersonasComponent } from './personas/personas.component';
 import { DetailComponent } from './personas/detail.component';
 import { HttpClientModule } from "@angular/common/http";
+import { DivisionesComponent } from './divisiones/divisiones.component';
+import { DivDetailComponent } from './divisiones/div.detail.component';
+import { CarDetailComponent } from './cargos/car.detai.component';
+import { CargosComponent } from './cargos/cargos.component';
+import { DeDetailComponent } from './designaciones/de.detail.component';
+import { DesignacionesComponent } from './designaciones/designacion.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     PersonasComponent,
-    DetailComponent
+    DetailComponent,
+    DivisionesComponent,
+    DivDetailComponent,
+    CargosComponent,
+    CarDetailComponent,
+    DesignacionesComponent,
+    DeDetailComponent
   ],
   imports: [
     BrowserModule,

@@ -6,8 +6,9 @@ export enum Turnos {
 }
 
 export interface Division {
+    id: number;
     anio: number;
-    numDivision: number;
+    numero: number;
     orientacion: string;
     turno: Turnos;
 }

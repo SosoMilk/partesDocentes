@@ -17,7 +17,21 @@ import { Component } from "@angular/core";
 						<a routerLink="/personas" > Listar </a>
 						<a routerLink="/personas/new" >Nueva </a>
 					</ul>
-				
+				<li><a href="">Divisiones</a>
+					<ul>
+						<a routerLink="/division" > Listar </a>
+						<a routerLink="/division/new" >Nueva </a>
+					</ul>
+				<li><a href="">Cargos</a>
+					<ul>
+						<a routerLink="/cargo" > Listar </a>
+						<a routerLink="/cargo/new" >Nueva </a>
+					</ul>
+				<li><a href="">Designaciones</a>
+					<ul>
+						<a routerLink="/designacion" > Listar </a>
+						<a routerLink="/designacion/new" >Nueva </a>
+					</ul>
 			</ul>
 		</div>
 		</body>

@@ -10,6 +10,7 @@ import { DataPackage } from "../data-package";
     template: `
     <div *ngIf="persona">
       <h2>{{ persona.nombre | uppercase }}</h2>
+      
       <form #form="ngForm">
         <div class="form-group">
           <label for="nombre">Nombre:</label>
@@ -18,17 +19,7 @@ import { DataPackage } from "../data-package";
             name="nombre"
             placeholder="nombre"
             class="form-control"
-            required=""
-            #Nombre="ngModel"
           />
-          <div
-            *ngIf="Nombre.invalid && (Nombre.dirty || Nombre.touched)"
-            class="alert"
-          >
-            <div *ngIf="Nombre.errors?.['required']">
-              El Nombre de la persona es requerido.
-            </div>
-          </div>
         </div>
         <div class="form-group">
           <label for="apellido">Apellido</label>
@@ -100,11 +91,17 @@ import { DataPackage } from "../data-package";
 
         <button (click)="goBack()" class="btn btn-danger">Atrás</button>
         &nbsp;
-        <button
-          (click)="save()"
-          [disabled]="form.invalid"
-          class="btn btn-success"
-        >Guardar</button>
+
+        <button (click)="save()" [disabled]="form.invalid" class="btn btn-success" >Guardar</button>
+        <div *ngIf="mensaje" [class]="'alert ' + (mensaje.tipo === 'error' ? 'alert-danger' : 'alert-success')">
+        {{ mensaje.texto }}</div>
+        <div *ngIf="persona">
+        <div *ngIf="personaExiste" class="alert alert-danger">
+        La persona con cuil {{persona.cuit}} ya existe.
+      </div>
+        </div>
+
+
       </form>
     </div>
   `,
@@ -113,6 +110,8 @@ import { DataPackage } from "../data-package";
 
 export class DetailComponent {
     persona!: Persona;
+    personaExiste: object | undefined;
+    mensaje!: { texto: string, tipo: string };
 
     constructor(
         private route: ActivatedRoute,
@@ -139,12 +138,29 @@ export class DetailComponent {
     }
 
     save(): void {
-      this.personaService.save(this.persona).subscribe(dataPackage => {
-        this.persona = <Persona>dataPackage.data;
-        //dataPackage =>{this.persona = <Persona>dataPackage.data;
-            this.goBack();
-        });
-    }
+      if (!this.persona.cuit || !this.persona.nombre ) {
+        this.mensaje = {
+          texto: "Los campos nombre y cuil son obligatorios.", tipo: "error"};
+        return;
+      }
 
-  
+      // this.comprobarPersonaExistente();
+      //   if (this.personaExiste) {
+      //     this.mensaje = { texto: "La persona con cuil " + this.persona.cuit + " ya existe.", tipo: "error" };
+      //   } else {
+          this.personaService.save(this.persona).subscribe(dataPackage => {
+            this.persona = <Persona>dataPackage.data;
+            this.mensaje = { texto: "La persona se ha guardado exitosamente.", tipo: "success" };
+            setTimeout(() => this.goBack(), 1000);
+          });
+      //  }
+      }
+    
+
+  comprobarPersonaExistente() {
+    this.personaService.existe (this.persona.cuit)
+      .subscribe(dataPackage => {
+        this.personaExiste = dataPackage.data;
+      });
+  }
 }

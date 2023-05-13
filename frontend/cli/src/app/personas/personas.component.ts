@@ -7,7 +7,9 @@ import { PersonaService } from "./personas.service";
     selector: "app-personas",
     template: `
     <h2>Personas&nbsp;
+    <a routerLink="/division/new" class="btn btn-success float-right">Nueva</a>
     </h2>
+    
     <div class="table-responsive">
       <table class="table table-striped table-sm">
         <thead>
@@ -39,6 +41,10 @@ import { PersonaService } from "./personas.service";
               <a routerLink="/personas/{{ persona.id }}">
                 <i class="fa fa-pencil mx-2"></i>
               </a>
+              &nbsp;
+              <a routerLink="/personas/{{ persona.id }}" >
+                <i class="fa fa-trash-o text-danger mx-2 " > </i>
+              </a>
             </td>
           </tr>
         </tbody>
@@ -61,14 +67,11 @@ export class PersonasComponent {
       .subscribe(dataPackage => this.personas = <Persona[]>dataPackage.data);
   }
 
-  // eliminarPersona(persona: Persona): void {
-  //   if (confirm(`¿Está seguro de que desea eliminar a ${persona.Nombre} ${persona.Apellido}?`)) {
-  //     this.personaService.delete(persona.Dni).subscribe(() => {this.personas = this.personas.filter((p) => p !== persona);
-  //     });
-  //   }
-  // }
+  eliminarPersona(persona: Persona): void {
+    if (confirm(`¿Está seguro de que desea eliminar a ${persona.nombre} ${persona.apellido}?`)) {
+      this.personaService.delete(persona).subscribe(() => {this.personas = this.personas.filter((p) => p !== persona);
+      });
+    }
+  }
 
-  //             <a routerLink="/personas/{{ persona.id }}" >
-  // <i class="fa fa-trash-o text-danger mx-2 " > </i>
-  //   < /a>
 }

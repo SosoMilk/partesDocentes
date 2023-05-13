@@ -11,7 +11,7 @@ import { Division } from "./division";
 })
 
 export class DivisionService {
-    private divisionUrl = 'rest/divisiones';  // URL to web api
+    private divisionUrl = 'rest/division';  // URL to web api
 
     constructor(
         private http: HttpClient
@@ -22,23 +22,12 @@ export class DivisionService {
     }
 
 
-    get(anio: number): Observable<Division> {
-        return of({ ...DIVISIONES.find((division) => division.anio === anio)! });
+    get(id: number): Observable<DataPackage> {
+        return this.http.get<DataPackage>(this.divisionUrl + "/id/" + id);
     }
 
-    save(division: Division): Observable<Division> {
-        if (division.anio) {
-            // buscamos play que corresponde
-            let formerdivision = DIVISIONES.find((formerdivision) => formerdivision.anio === division.anio)!;
-            // modificamos sus valores
-            Object.assign(formerdivision, division);
-            // devolvemos observable
-            return of(formerdivision);
-        } else {
-            division.anio = DIVISIONES.length + 1;
-            DIVISIONES.push(division);
-            return of(division);
-        }
+    save(division: Division): Observable<DataPackage> {
+        return this.http.post<DataPackage>(this.divisionUrl, division);
     }
 
 
