@@ -153,7 +153,6 @@ Given('la persona con {int} {string} y {string}', function (dni, nombre, apellid
 
 Given('que se asigna al cargo  con tipo de designación {string} y {string}', function (tipo, nombre) {
     const nombreCod = encodeURIComponent(nombre);
-    console.log(nombreCod);
     let res = request (
         'GET',
         'http://backend:8080/cargo/'+ nombreCod
@@ -218,6 +217,54 @@ Given('se designa por el período {string} a {string}', function (fechaI, fechaF
     return assert.ok(true);
 });
 
+Given('la persona con {string}, {string} y {string}', function (cuil, nombre, apellido) {
+    // Write code here that turns the phrase above into concrete actions
+    let res = request(
+        'GET',
+        'http://backend:8080/personas/' + cuil); //urlenconding
+
+    const personaT = JSON.parse(res.body, 'utf8').data;
+
+    this.licencia = {
+        persona: personaT
+    };
+
+    return assert.equal(res.statusCode, 200);
+});
+
+Given('que se le asigna el articulo {string}', function (articulo) {
+    // Write code here that turns the phrase above into concrete actions
+    let res = request(
+        'GET',
+        'http://backend:8080/articulos/' + articulo); //urlenconding
+
+    const art = JSON.parse(res.body, 'utf8').data;
+
+    this.licencia.articulo= art;
+
+    return assert.ok(true);
+});
+
+Given('se designa por el período {string} hasta {string}', function (fechaI, fechaF) {
+    // Write code here that turns the phrase above into concrete actions
+    this.licencia.pedidoDesde = new Date(fechaI);
+    this.licencia.pedidoHasta = new Date(fechaF);
+    return assert.ok(true);
+});
+
+Given('con cetificado médico {string}', function (certificado) {
+    this.licencia.certificadoMedico = certificado;
+    return assert.ok(true);
+});
+
+When('se presiona el botón de guardar licencia', function () {
+    let res = request(
+        'POST',
+        'http://backend:8080/licencias', { json: this.licencia });
+    this.response = JSON.parse(res.body, 'utf8');
+
+    return assert.equal(res.statusCode, 200);
+});
 // AfterAll(async function () {
 //     this.personas.forEach(persona => request('POST', 'http://backend:8080/personas', { json: persona }));
 // });

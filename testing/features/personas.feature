@@ -74,7 +74,7 @@ Esquema del escenario: Designación de persona en cargos NO cubiertos aún en el
    | 20200200  | Susana      | Álvarez      | CARGO              | Preceptor-a       |     |        |       | 2023-03-01 | 2023-12-31 | 200    | Susana Álvarez ha sido designado/a como Preceptor-a exitosamente                                               |
    | 40400400  | Marisa      | Amuchástegui | ESPACIO_CURRICULAR | Historia          | 5   | 2      | Mañana| 2023-03-01 |            | 200    | Marisa Amuchástegui ha sido designado/a a la asignatura Historia a la división 5º 2º turno Mañana exitosamente |
    | 50500500  | Raúl        | Gómez        | ESPACIO_CURRICULAR | Geografia         | 3   | 1      | Tarde | 2023-03-01 | 2025-12-31 | 200    | Raúl Gómez ha sido designado/a a la asignatura Geografia a la división 3º 1º turno Tarde exitosamente          |
-   | 20000000  | Rosalía     | Fernandez    | CARGO              | Preceptor-a       |     |        |       | 2023-03-01 | 2023-12-31 | 409    | Rosalía Fernandez NO ha sido designado/a como preceptor-a. pues ya existe un cargo para estas fechas           |
+   | 20000000  | Rosalía     | Fernandez    | CARGO              | Preceptor-a       |     |        |       | 2023-03-01 | 2023-12-31 | 409    | Rosalía Fernandez NO ha sido designado/a como preceptor-a. pues el cargo solicitado lo ocupa Susana Álvarez para el período           |
    | 99100000  | Ermenegildo | Sábat        | ESPACIO_CURRICULAR | Física            | 2   | 3      | Mañana| 2023-03-01 |            | 200    | Ermenegildo Sábat ha sido designado/a a la asignatura Física a la división 2º 3º turno Mañana exitosamente     |
    | 99200000  | María Rosa  | Gallo        | ESPACIO_CURRICULAR | Matematica        | 1   | 1      | Tarde | 2023-03-01 |            | 200    | María Rosa Gallo ha sido designado/a a la asignatura Matematica a la división 1º 1º turno Tarde exitosamente   |
    | 99300000  | Homero      | Manzi        | ESPACIO_CURRICULAR | Tecnología        | 4   | 3      | Mañana| 2023-03-01 |            | 200    | Homero Manzi ha sido designado/a a la asignatura Tecnología a la división 4º 3º turno Mañana exitosamente      |
@@ -88,7 +88,20 @@ Esquema del escenario: Designación de persona en cargos NO cubiertos aún en el
    Entonces se espera el siguiente <status> con la "<respuesta>"
 
    Ejemplos:
-   | CUIL         | nombre     | apellido     | tipo               | nombreDesignación | año | número | turno | fechadesde | fechaHasta | status | respuesta                                                                                                  |
-   | 22993000000  | Homero     | Manzi        | CARGO              | Preceptor-a       |     |        |       | 2023-05-01 | 2024-12-31 | 200    | Homero Manzi NO ha sido designado/a como preceptor-a. pues ya existe este cargo para estas fechas          |
-   | 11992000000  | María Rosa | Gallo        | ESPACIO CURRICULAR | Geografia         | 3   | 1      | Tarde | 2023-07-01 | 2023-10-15 | 200    | María Rosa Gallo NO ha sido designado/a debido a que ya existe este espacio curricular para estas fechas   |
+   | CUIL         | nombre     | apellido     | tipo               | nombreDesignación | año | número | turno | fechadesde | fechaHasta | status | respuesta                                                                                                                       |
+   | 22993000000  | Homero     | Manzi        | CARGO              | Preceptor-a       |     |        |       | 2023-05-01 | 2024-12-31 | 200    | Homero Manzi NO ha sido designado/a como preceptor-a. pues el cargo solicitado lo ocupa Susana Álvarez para el período          |
+   | 11992000000  | María Rosa | Gallo        | ESPACIO CURRICULAR | Geografia         | 3   | 1      | Tarde | 2023-07-01 | 2023-10-15 | 200    | María Rosa Gallo NO ha sido designado/a debido a que la asignatura Geografía de la división 3º 1º turno Tarde lo ocupa Raúl Gómez para el período   |
    | 20808008009  | Analía     | Rojas        | CARGO              | Vicedirector-a    |     |        |       | 2023-09-08 | 2020-11-12 | 200    | Existe un error en la seleccion de fechas                                                                  |
+
+   Esquema del escenario: Designación de licencia para una persona
+   Dada la persona con "<CUIL>", "<nombre>" y "<apellido>"
+   Y que se le asigna el articulo "<articulo>" 
+   Y con cetificado médico "<certificado>"
+   Y se designa por el período "<fechadesde>" hasta "<fechaHasta>"
+   Cuando se presiona el botón de guardar licencia
+   Entonces se espera el siguiente <status> con la "<respuesta>"
+
+   Ejemplos:
+   | CUIL         | nombre     | apellido     | articulo    | certificado   | fechadesde | fechaHasta | status | respuesta                                                                                                                       |
+   | 22993000000  | Homero     | Manzi        | 5A          | true          | 2023-05-01 | 2024-12-31 | 200    | se creo la licencia          |
+   | 11992000000  | María Rosa | Gallo        | 5A          | false         | 2023-07-01 | 2023-10-15 | 200    | se creo la licencia          |

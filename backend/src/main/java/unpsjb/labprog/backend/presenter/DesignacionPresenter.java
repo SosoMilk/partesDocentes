@@ -1,7 +1,6 @@
 package unpsjb.labprog.backend.presenter;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -39,34 +38,39 @@ public class DesignacionPresenter {
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Object> create(@RequestBody Designacion Designacion) {
         try {
-            // LocalDate fechaInicio = Designacion.getFechaInicio().toInstant().atZone(ZoneId.systemDefault())
-            //         .toLocalDate();
-            // LocalDate fechaFin = Designacion.getFechaFin().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             if(Designacion.getFechaFin() != null)
             if (Designacion.getFechaFin().before(Designacion.getFechaInicio())){
                 return Response.response(HttpStatus.CONFLICT, "Existe un error en la seleccion de fechas",null);
             }
 
-            boolean pasa = false;
+            Optional<Designacion> designacionExistente = service.consultaFechaCargo(
+                Designacion.getCargo(), Designacion.getFechaInicio(), Designacion.getFechaFin());
 
-            if(Designacion.getCargo().getTipo() == TipoDesignacion.CARGO){
-                pasa = service.consultaFechaCargo(Designacion.getCargo().getNombre()
-                    , Designacion.getFechaInicio(), Designacion.getFechaFin());
-                if(pasa){
-                    return Response.response(HttpStatus.BAD_REQUEST, Designacion.getPersona().getNombre()+" "
-                    +Designacion.getPersona().getApellido()+" NO ha sido designado/a como "+Designacion.getCargo().getNombre()
-                    +". ya existe este cargo para estas fechas", null);
-                }
-            }else{
-                pasa = service.consultaFechaEspacio(Designacion.getCargo().getNombre(), Designacion.getCargo().getDivision().getAnio()
-                , Designacion.getCargo().getDivision().getNumero(), Designacion.getFechaInicio(), Designacion.getFechaFin());
-                if(pasa){// María Rosa Gallo NO ha sido designado/a debido a que ya existe este espacio
-                           // curricular para estas fechas
-                    return Response.response(HttpStatus.BAD_REQUEST, Designacion.getPersona().getNombre()+" "+Designacion.getPersona().getApellido()
-                    +" NO ha sido designado/a debido a que ya existe este espacio curricular para estas fechas",
-                            null);
-                }
-            }
+        if (designacionExistente.isPresent()) {
+            Designacion designacionEncontrada = designacionExistente.get();
+
+            if (Designacion.getCargo().getTipo() == TipoDesignacion.CARGO) { 
+                return Response.response(HttpStatus.BAD_REQUEST,
+                        Designacion.getPersona().getNombre() + " " + Designacion.getPersona().getApellido()
+                                + " NO ha sido designado/a como " + Designacion.getCargo().getNombre()
+                                + ". pues el cargo solicitado lo ocupa "
+                                + designacionEncontrada.getPersona().getNombre() + " "
+                                + designacionEncontrada.getPersona().getApellido()+ 
+                                " para el periodo",
+                        null);
+            } else {
+                return Response.response(HttpStatus.BAD_REQUEST,
+                        Designacion.getPersona().getNombre() + " " + Designacion.getPersona().getApellido()
+                                + " NO ha sido designado/a debido a que la asignatura "
+                                + Designacion.getCargo().getNombre() + " de la división "
+                                + Designacion.getCargo().getDivision().getAnio() + "º "
+                                + Designacion.getCargo().getDivision().getNumero() + "º turno "
+                                + Designacion.getCargo().getDivision().getTurno() + " lo ocupa "
+                                + designacionEncontrada.getPersona().getNombre() + " "
+                                + designacionEncontrada.getPersona().getApellido() + " para el periodo",
+                        null);
+            }  
+        }
 
             if (Designacion.getCargo().getTipo() == TipoDesignacion.CARGO) {
                 return Response.ok(service.save(Designacion),

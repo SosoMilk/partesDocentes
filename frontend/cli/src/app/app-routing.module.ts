@@ -10,6 +10,8 @@ import { CarDetailComponent } from './cargos/car.detai.component';
 import { CargosComponent } from './cargos/cargos.component';
 import { DeDetailComponent } from './designaciones/de.detail.component';
 import { DesignacionesComponent } from './designaciones/designacion.component';
+import { LicDetailComponent } from './licencias/lic.detail.component';
+import { LicenciasComponent } from './licencias/licencias.component';
 
 
 const routes: Routes = [
@@ -21,7 +23,9 @@ const routes: Routes = [
   { path: 'cargo', component: CargosComponent},
   { path: 'cargo/:id', component: CarDetailComponent },
   { path: 'designacion', component: DesignacionesComponent },
-  { path: 'designacion/:id', component: DeDetailComponent }
+  { path: 'designacion/:id', component: DeDetailComponent },
+  { path: 'licencias', component: LicenciasComponent },
+  { path: 'licencias/:id', component: LicDetailComponent }
 ]
 
 @NgModule({

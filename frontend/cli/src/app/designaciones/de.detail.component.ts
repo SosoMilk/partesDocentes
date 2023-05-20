@@ -159,12 +159,19 @@ import { FormsModule } from '@angular/forms';
       </button>
     </div>
 
+        <div *ngIf="errorFecha" class="alert alert-danger alert-dismissible fade show">
+          La fecha que ingreso cuenta con un error.
+          <button 
+            type="button"
+            class="btn-close" 
+            aria-label="Close"
+            (click) = "errorFecha = false"
+          >
+          </button>
+        </div>
+
       </form>
- 
-      selector: 'ngbd-typeahead-focus',
-        standalone: true,
-        imports: [NgbTypeaheadModule, FormsModule, JsonPipe],
-        templateUrl: './typeahead-focus.html',
+
   `,
     styles: [
       `
@@ -178,6 +185,7 @@ export class DeDetailComponent {
     personaes: Persona[] = [];
     cargos: Cargos[] = [];
     fechaOcupada: boolean = false;
+    errorFecha: boolean = false;
     model: any;
 
     constructor(
@@ -230,9 +238,15 @@ export class DeDetailComponent {
 
     save(): void {
       this.fechaOcupada = false;
+      this.errorFecha = false;
         this.designacionService.save(this.designacion).subscribe(dataPackage => {
-          if (dataPackage.message === "ya existe un cargo para estas fechas" 
-              || dataPackage.message === "ya existe un espacio curricular para estas fechas"){
+          if (dataPackage.message == "Existe un error en la seleccion de fechas"){
+            this.errorFecha = true;
+          }
+
+          
+          if (dataPackage.message.includes(" NO ha sido designado/a ")){
+            //if (dataPackage.status === 400){
             this.fechaOcupada = true;
           } else{
             this.designacion = <Designaciones>dataPackage.data;

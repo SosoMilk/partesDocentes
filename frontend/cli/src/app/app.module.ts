@@ -14,6 +14,8 @@ import { CarDetailComponent } from './cargos/car.detai.component';
 import { CargosComponent } from './cargos/cargos.component';
 import { DeDetailComponent } from './designaciones/de.detail.component';
 import { DesignacionesComponent } from './designaciones/designacion.component';
+import { LicDetailComponent } from './licencias/lic.detail.component';
+import { LicenciasComponent } from './licencias/licencias.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import { DesignacionesComponent } from './designaciones/designacion.component';
     CargosComponent,
     CarDetailComponent,
     DesignacionesComponent,
-    DeDetailComponent
+    DeDetailComponent,
+    LicenciasComponent,
+    LicDetailComponent
   ],
   imports: [
     BrowserModule,

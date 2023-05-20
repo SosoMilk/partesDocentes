@@ -6,7 +6,7 @@ import { Component } from "@angular/core";
     <div
       class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm"
     >
-      <h5 class="my-0 mr-md-auto font-weight-normal">Partes Docentes</h5>
+      <h5 class="my-0 mr-md-auto font-weight-normal">Partes Docentes&nbsp;</h5>
       <nav class="my-2 my-md-0 mr-md-3">
 	  	<body>
 	  	<div id="header">
@@ -31,6 +31,11 @@ import { Component } from "@angular/core";
 					<ul>
 						<a routerLink="/designacion" > Listar </a>
 						<a routerLink="/designacion/new" >Nueva </a>
+					</ul>
+				<li><a href="">Licencias</a>
+					<ul>
+						<a routerLink="/licencias" > Listar </a>
+						<a routerLink="/licencias/new" >Nueva </a>
 					</ul>
 			</ul>
 		</div>
