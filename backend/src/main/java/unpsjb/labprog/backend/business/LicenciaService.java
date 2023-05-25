@@ -1,5 +1,6 @@
 package unpsjb.labprog.backend.business;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
 import unpsjb.labprog.backend.model.Licencia;
+import unpsjb.labprog.backend.model.Persona;
 
 @Service
 public class LicenciaService {
@@ -28,5 +30,9 @@ public class LicenciaService {
     @Transactional
     public Licencia save(Licencia licencia) {
         return repository.save(licencia);
+    }
+
+    public Boolean mismosDiasLicencia(Persona persona, Date pedidoHasta, Date pedidoDesde){
+        return repository.mismosDiasLicencia(persona, pedidoDesde, pedidoHasta);
     }
 }

@@ -51,6 +51,12 @@ public class LicenciaPresenter {
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Object> create(@RequestBody Licencia Licencia) {
         try { // Se otorga Licencia artículo 5A a Ermenegildo Sabat
+            if(service.mismosDiasLicencia(Licencia.getPersona(), Licencia.getPedidoHasta(), Licencia.getPedidoDesde())){
+                return Response.response(HttpStatus.INTERNAL_SERVER_ERROR,"NO se otorga Licencia artículo 23A a "
+                +Licencia.getPersona().getNombre()+" "+Licencia.getPersona().getApellido()+" debido a que ya posee una licencia"
+                +" en el mismo período", null);
+            }
+ 
             return Response.ok(service.save(Licencia), "Se otorga Licencia artículo "+Licencia.getArticulo().getArticulo()+" a "
             + Licencia.getPersona().getNombre()+" "+Licencia.getPersona().getApellido());
         } catch (DataIntegrityViolationException e) {
