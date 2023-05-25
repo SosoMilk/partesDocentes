@@ -8,8 +8,8 @@ export interface Licencia {
     pedidoDesde: Date,
     pedidoHasta: Date,
     domicilio: String[90],
-    certificadoMedico: false,// boolean,
+    certificadoMedico: boolean ,
     persona: Persona,
     articulo: Articulo 
-    // designacion: Designaciones
+    designacion: Designaciones
 }

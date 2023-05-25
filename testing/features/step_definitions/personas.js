@@ -217,7 +217,8 @@ Given('se designa por el período {string} a {string}', function (fechaI, fechaF
     return assert.ok(true);
 });
 
-Given('la persona con {string}, {string} y {string}', function (cuil, nombre, apellido) {
+//esquema de la gran tabla
+Given('el docente con CUIL {string}, nombre {string} y apellido {string}', function (cuil, nombre, apellido) {
     // Write code here that turns the phrase above into concrete actions
     let res = request(
         'GET',
@@ -232,29 +233,20 @@ Given('la persona con {string}, {string} y {string}', function (cuil, nombre, ap
     return assert.equal(res.statusCode, 200);
 });
 
-Given('que se le asigna el articulo {string}', function (articulo) {
-    // Write code here that turns the phrase above into concrete actions
+When('solicita una licencia artículo {string} con descripción {string} para el período {string} {string}', 
+function (articulo, descripción, desde, hasta) {
+    this.licencia.pedidoDesde = new Date(desde);
+    this.licencia.pedidoHasta = new Date(hasta);
+    
     let res = request(
         'GET',
         'http://backend:8080/articulos/' + articulo); //urlenconding
 
     const art = JSON.parse(res.body, 'utf8').data;
 
-    this.licencia.articulo= art;
+    this.licencia.articulo = art;
 
-    return assert.ok(true);
-});
-
-Given('se designa por el período {string} hasta {string}', function (fechaI, fechaF) {
-    // Write code here that turns the phrase above into concrete actions
-    this.licencia.pedidoDesde = new Date(fechaI);
-    this.licencia.pedidoHasta = new Date(fechaF);
-    return assert.ok(true);
-});
-
-Given('con cetificado médico {string}', function (certificado) {
-    this.licencia.certificadoMedico = certificado;
-    return assert.ok(true);
+    return assert.equal(res.statusCode, 200);
 });
 
 When('se presiona el botón de guardar licencia', function () {
@@ -264,6 +256,48 @@ When('se presiona el botón de guardar licencia', function () {
     this.response = JSON.parse(res.body, 'utf8');
 
     return assert.equal(res.statusCode, 200);
+});
+
+Then('debería obtener la siguiente resultado de {int} y {string}', function (status, respuesta) {
+    // Then('debería obtener la siguiente resultado de {float} y {string}', function (float, string) {
+    // Write code here that turns the phrase above into concrete actions
+    
+    if (this.response && this.response.status == 200) {
+        assert.equal(this.response.status, status);
+        assert.equal(this.response.message, respuesta);
+    }
+
+    return true;
+});
+//escenarios
+Given('que existe la persona', function (dataTable) {
+    // Write code here that turns the phrase above into concrete actions
+    return 'pending';
+});
+
+Given('que existen las siguientes instancias de designación asignada', function (dataTable) {
+    // Write code here that turns the phrase above into concrete actions
+    return 'pending';
+});
+
+Given('que la instancia de designación está asignada a la persona', function (dataTable) {
+    // Write code here that turns the phrase above into concrete actions
+    return 'pending';
+});
+
+Given('que la instancia de designación está asignada a la persona con licencia {string} comprendida en el período desde {string} hasta {string}', function (string, string2, string3) {
+    // Write code here that turns the phrase above into concrete actions
+    return 'pending';
+});
+
+When('se solicita el servicio de designación de la persona al cargo en el período comprendido desde {string} hasta {string}', function (string, string2) {
+    // Write code here that turns the phrase above into concrete actions
+    return 'pending';
+});
+
+Then('se recupera el mensaje', function (docString) {
+    // Write code here that turns the phrase above into concrete actions
+    return 'pending';
 });
 // AfterAll(async function () {
 //     this.personas.forEach(persona => request('POST', 'http://backend:8080/personas', { json: persona }));

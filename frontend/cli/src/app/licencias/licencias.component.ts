@@ -57,7 +57,7 @@ export class LicenciasComponent {
     constructor(private licenciaService: LicenciaService) { }
 
     ngOnInit() {
-        this.getlicencias();
+      this.getlicencias();
     }
 
     getlicencias(): void {

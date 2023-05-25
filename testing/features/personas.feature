@@ -93,15 +93,72 @@ Esquema del escenario: Designación de persona en cargos NO cubiertos aún en el
    | 11992000000  | María Rosa | Gallo        | ESPACIO CURRICULAR | Geografia         | 3   | 1      | Tarde | 2023-07-01 | 2023-10-15 | 200    | María Rosa Gallo NO ha sido designado/a debido a que la asignatura Geografía de la división 3º 1º turno Tarde lo ocupa Raúl Gómez para el período   |
    | 20808008009  | Analía     | Rojas        | CARGO              | Vicedirector-a    |     |        |       | 2023-09-08 | 2020-11-12 | 200    | Existe un error en la seleccion de fechas                                                                  |
 
-   Esquema del escenario: Designación de licencia para una persona
-   Dada la persona con "<CUIL>", "<nombre>" y "<apellido>"
-   Y que se le asigna el articulo "<articulo>" 
-   Y con cetificado médico "<certificado>"
-   Y se designa por el período "<fechadesde>" hasta "<fechaHasta>"
-   Cuando se presiona el botón de guardar licencia
-   Entonces se espera el siguiente <status> con la "<respuesta>"
+
+Esquema del escenario: Otorgar Distintas licencias según las reglas de los distintos artículos
+   Dado el docente con CUIL "<CUIL>", nombre "<Nombre>" y apellido "<Apellido>"
+   Cuando solicita una licencia artículo "<Artículo>" con descripción "<Descripción>" para el período "<Desde>" "<Hasta>"
+   Y se presiona el botón de guardar licencia
+   Entonces debería obtener la siguiente resultado de <status> y "<Respuesta>"
 
    Ejemplos:
-   | CUIL         | nombre     | apellido     | articulo    | certificado   | fechadesde | fechaHasta | status | respuesta                                                                                                                       |
-   | 22993000000  | Homero     | Manzi        | 5A          | true          | 2023-05-01 | 2024-12-31 | 200    | se creo la licencia          |
-   | 11992000000  | María Rosa | Gallo        | 5A          | false         | 2023-07-01 | 2023-10-15 | 200    | se creo la licencia          |
+   | CUIL         | Nombre       | Apellido  | Artículo  | Descripción                    | Desde        | Hasta        | status | Respuesta                                                                                 |
+   | 90991000000  | Ermenegildo  | Sábat     | 5A        | ENFERMEDAD DE CORTA EVOLUCIÓN  | 2023-05-07   | 2023-05-17   | 200    | Se otorga Licencia artículo 5A a Ermenegildo Sábat  |
+   | 90991000000  | Ermenegildo  | Sábat     | 5A        | ENFERMEDAD DE CORTA EVOLUCIÓN  | 2023-05-18   | 2023-05-31   | 200    | Se otorga Licencia artículo 5A a Ermenegildo Sábat  |
+   | 90991000000  | Ermenegildo  | Sábat     | 5A        | ENFERMEDAD DE CORTA EVOLUCIÓN  | 2023-06-01   | 2023-06-12   | 500    | NO se otorga Licencia artículo 5A a Ermenegildo Sábat debido a que supera el tope de 30 días de licencia  |
+   | 90991000000  | Ermenegildo  | Sábat     | 5A        | ENFERMEDAD DE CORTA EVOLUCIÓN  | 2023-10-01   | 2023-10-03   | 200    | Se otorga Licencia artículo 5A a Ermenegildo Sábat  |
+   | 90991000000  | Ermenegildo  | Sábat     | 5A        | ENFERMEDAD DE CORTA EVOLUCIÓN  | 2023-10-04   | 2023-10-10   | 500    | NO se otorga Licencia artículo 5A a Ermenegildo Sábat debido a que supera el tope de 30 días de licencia  |
+   | 11992000000  | María Rosa   | Gallo     | 23A       | ATENCIÓN DE UN MIEMBRO DEL GF  | 2023-02-15   | 2023-03-01   | 200    | Se otorga Licencia artículo 23A a María Rosa Gallo  |
+   | 11992000000  | María Rosa   | Gallo     | 23A       | ATENCIÓN DE UN MIEMBRO DEL GF  | 2023-04-01   | 2023-04-16   | 200    | Se otorga Licencia artículo 23A a María Rosa Gallo  |
+   | 11992000000  | María Rosa   | Gallo     | 23A       | ATENCIÓN DE UN MIEMBRO DEL GF  | 2023-04-12   | 2023-04-20   | 500    | NO se otorga Licencia artículo 23A a María Rosa Gallo debido a que ya posee una licencia en el mismo período |
+   | 11992000000  | María Rosa   | Gallo     | 23A       | ATENCIÓN DE UN MIEMBRO DEL GF  | 2023-04-17   | 2023-04-20   | 500    | NO se otorga Licencia artículo 23A a María Rosa Gallo debido a que supera el tope de 30 días de licencia  |
+   | 22993000000  | Homero       | Manzi     | 36A       | ASUNTOS PARTICULARES           | 2023-05-08   | 2023-05-08   | 200    | Se otorga Licencia artículo 36A a Homero Manzi  |
+   | 22993000000  | Homero       | Manzi     | 36A       | ASUNTOS PARTICULARES           | 2023-05-11   | 2023-05-11   | 200    | Se otorga Licencia artículo 36A a Homero Manzi  |
+   | 22993000000  | Homero       | Manzi     | 36A       | ASUNTOS PARTICULARES           | 2023-05-20   | 2023-05-20   | 500    | NO se otorga Licencia artículo 36A a Homero Manzi debido a que supera el tope de 2 días de licencia por mes  |
+   | 22993000000  | Homero       | Manzi     | 36A       | ASUNTOS PARTICULARES           | 2023-08-13   | 2023-08-14   | 200    | Se otorga Licencia artículo 36A a Homero Manzi  |
+   | 22993000000  | Homero       | Manzi     | 36A       | ASUNTOS PARTICULARES           | 2023-09-24   | 2023-08-25   | 200    | Se otorga Licencia artículo 36A a Homero Manzi  |
+   | 22993000000  | Homero       | Manzi     | 36A       | ASUNTOS PARTICULARES           | 2023-11-04   | 2023-11-04   | 500    | NO se otorga Licencia artículo 36A a Homero Manzi debido a que supera el tope de 6 días de licencia por año  |
+   | 27505005009  | Raúl         | Guitierrez| 36A       | ASUNTOS PARTICULARES           | 2023-03-04   | 2023-03-04   | 500    | NO se otorga Licencia artículo 36A a Raúl Guitierrez debido a que el agente no posee ningún cargo en la institución  |
+   | 20404004009  | Marisa       | Balaguer  | 36A       | ASUNTOS PARTICULARES           | 2023-03-04   | 2023-03-04   | 500    | NO se otorga Licencia artículo 36A a Marisa balaguer debido a que el agente no tiene designación ese día en la institución  |
+   | 20202002009  | Susana       | Álvarez   | 5A        | ENFERMEDAD DE CORTA EVOLUCIÓN  | 2023-05-12   | 2023-06-30   | 200    | Se otorga Licencia artículo 5A a Susana Álvarez  |
+   | 20200000009  | Rosalía      | Fernandez | 5A        | ENFERMEDAD DE CORTA EVOLUCIÓN  | 2023-07-05   | 2023-09-15   | 200    | Se otorga Licencia artículo 5A a Rosalía Fernandez  |
+
+
+Escenario: 1 persona en instancias de designación de cargo que cubre una licencia de otra persona en la misma designación. Infomar que está correcto y que reemplaza al docente que solicitó licencia.
+   Dado que existe la persona
+      | CUIL       | Nombre    | Apellido     |
+      | 27707007009  | Jorge     | Dismal       |
+   Y que existen las siguientes instancias de designación asignada
+      | TipoDesignacion | NombreTipoDesignacion | CargaHoraria |
+      | cargo           | Preceptor/a             | 36           |
+   Y que la instancia de designación está asignada a la persona con licencia "5A" comprendida en el período desde "2020-05-12" hasta "2020-06-30"
+      | CUIL       | Nombre    | Apellido     | Desde        | Hasta        |
+      | 20202002009  | Susana    | Álvarez      | 2020-03-01   | 2020-12-31   |
+   Cuando se solicita el servicio de designación de la persona al cargo en el período comprendido desde "2020-05-17" hasta "2020-06-29"
+   Entonces se recupera el mensaje
+      """
+      {
+         "StatusCode": 200,
+         "StatusText": "Jorge Dismal ha sido designado/a al cargo prceptor/a exitosamente, en reemplado de Susana Álvarez"
+      }
+      """
+
+
+Escenario: 1 persona en instancias de designación de cargo que cubre una licencia de otra persona en la misma designación, pero que no coincide el mismo período. Infomar el error respectivo y abortar la transacción.
+   Dado que existe la persona
+      | CUIL         | Nombre    | Apellido     |
+      | 20808008009  | Analía    | Rojas        |
+   Y que existen las siguientes instancias de designación asignada
+      | TipoDesignacion | NombreTipoDesignacion | CargaHoraria |
+      | cargo           | Auxiliar  ADM         | 30           |
+   Y que la instancia de designación está asignada a la persona
+      | CUIL         | Nombre    | Apellido     | Desde        | Hasta        |
+      | 20200000009  | Rosalía   | Fernandez    | 2020-03-01   | 2020-12-31   |
+   Y que la instancia de designación está asignada a la persona con licencia "5A" comprendida en el período desde "2020-07-05" hasta "2020-09-15"
+   Cuando se solicita el servicio de designación de la persona al cargo en el período comprendido desde "2020-06-05" hasta "2020-09-15"
+   Entonces se recupera el mensaje
+      """
+      {
+         "StatusCode": 500,
+         "StatusText": "Analía Rojas NO ha sido designado/a al cargo auxiliar ya cuenta con Rosalía Fernandez asignada al mismo en el período"
+      }
+      """

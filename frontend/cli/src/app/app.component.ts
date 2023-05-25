@@ -82,10 +82,3 @@ import { Component } from "@angular/core";
 export class AppComponent {
   title = "cli";
 }
-
-// <li><a href="" > Divisiones < /a>
-// 	< ul >
-// 	<a routerLink="/divisiones" > Listar < /a>
-// 		< a routerLink = "/divisiones/new" > Nueva < /a>
-// 			< /ul>
-// 			< /li>

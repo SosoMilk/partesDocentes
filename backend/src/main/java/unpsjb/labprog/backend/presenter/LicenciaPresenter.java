@@ -50,8 +50,9 @@ public class LicenciaPresenter {
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Object> create(@RequestBody Licencia Licencia) {
-        try {
-            return Response.ok(service.save(Licencia), "se creo la licencia");
+        try { // Se otorga Licencia artículo 5A a Ermenegildo Sabat
+            return Response.ok(service.save(Licencia), "Se otorga Licencia artículo "+Licencia.getArticulo().getArticulo()+" a "
+            + Licencia.getPersona().getNombre()+" "+Licencia.getPersona().getApellido());
         } catch (DataIntegrityViolationException e) {
             return Response.response(HttpStatus.CONFLICT, "el Licencia ya existe", null);
         }
