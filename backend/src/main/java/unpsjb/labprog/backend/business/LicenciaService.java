@@ -35,4 +35,18 @@ public class LicenciaService {
     public Boolean mismosDiasLicencia(Persona persona, Date pedidoHasta, Date pedidoDesde){
         return repository.mismosDiasLicencia(persona, pedidoDesde, pedidoHasta);
     }
+
+    public Boolean poseeCargo(Persona persona){
+        return repository.poseeCargo(persona);
+    }
+
+    public Integer cantLicenciasMes(Persona persona, Date pedidoDesde){
+        String mes = pedidoDesde.toString().substring(5, 7);
+        return repository.cantLicenciasMes(persona, mes);
+    }
+    // String anio = desde.toString().substring(0, 4);
+    public Integer cantLicenciasAño(Persona persona, Date pedidoDesde) {
+        String anio = pedidoDesde.toString().substring(0, 4);
+        return repository.cantLicenciasAño(persona, anio);
+    }
 }
