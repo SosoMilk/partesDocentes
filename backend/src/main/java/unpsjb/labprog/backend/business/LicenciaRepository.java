@@ -12,10 +12,10 @@ import unpsjb.labprog.backend.model.Persona;
 @Repository
 public interface LicenciaRepository extends CrudRepository<Licencia, Integer>{
     
-
-    // @Query("SELECT SUM(DATEDIFF(pedidoHasta, pedidoDesde) + 1) FROM Licencia "+
-    //         "WHERE persona = ?1")
-    // int cantDiasLic(Persona persona);
+    @Query("SELECT (EXTRACT(DAY FROM l.pedidoHasta) - EXTRACT(DAY FROM l.pedidoDesde) + 1) + "
+    +"(EXTRACT(DAY FROM ?3) - EXTRACT(DAY FROM ?2) + 1) FROM Licencia l "
+    +"WHERE l.persona = ?1")
+    Integer cantDiasLic(Persona persona, Date desde, Date hasta);
 
     @Query("SELECT COUNT(c) > 0 FROM Licencia c WHERE c.persona = ?1 AND (c.pedidoDesde <= ?3 AND c.pedidoHasta >= ?2)")
     Boolean mismosDiasLicencia(Persona persona, Date desde, Date hasta);
@@ -28,4 +28,7 @@ public interface LicenciaRepository extends CrudRepository<Licencia, Integer>{
 
     @Query("SELECT COUNT(l) FROM Licencia l WHERE l.persona = ?1 AND TO_CHAR(l.pedidoDesde, 'yyyy') = ?2")
     Integer cantLicenciasAño(Persona persona, String año);
+
+    @Query("SELECT COUNT(d) > 0 FROM Designacion d WHERE d.persona = ?1 AND ?2 >= d.fechaInicio AND (d.fechaFin IS NULL OR ?2 <= d.fechaFin)")
+    Boolean desigXDia(Persona persona, Date fechaLicencia);
 }

@@ -49,4 +49,12 @@ public class LicenciaService {
         String anio = pedidoDesde.toString().substring(0, 4);
         return repository.cantLicenciasAño(persona, anio);
     }
+
+    public Boolean desigXDia(Persona persona, Date desde){
+        return repository.desigXDia(persona, desde);
+    }
+
+    public Integer cantDiasLic(Persona persona, Date desde, Date hasta){
+        return repository.cantDiasLic(persona, desde, hasta);
+    }
 }

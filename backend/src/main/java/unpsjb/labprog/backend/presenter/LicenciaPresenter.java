@@ -1,5 +1,8 @@
 package unpsjb.labprog.backend.presenter;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -49,33 +52,52 @@ public class LicenciaPresenter {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Object> create(@RequestBody Licencia Licencia) {
+    public ResponseEntity<Object> create(@RequestBody Licencia licencia) {
         try {
-            if(service.cantLicenciasMes(Licencia.getPersona(), Licencia.getPedidoDesde()) == 2){
-                return Response.response(HttpStatus.INTERNAL_SERVER_ERROR, "NO se otorga Licencia artículo "
-                +Licencia.getArticulo().getArticulo()+" a "+Licencia.getPersona().getNombre()+" "+Licencia.getPersona().getApellido()
+            if(service.cantLicenciasMes(licencia.getPersona(), licencia.getPedidoDesde()) == 2){
+                return Response.response(HttpStatus.BAD_REQUEST, "NO se otorga Licencia artículo "
+                +licencia.getArticulo().getArticulo()+" a "+licencia.getPersona().getNombre()+" "+licencia.getPersona().getApellido()
                 +" debido a que supera el tope de 2 licencias por mes", null);
             }
 
-            if(service.cantLicenciasAño(Licencia.getPersona(), Licencia.getPedidoDesde()) == 6){
-                return Response.response(HttpStatus.INTERNAL_SERVER_ERROR, "NO se otorga Licencia artículo "
-                +Licencia.getArticulo()+" a "+Licencia.getPersona().getNombre()+" "+Licencia.getPersona().getApellido()
+            if(service.cantLicenciasAño(licencia.getPersona(), licencia.getPedidoDesde()) == 6){
+                return Response.response(HttpStatus.BAD_REQUEST, "NO se otorga Licencia artículo "
+                +licencia.getArticulo()+" a "+licencia.getPersona().getNombre()+" "+licencia.getPersona().getApellido()
                 +" debido a que supera el tope de 6 licencias por año", null);
             }
 
-            if(service.mismosDiasLicencia(Licencia.getPersona(), Licencia.getPedidoHasta(), Licencia.getPedidoDesde())){
-                return Response.response(HttpStatus.INTERNAL_SERVER_ERROR,"NO se otorga Licencia artículo"+Licencia.getArticulo().getArticulo()+" a "
-                +Licencia.getPersona().getNombre()+" "+Licencia.getPersona().getApellido()+" debido a que ya posee una licencia"
+            if(service.mismosDiasLicencia(licencia.getPersona(), licencia.getPedidoHasta(), licencia.getPedidoDesde())){
+                return Response.response(HttpStatus.BAD_REQUEST,"NO se otorga Licencia artículo"+licencia.getArticulo().getArticulo()+" a "
+                +licencia.getPersona().getNombre()+" "+licencia.getPersona().getApellido()+" debido a que ya posee una licencia"
                 +" en el mismo período", null);
             }
 
-            if(!service.poseeCargo(Licencia.getPersona())){
-                return Response.response(HttpStatus.INTERNAL_SERVER_ERROR, "NO se otorga Licencia artículo "+Licencia.getArticulo().getArticulo()
-                +" a "+Licencia.getPersona().getNombre()+" "+Licencia.getPersona().getApellido()+" debido a que el agente no posee ningún cargo en la institución", null);
+            if(!service.poseeCargo(licencia.getPersona())){
+                return Response.response(HttpStatus.BAD_REQUEST, "NO se otorga Licencia artículo "+licencia.getArticulo().getArticulo()
+                +" a "+licencia.getPersona().getNombre()+" "+licencia.getPersona().getApellido()+" debido a que el agente no posee ningún cargo en la institución", null);
             }
- 
-            return Response.ok(service.save(Licencia), "Se otorga Licencia artículo "+Licencia.getArticulo().getArticulo()+" a "
-            + Licencia.getPersona().getNombre()+" "+Licencia.getPersona().getApellido());
+
+            if(!service.desigXDia(licencia.getPersona(), licencia.getPedidoDesde())){
+                return Response.response(HttpStatus.BAD_REQUEST, "NO se otorga Licencia artículo "+licencia.getArticulo().getArticulo()
+                +" a "+licencia.getPersona().getNombre()+" "+licencia.getPersona().getApellido()
+                +"i debido a que el agente no tiene designación ese día en la institución", null);
+            }
+
+            LocalDate localDateDesde = licencia.getPedidoDesde().toLocalDate();
+            LocalDate localDateHasta = licencia.getPedidoHasta().toLocalDate();
+
+            long diasLicencia = ChronoUnit.DAYS.between(localDateDesde, localDateHasta) + 1;
+
+            if (diasLicencia >= 30){
+                return Response.response(HttpStatus.BAD_REQUEST,
+                        "NO se otorga Licencia artículo " + licencia.getArticulo().getArticulo()
+                                + " a " + licencia.getPersona().getNombre() + " " + licencia.getPersona().getApellido()
+                                + " debido a que supera el tope de 30 días de licencia",
+                        null);
+            }
+            
+            return Response.ok(service.save(licencia), "Se otorga Licencia artículo "+licencia.getArticulo().getArticulo()+" a "
+            + licencia.getPersona().getNombre()+" "+licencia.getPersona().getApellido());
         } catch (DataIntegrityViolationException e) {
             return Response.response(HttpStatus.CONFLICT, "el Licencia ya existe", null);
         }

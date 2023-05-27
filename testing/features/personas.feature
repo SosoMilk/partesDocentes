@@ -72,7 +72,7 @@ Esquema del escenario: Designación de persona en cargos NO cubiertos aún en el
    | DNI       | nombre      | apellido     | tipo               | nombreDesignacion | año | número | turno | fechadesde | fechaHasta | status | respuesta                                                                                                      |
    | 10100100  | Alberto     | Lopez        | CARGO              | Vicedirector-a    |     |        |       | 2023-03-01 |            | 200    | Alberto Lopez ha sido designado/a como Vicedirector-a exitosamente                                             |
    | 20200200  | Susana      | Álvarez      | CARGO              | Preceptor-a       |     |        |       | 2023-03-01 | 2023-12-31 | 200    | Susana Álvarez ha sido designado/a como Preceptor-a exitosamente                                               |
-   | 40400400  | Marisa      | Amuchástegui | ESPACIO_CURRICULAR | Historia          | 5   | 2      | Mañana| 2023-03-01 |            | 200    | Marisa Amuchástegui ha sido designado/a a la asignatura Historia a la división 5º 2º turno Mañana exitosamente |
+   | 40400400  | Marisa      | Amuchástegui | ESPACIO_CURRICULAR | Historia          | 5   | 2      | Mañana| 2023-03-01 | 2023-03-03 | 200    | Marisa Amuchástegui ha sido designado/a a la asignatura Historia a la división 5º 2º turno Mañana exitosamente |
    | 50500500  | Raúl        | Gómez        | ESPACIO_CURRICULAR | Geografia         | 3   | 1      | Tarde | 2023-03-01 | 2025-12-31 | 200    | Raúl Gómez ha sido designado/a a la asignatura Geografia a la división 3º 1º turno Tarde exitosamente          |
    | 20000000  | Rosalía     | Fernandez    | CARGO              | Preceptor-a       |     |        |       | 2023-03-01 | 2023-12-31 | 409    | Rosalía Fernandez NO ha sido designado/a como preceptor-a. pues el cargo solicitado lo ocupa Susana Álvarez para el período           |
    | 99100000  | Ermenegildo | Sábat        | ESPACIO_CURRICULAR | Física            | 2   | 3      | Mañana| 2023-03-01 |            | 200    | Ermenegildo Sábat ha sido designado/a a la asignatura Física a la división 2º 3º turno Mañana exitosamente     |
@@ -101,28 +101,28 @@ Esquema del escenario: Otorgar Distintas licencias según las reglas de los dist
    Entonces debería obtener la siguiente resultado de <status> y "<Respuesta>"
 
    Ejemplos:
-   | CUIL         | Nombre       | Apellido  | Artículo  | Descripción                    | Desde        | Hasta        | status | Respuesta                                                                                 |
-   | 90991000000  | Ermenegildo  | Sábat     | 5A        | ENFERMEDAD DE CORTA EVOLUCIÓN  | 2023-05-07   | 2023-05-17   | 200    | Se otorga Licencia artículo 5A a Ermenegildo Sábat  |
-   | 90991000000  | Ermenegildo  | Sábat     | 5A        | ENFERMEDAD DE CORTA EVOLUCIÓN  | 2023-05-18   | 2023-05-31   | 200    | Se otorga Licencia artículo 5A a Ermenegildo Sábat  |
-   | 90991000000  | Ermenegildo  | Sábat     | 5A        | ENFERMEDAD DE CORTA EVOLUCIÓN  | 2023-06-01   | 2023-06-12   | 500    | NO se otorga Licencia artículo 5A a Ermenegildo Sábat debido a que supera el tope de 30 días de licencia  |
-   | 90991000000  | Ermenegildo  | Sábat     | 5A        | ENFERMEDAD DE CORTA EVOLUCIÓN  | 2023-10-01   | 2023-10-03   | 200    | Se otorga Licencia artículo 5A a Ermenegildo Sábat  |
-   | 90991000000  | Ermenegildo  | Sábat     | 5A        | ENFERMEDAD DE CORTA EVOLUCIÓN  | 2023-10-04   | 2023-10-10   | 500    | NO se otorga Licencia artículo 5A a Ermenegildo Sábat debido a que supera el tope de 30 días de licencia  |
-   | 11992000000  | María Rosa   | Gallo     | 23A       | ATENCIÓN DE UN MIEMBRO DEL GF  | 2023-02-15   | 2023-03-01   | 200    | Se otorga Licencia artículo 23A a María Rosa Gallo  |
-   | 11992000000  | María Rosa   | Gallo     | 23A       | ATENCIÓN DE UN MIEMBRO DEL GF  | 2023-04-01   | 2023-04-16   | 200    | Se otorga Licencia artículo 23A a María Rosa Gallo  |
-   | 11992000000  | María Rosa   | Gallo     | 23A       | ATENCIÓN DE UN MIEMBRO DEL GF  | 2023-04-12   | 2023-04-20   | 500    | NO se otorga Licencia artículo 23A a María Rosa Gallo debido a que ya posee una licencia en el mismo período |
-   | 11992000000  | María Rosa   | Gallo     | 23A       | ATENCIÓN DE UN MIEMBRO DEL GF  | 2023-04-17   | 2023-04-20   | 500    | NO se otorga Licencia artículo 23A a María Rosa Gallo debido a que supera el tope de 30 días de licencia  |
-   | 22993000000  | Homero       | Manzi     | 36A       | ASUNTOS PARTICULARES           | 2023-05-08   | 2023-05-08   | 200    | Se otorga Licencia artículo 36A a Homero Manzi  |
-   | 22993000000  | Homero       | Manzi     | 36A       | ASUNTOS PARTICULARES           | 2023-05-11   | 2023-05-11   | 200    | Se otorga Licencia artículo 36A a Homero Manzi  |
-   | 22993000000  | Homero       | Manzi     | 36A       | ASUNTOS PARTICULARES           | 2023-05-20   | 2023-05-20   | 500    | NO se otorga Licencia artículo 36A a Homero Manzi debido a que supera el tope de 2 licencias por mes  |
-   | 22993000000  | Homero       | Manzi     | 36A       | ASUNTOS PARTICULARES           | 2023-08-13   | 2023-08-14   | 200    | Se otorga Licencia artículo 36A a Homero Manzi  |
-   | 22993000000  | Homero       | Manzi     | 36A       | ASUNTOS PARTICULARES           | 2023-09-24   | 2023-08-25   | 200    | Se otorga Licencia artículo 36A a Homero Manzi  |
-   | 22993000000  | Homero       | Manzi     | 36A       | ASUNTOS PARTICULARES           | 2023-10-24   | 2023-10-25   | 200    | Se otorga Licencia artículo 36A a Homero Manzi  |
-   | 22993000000  | Homero       | Manzi     | 36A       | ASUNTOS PARTICULARES           | 2023-10-04   | 2023-10-05   | 200    | Se otorga Licencia artículo 36A a Homero Manzi  |
-   | 22993000000  | Homero       | Manzi     | 36A       | ASUNTOS PARTICULARES           | 2023-11-04   | 2023-11-04   | 500    | NO se otorga Licencia artículo 36A a Homero Manzi debido a que supera el tope de 6 licencias por año  |
-   | 27303003009  | Pedro        | Benítez   | 36A       | ASUNTOS PARTICULARES           | 2023-03-04   | 2023-03-04   | 500    | NO se otorga Licencia artículo 36A a Pedro Benítez debido a que el agente no posee ningún cargo en la institución  |
-   | 20404004009  | Marisa       | Balaguer  | 36A       | ASUNTOS PARTICULARES           | 2023-03-04   | 2023-03-04   | 500    | NO se otorga Licencia artículo 36A a Marisa balaguer debido a que el agente no tiene designación ese día en la institución  |
-   | 20202002009  | Susana       | Álvarez   | 5A        | ENFERMEDAD DE CORTA EVOLUCIÓN  | 2023-05-12   | 2023-06-30   | 200    | Se otorga Licencia artículo 5A a Susana Álvarez  |
-   | 20200000009  | Rosalía      | Fernandez | 5A        | ENFERMEDAD DE CORTA EVOLUCIÓN  | 2023-07-05   | 2023-09-15   | 200    | Se otorga Licencia artículo 5A a Rosalía Fernandez  |
+   | CUIL         | Nombre       | Apellido    | Artículo  | Descripción                    | Desde        | Hasta        | status | Respuesta                                                                                 |
+   | 90991000000  | Ermenegildo  | Sábat       | 5A        | ENFERMEDAD DE CORTA EVOLUCIÓN  | 2023-05-07   | 2023-05-17   | 200    | Se otorga Licencia artículo 5A a Ermenegildo Sábat  |
+   | 90991000000  | Ermenegildo  | Sábat       | 5A        | ENFERMEDAD DE CORTA EVOLUCIÓN  | 2023-05-18   | 2023-05-31   | 200    | Se otorga Licencia artículo 5A a Ermenegildo Sábat  |
+   | 90991000000  | Ermenegildo  | Sábat       | 5A        | ENFERMEDAD DE CORTA EVOLUCIÓN  | 2023-06-01   | 2023-07-12   | 200    | NO se otorga Licencia artículo 5A a Ermenegildo Sábat debido a que supera el tope de 30 días de licencia  |
+   | 90991000000  | Ermenegildo  | Sábat       | 5A        | ENFERMEDAD DE CORTA EVOLUCIÓN  | 2023-10-01   | 2023-10-03   | 200    | Se otorga Licencia artículo 5A a Ermenegildo Sábat  |
+   | 90991000000  | Ermenegildo  | Sábat       | 5A        | ENFERMEDAD DE CORTA EVOLUCIÓN  | 2023-10-04   | 2023-11-10   | 200    | NO se otorga Licencia artículo 5A a Ermenegildo Sábat debido a que supera el tope de 30 días de licencia  |
+   | 11992000000  | María Rosa   | Gallo       | 23A       | ATENCIÓN DE UN MIEMBRO DEL GF  | 2023-02-15   | 2023-03-01   | 200    | Se otorga Licencia artículo 23A a María Rosa Gallo  |
+   | 11992000000  | María Rosa   | Gallo       | 23A       | ATENCIÓN DE UN MIEMBRO DEL GF  | 2023-04-01   | 2023-04-16   | 200    | Se otorga Licencia artículo 23A a María Rosa Gallo  |
+   | 11992000000  | María Rosa   | Gallo       | 23A       | ATENCIÓN DE UN MIEMBRO DEL GF  | 2023-04-12   | 2023-04-20   | 500    | NO se otorga Licencia artículo 23A a María Rosa Gallo debido a que ya posee una licencia en el mismo período |
+   | 11992000000  | María Rosa   | Gallo       | 23A       | ATENCIÓN DE UN MIEMBRO DEL GF  | 2023-04-17   | 2023-05-20   | 200    | NO se otorga Licencia artículo 23A a María Rosa Gallo debido a que supera el tope de 30 días de licencia  |
+   | 22993000000  | Homero       | Manzi       | 36A       | ASUNTOS PARTICULARES           | 2023-05-08   | 2023-05-08   | 200    | Se otorga Licencia artículo 36A a Homero Manzi  |
+   | 22993000000  | Homero       | Manzi       | 36A       | ASUNTOS PARTICULARES           | 2023-05-11   | 2023-05-11   | 200    | Se otorga Licencia artículo 36A a Homero Manzi  |
+   | 22993000000  | Homero       | Manzi       | 36A       | ASUNTOS PARTICULARES           | 2023-05-20   | 2023-05-20   | 500    | NO se otorga Licencia artículo 36A a Homero Manzi debido a que supera el tope de 2 licencias por mes  |
+   | 22993000000  | Homero       | Manzi       | 36A       | ASUNTOS PARTICULARES           | 2023-08-13   | 2023-08-14   | 200    | Se otorga Licencia artículo 36A a Homero Manzi  |
+   | 22993000000  | Homero       | Manzi       | 36A       | ASUNTOS PARTICULARES           | 2023-09-24   | 2023-08-25   | 200    | Se otorga Licencia artículo 36A a Homero Manzi  |
+   | 22993000000  | Homero       | Manzi       | 36A       | ASUNTOS PARTICULARES           | 2023-10-24   | 2023-10-25   | 200    | Se otorga Licencia artículo 36A a Homero Manzi  |
+   | 22993000000  | Homero       | Manzi       | 36A       | ASUNTOS PARTICULARES           | 2023-10-04   | 2023-10-05   | 200    | Se otorga Licencia artículo 36A a Homero Manzi  |
+   | 22993000000  | Homero       | Manzi       | 36A       | ASUNTOS PARTICULARES           | 2023-11-04   | 2023-11-04   | 500    | NO se otorga Licencia artículo 36A a Homero Manzi debido a que supera el tope de 6 licencias por año  |
+   | 27303003009  | Pedro        | Benítez     | 36A       | ASUNTOS PARTICULARES           | 2023-03-04   | 2023-03-04   | 500    | NO se otorga Licencia artículo 36A a Pedro Benítez debido a que el agente no posee ningún cargo en la institución  |
+   | 20404004009  | Marisa       | Amuchástegui| 36A       | ASUNTOS PARTICULARES           | 2023-03-04   | 2023-03-04   | 500    | NO se otorga Licencia artículo 36A a Marisa Amuchástegui debido a que el agente no tiene designación ese día en la institución  |
+   | 20202002009  | Susana       | Álvarez     | 5A        | ENFERMEDAD DE CORTA EVOLUCIÓN  | 2023-05-12   | 2023-06-30   | 200    | Se otorga Licencia artículo 5A a Susana Álvarez  |
+   | 20200000009  | Rosalía      | Fernandez   | 5A        | ENFERMEDAD DE CORTA EVOLUCIÓN  | 2023-07-05   | 2023-09-15   | 200    | Se otorga Licencia artículo 5A a Rosalía Fernandez  |
 
 
 Escenario: 1 persona en instancias de designación de cargo que cubre una licencia de otra persona en la misma designación. Infomar que está correcto y que reemplaza al docente que solicitó licencia.
