@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 import unpsjb.labprog.backend.model.Cargo;
 import unpsjb.labprog.backend.model.Designacion;
+import unpsjb.labprog.backend.model.Persona;
 
 @Service
 public class DesignacionService {
@@ -33,10 +34,13 @@ public class DesignacionService {
         return repository.save(Designacion);
     }
 
-    public Optional<Designacion> consultaFechaCargo(Cargo nombre, Date fechaInicio, Date fechaFin) {
+    public List<Designacion> consultaFechaCargo(Cargo nombre, Date fechaInicio, Date fechaFin) {
         return repository.consultaFecha(nombre, fechaInicio, fechaFin);
     }
 
+    public Persona buscarDesig(Cargo cargo, Date inicio, Date fin){
+        return repository.busquedaDesig(cargo, inicio, fin);
+    }
     // public boolean consultaFechaEspacio(String nombre, String anio, String numero, Date fechaInicio, Date fechaFin){
     //     return repository.consultaFechaEspacio(nombre, anio, numero, fechaInicio, fechaFin);
     // }

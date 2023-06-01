@@ -1,5 +1,6 @@
 package unpsjb.labprog.backend.presenter;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import unpsjb.labprog.backend.Response;
 import unpsjb.labprog.backend.business.DesignacionService;
 import unpsjb.labprog.backend.model.Designacion;
+import unpsjb.labprog.backend.model.Persona;
 import unpsjb.labprog.backend.model.TipoDesignacion;
 
 @RestController
@@ -43,11 +45,11 @@ public class DesignacionPresenter {
                 return Response.response(HttpStatus.CONFLICT, "Existe un error en la seleccion de fechas",null);
             }
 
-            Optional<Designacion> designacionExistente = service.consultaFechaCargo(
+            List<Designacion> designacionExistente = service.consultaFechaCargo(
                 Designacion.getCargo(), Designacion.getFechaInicio(), Designacion.getFechaFin());
 
-        if (designacionExistente.isPresent()) {
-            Designacion designacionEncontrada = designacionExistente.get();
+        if (!designacionExistente.isEmpty()) {
+            Designacion designacionEncontrada = designacionExistente.get(0);
 
             if (Designacion.getCargo().getTipo() == TipoDesignacion.CARGO) { 
                 return Response.response(HttpStatus.BAD_REQUEST,
@@ -70,6 +72,13 @@ public class DesignacionPresenter {
                                 + designacionEncontrada.getPersona().getApellido() + " para el periodo",
                         null);
             }  
+        }
+
+        Persona persona = service.buscarDesig(Designacion.getCargo(), Designacion.getFechaInicio(), Designacion.getFechaFin());
+        if (persona != null) {           
+            return Response.ok(service.save(Designacion), Designacion.getPersona().getNombre()+" "+Designacion.getPersona().getApellido()
+                +" ha sido designado/a al cargo "+Designacion.getCargo().getNombre()+" exitosamente, en reemplado de "
+                +persona.getNombre()+" "+persona.getApellido());
         }
 
             if (Designacion.getCargo().getTipo() == TipoDesignacion.CARGO) {

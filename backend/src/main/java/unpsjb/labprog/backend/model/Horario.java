@@ -20,8 +20,6 @@ public class Horario {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    // @OneToMany(mappedBy = "horario")
-    // private Collection<Cargo> cargo;
     @ManyToOne
     @JoinColumn(name = "cargo_id")
     private Cargo cargo;

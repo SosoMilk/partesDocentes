@@ -3,11 +3,13 @@ package unpsjb.labprog.backend.business;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
+import unpsjb.labprog.backend.model.ArticuloLicencia;
 import unpsjb.labprog.backend.model.Licencia;
 import unpsjb.labprog.backend.model.Persona;
 
@@ -54,7 +56,7 @@ public class LicenciaService {
         return repository.desigXDia(persona, desde);
     }
 
-    public Integer cantDiasLic(Persona persona, Date desde, Date hasta){
-        return repository.cantDiasLic(persona, desde, hasta);
+    public Optional<Licencia> findByPADH(Persona persona, ArticuloLicencia articulo, Date desde, Date hasta) {
+        return repository.findAllByPADH(persona, articulo, desde, hasta);
     }
 }
