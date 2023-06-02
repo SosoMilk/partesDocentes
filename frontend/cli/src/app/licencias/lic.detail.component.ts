@@ -9,6 +9,9 @@ import { LicenciaService } from "./licencias.service";
 import { Articulo } from "../articulos/articulo";
 import { ArticuloService } from "../articulos/articulos.service";
 import { Observable, catchError, debounceTime, distinctUntilChanged, map, of, switchMap, tap } from "rxjs";
+import { ErrorHandler } from "../errorHandler";
+import { NoCargoHandler, TopeDosHandler, TopeSeisHandler, TopeTreintaHandler, YaHayLicenciaFechaHandler } from "./mensajes";
+
 
 @Component({
   selector: "app-detail",
@@ -100,57 +103,57 @@ import { Observable, catchError, debounceTime, distinctUntilChanged, map, of, sw
             </form>
         </div>
 
-        <div *ngIf="yaHayLicenciaFecha" class="alert alert-danger alert-dismissible fade show">
+        <div *ngIf="errorHandlers[0].displayError" class="alert alert-danger alert-dismissible fade show">
           La persona ya habia solicitado una licencia para la fecha.
           <button 
             type="button"
             class="btn-close" 
             aria-label="Close"
-            (click) = "yaHayLicenciaFecha = false"
+            (click) = "errorHandlers[0].displayError = false"
           >
           </button>
         </div>
 
-        <div *ngIf="topeSeis" class="alert alert-danger alert-dismissible fade show">
+        <div *ngIf="errorHandlers[1].displayError" class="alert alert-danger alert-dismissible fade show">
           La persona ya se tomo las 6 dias de licencias por año correcpondientes.
           <button 
             type="button"
             class="btn-close" 
             aria-label="Close"
-            (click) = "topeSeis = false"
+            (click) = "errorHandlers[1].displayError = false"
           >
           </button>
         </div>
 
-        <div *ngIf="topeTreinta" class="alert alert-danger alert-dismissible fade show">
+        <div *ngIf="errorHandlers[2].displayError" class="alert alert-danger alert-dismissible fade show">
           La persona supera el limite de 30 dias de licencia.
           <button 
             type="button"
             class="btn-close" 
             aria-label="Close"
-            (click) = "topeTreinta = false"
+            (click) = "errorHandlers[2].displayError = false"
           >
           </button>
         </div>
 
-        <div *ngIf="noCargo" class="alert alert-danger alert-dismissible fade show">
+        <div *ngIf="errorHandlers[3].displayError" class="alert alert-danger alert-dismissible fade show">
           La persona no posee un cargo en la institucion.
           <button 
             type="button"
             class="btn-close" 
             aria-label="Close"
-            (click) = "noCargo = false"
+            (click) = "errorHandlers[3].displayError = false"
           >
           </button>
         </div>
 
-        <div *ngIf="topeDos" class="alert alert-danger alert-dismissible fade show">
+        <div *ngIf="errorHandlers[4].displayError" class="alert alert-danger alert-dismissible fade show">
           La persona ya se tomo 2 dias de licencia por año.
           <button 
             type="button"
             class="btn-close" 
             aria-label="Close"
-            (click) = "topeDos = false"
+            (click) = "errorHandlers[4].displayError = false"
           >
           </button>
         </div>
@@ -208,6 +211,13 @@ export class LicDetailComponent {
   topeDos: Boolean = false;
   searching: boolean = false;
   searchFailed: boolean = false;
+  errorHandlers: ErrorHandler[] = [
+    new YaHayLicenciaFechaHandler(),
+    new TopeSeisHandler(),
+    new TopeTreintaHandler(),
+    new NoCargoHandler(),
+    new TopeDosHandler()
+  ];
 
   constructor(
     private route: ActivatedRoute,
@@ -246,25 +256,21 @@ export class LicDetailComponent {
   }
 
   save(): void {
-    this.yaHayLicenciaFecha = false;
-    this.topeSeis = false;
-    this.topeTreinta = false;
-    this.noCargo = false;
-    this.topeDos = false;
+    this.errorHandlers.forEach((handler) => (handler.displayError = false));
 
     this.licenciaService.save(this.licencia).subscribe((dataPackage) => {
       console.log(dataPackage.message);
-      if (dataPackage.message.includes("debido a que ya posee una licencia en el mismo período")) {
-        this.yaHayLicenciaFecha = true;
-      } else if (dataPackage.message.includes("debido a que supera el tope de 6 dias de licencias por año")) {
-        this.topeSeis = true;
-      } else if (dataPackage.message.includes("debido a que supera el tope de 30 días de licencia")) {
-        this.topeTreinta = true;
-      } else if (dataPackage.message.includes("debido a que supera el tope de 2 dias de licencias por mes")) {
-        this.topeDos = true;
-      } else if (dataPackage.message.includes("el agente no posee ningún cargo en la institución")) {
-        this.noCargo = true;
-      } else {
+
+      let errorHandled = false;
+
+      for (const handler of this.errorHandlers) {
+        if (handler.handleError(dataPackage.message)) {
+          errorHandled = true;
+          break;
+        }
+      }
+
+      if (!errorHandled) {
         this.licencia = <Licencia>dataPackage.data;
         this.goBack();
       }
