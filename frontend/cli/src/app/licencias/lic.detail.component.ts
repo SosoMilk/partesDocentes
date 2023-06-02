@@ -8,6 +8,7 @@ import { Persona } from "../personas/persona";
 import { LicenciaService } from "./licencias.service";
 import { Articulo } from "../articulos/articulo";
 import { ArticuloService } from "../articulos/articulos.service";
+import { Observable, catchError, debounceTime, distinctUntilChanged, map, of, switchMap, tap } from "rxjs";
 
 @Component({
   selector: "app-detail",
@@ -19,16 +20,23 @@ import { ArticuloService } from "../articulos/articulos.service";
                 <button (click)="goBack()" class="btn btn-danger">Atrás</button>
             </h2>
 
+
             <form #form="ngForm">
-                <div class="form-group">
-                    <div style="display: inline-block; vertical-align: top; width: 30%;">
-                        <label for="persona">Persona:</label>
-                        <select [(ngModel)]="licencia.persona" name="persona" class="form-control">
-                            <option *ngFor="let persona of personaes" [ngValue]="persona">
-                                {{ persona.nombre + ' ' + persona.apellido }}
-                            </option>
-                        </select>
-                    </div>
+               <div class="form-group">
+                <label for="name">Persona:</label>
+                <br />
+                <input
+                  [(ngModel)]="licencia.persona"
+                  name="Persona"
+                  placeholder="Persona"
+                  class="form-control"
+                  required
+                  [ngbTypeahead]="searchPersona"
+                  [editable]="false"
+                  [resultFormatter]="resultFormatPersona"
+                  [inputFormatter]="inputFormatPersona"
+                  type="text"
+                />
 
                     <div class="info-group">
                         <div class="persona-label">DNI</div>
@@ -91,6 +99,62 @@ import { ArticuloService } from "../articulos/articulos.service";
                 </div>
             </form>
         </div>
+
+        <div *ngIf="yaHayLicenciaFecha" class="alert alert-danger alert-dismissible fade show">
+          La persona ya habia solicitado una licencia para la fecha.
+          <button 
+            type="button"
+            class="btn-close" 
+            aria-label="Close"
+            (click) = "yaHayLicenciaFecha = false"
+          >
+          </button>
+        </div>
+
+        <div *ngIf="topeSeis" class="alert alert-danger alert-dismissible fade show">
+          La persona ya se tomo las 6 dias de licencias por año correcpondientes.
+          <button 
+            type="button"
+            class="btn-close" 
+            aria-label="Close"
+            (click) = "topeSeis = false"
+          >
+          </button>
+        </div>
+
+        <div *ngIf="topeTreinta" class="alert alert-danger alert-dismissible fade show">
+          La persona supera el limite de 30 dias de licencia.
+          <button 
+            type="button"
+            class="btn-close" 
+            aria-label="Close"
+            (click) = "topeTreinta = false"
+          >
+          </button>
+        </div>
+
+        <div *ngIf="noCargo" class="alert alert-danger alert-dismissible fade show">
+          La persona no posee un cargo en la institucion.
+          <button 
+            type="button"
+            class="btn-close" 
+            aria-label="Close"
+            (click) = "noCargo = false"
+          >
+          </button>
+        </div>
+
+        <div *ngIf="topeDos" class="alert alert-danger alert-dismissible fade show">
+          La persona ya se tomo 2 dias de licencia por año.
+          <button 
+            type="button"
+            class="btn-close" 
+            aria-label="Close"
+            (click) = "topeDos = false"
+          >
+          </button>
+        </div>
+   
     `,
   styles: [
     `
@@ -137,7 +201,13 @@ export class LicDetailComponent {
   personaes: Persona[] = [];
   articulos: Articulo[] = [];
   fechaOcupada: boolean = false;
-  errorFecha: boolean = false;
+  yaHayLicenciaFecha: boolean = false;
+  topeSeis: Boolean = false;
+  topeTreinta: Boolean = false;
+  noCargo: Boolean = false;
+  topeDos: Boolean = false;
+  searching: boolean = false;
+  searchFailed: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -148,7 +218,6 @@ export class LicDetailComponent {
   ) { }
 
   ngOnInit() {
-    this.getpersonaes();
     this.getArticulos();
     this.get();
   }
@@ -157,14 +226,6 @@ export class LicDetailComponent {
     this.articuloService.all().subscribe((dataPackage) => {
       if (Array.isArray(dataPackage.data)) {
         this.articulos = dataPackage.data;
-      }
-    });
-  }
-
-  getpersonaes(): void {
-    this.personaService.all().subscribe((dataPackage) => {
-      if (Array.isArray(dataPackage.data)) {
-        this.personaes = dataPackage.data;
       }
     });
   }
@@ -185,11 +246,56 @@ export class LicDetailComponent {
   }
 
   save(): void {
-    console.log(this.licencia.certificadoMedico);
+    this.yaHayLicenciaFecha = false;
+    this.topeSeis = false;
+    this.topeTreinta = false;
+    this.noCargo = false;
+    this.topeDos = false;
 
     this.licenciaService.save(this.licencia).subscribe((dataPackage) => {
-      this.licencia = <Licencia>dataPackage.data;
-      this.goBack();
+      console.log(dataPackage.message);
+      if (dataPackage.message.includes("debido a que ya posee una licencia en el mismo período")) {
+        this.yaHayLicenciaFecha = true;
+      } else if (dataPackage.message.includes("debido a que supera el tope de 6 dias de licencias por año")) {
+        this.topeSeis = true;
+      } else if (dataPackage.message.includes("debido a que supera el tope de 30 días de licencia")) {
+        this.topeTreinta = true;
+      } else if (dataPackage.message.includes("debido a que supera el tope de 2 dias de licencias por mes")) {
+        this.topeDos = true;
+      } else if (dataPackage.message.includes("el agente no posee ningún cargo en la institución")) {
+        this.noCargo = true;
+      } else {
+        this.licencia = <Licencia>dataPackage.data;
+        this.goBack();
+      }
     });
+  }
+
+  searchPersona = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      tap(() => (this.searching = true)),
+      switchMap((term) =>
+        this.personaService
+          .search(term)
+          .pipe(map((response) => <Persona[]>response.data))
+          .pipe(
+            tap(() => (this.searchFailed = false)),
+            catchError(() => {
+              this.searchFailed = true;
+              return of([]);
+            })
+          )
+      ),
+      tap(() => (this.searching = false))
+    );
+
+  resultFormatPersona(value: any) {
+    return `${value.nombre} ${value.apellido} - ${value.cuit}`;
+  }
+
+  inputFormatPersona(value: any) {
+    return `${value?.nombre} ${value?.apellido} - ${value?.cuit}`;
   }
 }

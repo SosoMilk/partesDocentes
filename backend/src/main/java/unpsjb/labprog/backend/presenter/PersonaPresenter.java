@@ -47,6 +47,11 @@ public class PersonaPresenter {
                 : Response.notFound("La Persona no existe");
     }
 
+    @RequestMapping(value = "/search/{term}", method = RequestMethod.GET)
+    public ResponseEntity<Object> search(@PathVariable("term") String term) {
+        return Response.ok(service.search(term));
+    }
+
     @RequestMapping(method = RequestMethod.PUT)
     public ResponseEntity<Object> update(@RequestBody Persona persona) {
 

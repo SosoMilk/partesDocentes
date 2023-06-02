@@ -42,4 +42,8 @@ export class PersonaService {
         return this.http.delete<DataPackage>(`${this.personasUrl}/${persona.cuit}`);
     }
 
+    search(text: string): Observable<DataPackage> {
+        return this.http.get<DataPackage>(`${this.personasUrl}/search/${text}`);
+    }
+
 }

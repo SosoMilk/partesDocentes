@@ -1,5 +1,6 @@
 package unpsjb.labprog.backend.business;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.Query;
@@ -14,5 +15,7 @@ public interface CargoRepository extends CrudRepository<Cargo, Integer>{
     @Query("SELECT e FROM Cargo e WHERE e.nombre = ?1") //ver si agregarle el tipo
     Optional<Cargo> findAllByNomTip(String nombre);
 
+    @Query("SELECT e FROM Cargo e WHERE UPPER(e.nombre) LIKE ?1 OR UPPER(e.tipo) LIKE ?1")
+    List<Cargo> search(String string); 
     
 }

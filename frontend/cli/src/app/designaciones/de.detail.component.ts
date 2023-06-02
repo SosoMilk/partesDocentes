@@ -9,10 +9,8 @@ import { Persona } from "../personas/persona";
 import { Cargos } from "../cargos/cargo";
 import { CargoService } from "../cargos/cargos.services";
 
-// import { NgbTypeahead, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
-import { Observable, Subject, merge, OperatorFunction } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
-import { FormsModule } from '@angular/forms';
+import { Observable, Subject, merge, OperatorFunction, of } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, filter, map, switchMap, tap } from 'rxjs/operators';
 
 @Component({
     selector: "app-detail",
@@ -24,52 +22,23 @@ import { FormsModule } from '@angular/forms';
         <button (click)="goBack()" class="btn btn-danger">Atrás</button>
       </h2>
 
-      
-      <style>
-        .persona-info {
-        display: inline-block;
-        margin-left: 5px;
-        margin-right: 20px;
-        vertical-align: top;
-      }
-
-        .persona-label {
-          width: 120px;
-          height: 35px;
-          background-color: #9fb6f2;
-          text-align: center;
-          line-height: 50px;
-          margin-bottom: 5px;
-          font-weight: bold;
-          border-radius: 10px;
-        }
-
-        .info-group {
-          display: flex;
-          align-items: center;
-          margin-top: 5px;
-        }
-
-        select.form-control {
-           width: 100%;
-        }
-
-      </style>
 
       <form #form="ngForm">
         <div class="form-group">
-          <div style="display: inline-block; vertical-align: top; width: 30%;">
-            <label for="persona">Persona:</label>
-            <select
-              [(ngModel)]="designacion.persona"
-              name="persona"
-              class="form-control"
-            >
-              <option *ngFor="let persona of personaes" [ngValue]="persona">
-                {{ persona.nombre + ' ' + persona.apellido }}
-              </option>
-            </select>
-          </div>
+          <label for="name">Persona:</label>
+          <br />
+          <input
+            [(ngModel)]="designacion.persona"
+            name="Persona"
+            placeholder="Persona"
+            class="form-control"
+            required
+            [ngbTypeahead]="searchPersona"
+            [editable]="false"
+            [resultFormatter]="resultFormatPersona"
+            [inputFormatter]="inputFormatPersona"
+            type="text"
+          />
           
           <div class="info-group">
               <div class="persona-label">DNI</div>
@@ -84,18 +53,20 @@ import { FormsModule } from '@angular/forms';
 
       <form #form="ngForm">
         <div class="form-group">
-          <div style="display: inline-block; vertical-align: top; width: 30%;">
-            <label for="cargo">Cargo:</label>
-            <select
-              [(ngModel)]="designacion.cargo"
-              name="cargo"
-              class="form-control"
-            >
-              <option *ngFor="let cargo of cargos" [ngValue]="cargo">
-                {{ cargo.nombre + ' - ' + cargo.tipo }}
-              </option>
-            </select>
-          </div>
+          <label for="name">Cargo:</label>
+          <br />
+          <input
+            [(ngModel)]="designacion.cargo"
+            name="Cargo"
+            placeholder="Cargo"
+            class="form-control"
+            required
+            [ngbTypeahead]="searchCargo"
+            [editable]="false"
+            [resultFormatter]="resultFormatCargo"
+            [inputFormatter]="inputFormatCargo"
+            type="text"
+          />
           
           <div class="info-group">
             
@@ -178,15 +149,45 @@ import { FormsModule } from '@angular/forms';
 			.form-control {
 				width: 300px;
 			}
+
+              .persona-info {
+        display: inline-block;
+        margin-left: 5px;
+        margin-right: 20px;
+        vertical-align: top;
+      }
+
+        .persona-label {
+          width: 120px;
+          height: 35px;
+          background-color: #9fb6f2;
+          text-align: center;
+          line-height: 50px;
+          margin-bottom: 5px;
+          font-weight: bold;
+          border-radius: 10px;
+        }
+
+        .info-group {
+          display: flex;
+          align-items: center;
+          margin-top: 5px;
+        }
+
+        select.form-control {
+           width: 100%;
+        }
 		`],
 })
 export class DeDetailComponent {
-    designacion!: Designaciones;
-    personaes: Persona[] = [];
-    cargos: Cargos[] = [];
-    fechaOcupada: boolean = false;
-    errorFecha: boolean = false;
-    model: any;
+  designacion!: Designaciones;
+  personas: Persona[] = [];
+  cargos: Cargos[] = [];
+  fechaOcupada: boolean = false;
+  errorFecha: boolean = false;
+  searching: boolean = false;
+  searchFailed: boolean = false;
+
 
     constructor(
         private route: ActivatedRoute,
@@ -198,29 +199,7 @@ export class DeDetailComponent {
 
     ngOnInit() {
         this.get();
-        this.getpersonaes();
-        this.getCargos();
     }
-
-    getpersonaes(): void {
-        this.personaService.all().subscribe(
-            dataPackage => {
-                if (Array.isArray(dataPackage.data)) {
-                    this.personaes = dataPackage.data;
-                }
-            }
-        );
-    }
-
-  getCargos(): void {
-    this.cargoService.all().subscribe(
-      dataPackage => {
-        if (Array.isArray(dataPackage.data)) {
-          this.cargos = dataPackage.data;
-        }
-      }
-    );
-  }
 
     get(): void {
         const id = this.route.snapshot.paramMap.get("id")!;
@@ -244,9 +223,7 @@ export class DeDetailComponent {
             this.errorFecha = true;
           }
 
-          
           if (dataPackage.message.includes(" NO ha sido designado/a ")){
-            //if (dataPackage.status === 400){
             this.fechaOcupada = true;
           } else{
             this.designacion = <Designaciones>dataPackage.data;
@@ -255,20 +232,59 @@ export class DeDetailComponent {
         });
     }
 
-  // @ViewChild('instance', { static: true }) instance: NgbTypeahead;
-  // focus$ = new Subject<string>();
-  // click$ = new Subject<string>();
+  searchPersona = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      tap(() => (this.searching = true)),
+      switchMap((term) =>
+        this.personaService
+          .search(term)
+          .pipe(map((response) => <Persona[]>response.data))
+          .pipe(
+            tap(() => (this.searchFailed = false)),
+            catchError(() => {
+              this.searchFailed = true;
+              return of([]);
+            })
+          )
+      ),
+      tap(() => (this.searching = false))
+    );
 
-  // search: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) => {
-  //   const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
-  //   const clicksWithClosedPopup$ = this.click$.pipe(filter(() => !this.instance.isPopupOpen()));
-  //   const inputFocus$ = this.focus$;
+  resultFormatPersona(value: any) {
+    return `${value.nombre} ${value.apellido} - ${value.cuit}`;
+  }
 
-  //   return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
-  //     map((term) =>
-  //       (term === '' ? states : states.filter((v) => v.toLowerCase().indexOf(term.toLowerCase()) > -1)).slice(0, 10),
-  //     ),
-  //   );
-  // };
-  
+  inputFormatPersona(value: any) {
+    return `${value?.nombre} ${value?.apellido} - ${value?.cuit}`;
+  }
+
+  searchCargo = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      tap(() => (this.searching = true)),
+      switchMap((term) =>
+        this.cargoService
+          .search(term)
+          .pipe(map((response) => <Persona[]>response.data))
+          .pipe(
+            tap(() => (this.searchFailed = false)),
+            catchError(() => {
+              this.searchFailed = true;
+              return of([]);
+            })
+          )
+      ),
+      tap(() => (this.searching = false))
+    );
+
+  resultFormatCargo(value: any) {
+    return `${value.nombre} - ${value.tipo}`;
+  }
+
+  inputFormatCargo(value: any) {
+    return `${value?.nombre} - ${value?.tipo}`;
+  }
 }

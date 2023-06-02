@@ -34,4 +34,7 @@ public class CargoService {
         return repository.save(cargo);
     }
 
+    public List<Cargo> search(String term) {
+        return repository.search("%" + term.toUpperCase() + "%");
+    }
 }

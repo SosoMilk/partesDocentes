@@ -46,5 +46,9 @@ public class PersonaService {
     public Persona findByDna(String dni, String nombre, String apellido) {
         return repository.findByDna(dni,nombre,apellido).orElse(null);
     }
+
+    public List<Persona> search(String term) {
+        return repository.search("%" + term.toUpperCase() + "%");
+    }
     
 }

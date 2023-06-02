@@ -28,7 +28,9 @@ export class CargoService {
         return this.http.post<DataPackage>(this.cargoUrl, cargo);
     }
 
-
+    search(text: string): Observable<DataPackage> {
+        return this.http.get<DataPackage>(`${this.cargoUrl}/search/${text}`);
+    }
     // delete(id: number): void{
     //     dCargoS.splice(dCargoS.findIndex(dCargo => dCargo.Dni == dCargo.Dni)!);
     // }

@@ -12,27 +12,27 @@ import { Component } from "@angular/core";
 	  	<div id="header">
 	  		<ul class="nav">
 	  			<li><a routerLink="/" > Home </a></li>
-				<li><a href="">Personas</a>
+				<li><a routerLink="/personas">Personas</a>
 					<ul>
 						<a routerLink="/personas" > Listar </a>
 						<a routerLink="/personas/new" >Nueva </a>
 					</ul>
-				<li><a href="">Divisiones</a>
+				<li><a routerLink="/division">Divisiones</a>
 					<ul>
 						<a routerLink="/division" > Listar </a>
 						<a routerLink="/division/new" >Nueva </a>
 					</ul>
-				<li><a href="">Cargos</a>
+				<li><a routerLink="/cargo">Cargos</a>
 					<ul>
 						<a routerLink="/cargo" > Listar </a>
 						<a routerLink="/cargo/new" >Nueva </a>
 					</ul>
-				<li><a href="">Designaciones</a>
+				<li><a routerLink="/designacion">Designaciones</a>
 					<ul>
 						<a routerLink="/designacion" > Listar </a>
 						<a routerLink="/designacion/new" >Nueva </a>
 					</ul>
-				<li><a href="">Licencias</a>
+				<li><a routerLink="/licencias">Licencias</a>
 					<ul>
 						<a routerLink="/licencias" > Listar </a>
 						<a routerLink="/licencias/new" >Nueva </a>

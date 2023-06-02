@@ -16,6 +16,7 @@ import { DeDetailComponent } from './designaciones/de.detail.component';
 import { DesignacionesComponent } from './designaciones/designacion.component';
 import { LicDetailComponent } from './licencias/lic.detail.component';
 import { LicenciasComponent } from './licencias/licencias.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { LicenciasComponent } from './licencias/licencias.component';
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

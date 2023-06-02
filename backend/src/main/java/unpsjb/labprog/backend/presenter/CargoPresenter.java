@@ -39,6 +39,11 @@ public class CargoPresenter {
         return (cargoOrNull != null) ? Response.ok(cargoOrNull) : Response.notFound();
     }
 
+    @RequestMapping(value = "/search/{term}", method = RequestMethod.GET)
+    public ResponseEntity<Object> search(@PathVariable("term") String term) {
+        return Response.ok(service.search(term));
+    }
+
     @RequestMapping(method = RequestMethod.PUT)
     public ResponseEntity<Object> update(@RequestBody Cargo cargo) {
 

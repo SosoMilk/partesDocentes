@@ -76,8 +76,7 @@ public class LicenciaPresenter {
 
             if(service.mismosDiasLicencia(licencia.getPersona(), licencia.getPedidoHasta(), licencia.getPedidoDesde())){
                 return Response.response(HttpStatus.BAD_REQUEST,"NO se otorga Licencia artículo"+licencia.getArticulo().getArticulo()+" a "
-                +licencia.getPersona().getNombre()+" "+licencia.getPersona().getApellido()+" debido a que ya posee una licencia"
-                +" en el mismo período", null);
+                +licencia.getPersona().getNombre()+" "+licencia.getPersona().getApellido()+" debido a que ya posee una licencia en el mismo período", null);
             }
 
             if(!service.poseeCargo(licencia.getPersona())){
