@@ -115,7 +115,7 @@ import { NoCargoHandler, TopeDosHandler, TopeSeisHandler, TopeTreintaHandler, Ya
         </div>
 
         <div *ngIf="errorHandlers[1].displayError" class="alert alert-danger alert-dismissible fade show">
-          La persona ya se tomo las 6 dias de licencias por año correcpondientes.
+          La persona ya tomo los 6 dias de licencias por año correpondientes.
           <button 
             type="button"
             class="btn-close" 
@@ -148,7 +148,7 @@ import { NoCargoHandler, TopeDosHandler, TopeSeisHandler, TopeTreintaHandler, Ya
         </div>
 
         <div *ngIf="errorHandlers[4].displayError" class="alert alert-danger alert-dismissible fade show">
-          La persona ya se tomo 2 dias de licencia por año.
+          La persona ya se tomo 2 dias de licencia por mes.
           <button 
             type="button"
             class="btn-close" 
