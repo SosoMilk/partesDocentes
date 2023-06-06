@@ -20,11 +20,8 @@ public class Horario {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @ManyToOne
-    @JoinColumn(name = "cargo_id")
-    private Cargo cargo;
-
     private String dia;
     private int hora;
+
 
 }

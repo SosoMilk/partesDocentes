@@ -29,4 +29,12 @@ public class HorarioService {
     public Horario save(Horario horario) {
         return repository.save(horario);
     }
+
+    public List<Horario> findSemana() {
+        return repository.findSemana();
+    }
+
+    public Horario findDiaSemana(String dia) {
+        return repository.dia(dia);
+    }
 }

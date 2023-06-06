@@ -37,7 +37,6 @@ public class Licencia {
     @Temporal(TemporalType.DATE)
     private Date pedidoHasta;
 
-    private String domicilio;
     private boolean certificadoMedico;
 
     @ManyToOne

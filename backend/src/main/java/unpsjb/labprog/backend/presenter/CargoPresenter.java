@@ -1,5 +1,8 @@
 package unpsjb.labprog.backend.presenter;
 
+import java.util.HashSet;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -14,6 +17,7 @@ import unpsjb.labprog.backend.Response;
 import unpsjb.labprog.backend.business.CargoService;
 import unpsjb.labprog.backend.model.Cargo;
 import unpsjb.labprog.backend.model.TipoDesignacion;
+import unpsjb.labprog.backend.model.Horario;
 
 @RestController
 @RequestMapping("cargo")
@@ -34,9 +38,15 @@ public class CargoPresenter {
     }
 
     @RequestMapping(value = "/{nombre}", method = RequestMethod.GET)
-    public ResponseEntity<Object> findByNomTip(@PathVariable("nombre") String nombre) {
-        Cargo cargoOrNull = service.findByNomTip(nombre);
+    public ResponseEntity<Object> findByNom(@PathVariable("nombre") String nombre) {
+        Cargo cargoOrNull = service.findByNom(nombre);
         return (cargoOrNull != null) ? Response.ok(cargoOrNull) : Response.notFound();
+    }
+
+    @RequestMapping(value = "/tipo/{tipo}", method = RequestMethod.GET)
+    public ResponseEntity<Object> findByTip(@PathVariable("tipo") String tipo) {
+        List<Cargo> cargoOrNull = service.findByTip(tipo);
+        return Response.ok(cargoOrNull);
     }
 
     @RequestMapping(value = "/search/{term}", method = RequestMethod.GET)

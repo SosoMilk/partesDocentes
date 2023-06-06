@@ -37,6 +37,23 @@ Esquema del escenario: ingresar nueva división
    | 1   | 1      | Matemática  | Tarde  | 200    | División 1º 1º turno Tarde ingresada correctamente   |
    | 4   | 3      | Tecnología  | Mañana | 200    | División 4º 3º turno Mañana ingresada correctamente  |
 
+
+
+Esquema del escenario: ingresar horario
+   Dada el horario del dia "<dia>"
+   Cuando se presiona el botón de guardar
+   Entonces se espera el siguiente <status> con la "<respuesta>"
+
+   Ejemplos:
+   | dia        | status | respuesta                    |
+   | Lunes      | 200    | Dia ingresado correctamente  |
+   | Martes     | 200    | Dia ingresado correctamente  |
+   | Miercoles  | 200    | Dia ingresado correctamente  |
+   | Jueves     | 200    | Dia ingresado correctamente  |
+   | Viernes    | 200    | Dia ingresado correctamente  |
+
+
+
 Esquema del escenario: ingresar nuevo cargo institucional
    Dado el cargo institucional cuyo "<nombre>" que da título al mismo
    Y que es del "<tipoDesignación>" 
@@ -46,18 +63,34 @@ Esquema del escenario: ingresar nuevo cargo institucional
    Entonces se espera el siguiente <status> con la "<respuesta>"
 
    Ejemplos:
-   | nombre         | tipoDesignación    | cargaHoraria | fechaDesde | fechaHasta | año | número | turno  | status | respuesta                                                                               |
-   | Vicedirector-a | CARGO              | 36           | 2020-03-01 |            |     |        |        | 200    | Cargo de Vicedirector-a ingresado correctamente                                         |
-   | Preceptor-a    | CARGO              | 36           | 2020-03-01 |            |     |        |        | 200    | Cargo de Preceptor-a ingresado correctamente                                            |
-   | Historia       | ESPACIO_CURRICULAR | 4            | 2020-03-01 |            | 5   | 2      | Mañana | 200    | Espacio Curricular Historia para la division 5º 2º Turno Mañana ingresado correctamente |
-   | Geografia      | ESPACIO_CURRICULAR | 3            | 2020-03-01 |            | 3   | 1      | Tarde  | 200    | Espacio Curricular Geografia para la division 3º 1º Turno Tarde ingresado correctamente |
-   | Auxiliar ADM   | CARGO              | 30           | 2020-03-01 |            |     |        |        | 200    | Cargo de Auxiliar ADM ingresado correctamente                                           |
-   | Auxiliar ACAD  | CARGO              | 30           | 2020-03-01 |            | 3   | 1      | Tarde  | 501    | Cargo de Auxiliar ACAD es CARGO y no corresponde asignar división                       |
-   | Matematica     | ESPACIO_CURRICULAR | 6            | 2020-03-01 |            |     |        |        | 501    | Espacio Curricular Matematica falta asignar división                                    |
-   | Matematica     | ESPACIO_CURRICULAR | 6            | 2020-03-01 |            | 1   | 1      | Tarde  | 200    | Espacio Curricular Matematica para la division 1º 1º Turno Tarde ingresado correctamente |
-   | Física         | ESPACIO_CURRICULAR | 6            | 2020-03-01 |            | 2   | 3      | Mañana | 200    | Espacio Curricular Física para la division 2º 3º Turno Mañana ingresado correctamente   |
-   | Tecnología     | ESPACIO_CURRICULAR | 8            | 2020-03-01 |            | 4   | 3      | Mañana | 200    | Espacio Curricular Tecnología para la division 4º 3º Turno Mañana ingresado correctamente   |
+   | nombre         | tipoDesignación    | dia         | cargaHoraria | fechaDesde | fechaHasta | año | número | turno  | status | respuesta                                                                               |
+   | Vicedirector-a | CARGO              | dia         | 36           | 2020-03-01 |            |     |        |        | 200    | Cargo de Vicedirector-a ingresado correctamente                                         |
+   | Preceptor-a    | CARGO              | dia         | 36           | 2020-03-01 |            |     |        |        | 200    | Cargo de Preceptor-a ingresado correctamente                                            |
+   | Historia       | ESPACIO_CURRICULAR | Lunes       | 4            | 2020-03-01 |            | 5   | 2      | Mañana | 200    | Espacio Curricular Historia para la division 5º 2º Turno Mañana ingresado correctamente |
+   | Geografia      | ESPACIO_CURRICULAR | Martes      | 3            | 2020-03-01 |            | 3   | 1      | Tarde  | 200    | Espacio Curricular Geografia para la division 3º 1º Turno Tarde ingresado correctamente |
+   | Auxiliar ADM   | CARGO              | dia         | 30           | 2020-03-01 |            |     |        |        | 200    | Cargo de Auxiliar ADM ingresado correctamente                                           |
+   | Auxiliar ACAD  | CARGO              | dia         | 30           | 2020-03-01 |            | 3   | 1      | Tarde  | 501    | Cargo de Auxiliar ACAD es CARGO y no corresponde asignar división                       |
+   | Matematica     | ESPACIO_CURRICULAR | Miercoles   | 6            | 2020-03-01 |            |     |        |        | 501    | Espacio Curricular Matematica falta asignar división                                    |
+   | Matematica     | ESPACIO_CURRICULAR | Jueves      | 6            | 2020-03-01 |            | 1   | 1      | Tarde  | 200    | Espacio Curricular Matematica para la division 1º 1º Turno Tarde ingresado correctamente |
+   | Física         | ESPACIO_CURRICULAR | Viernes     | 6            | 2020-03-01 |            | 2   | 3      | Mañana | 200    | Espacio Curricular Física para la division 2º 3º Turno Mañana ingresado correctamente   |
+   | Tecnología     | ESPACIO_CURRICULAR | Miercoles   | 8            | 2020-03-01 |            | 4   | 3      | Mañana | 200    | Espacio Curricular Tecnología para la division 4º 3º Turno Mañana ingresado correctamente   |
 
+Esquema del escenario: actualizar cargo institucional
+   Dado el cargo institucional existente cuyo nombre es "<nombre>"
+   Y con horario para el "<dia>"
+   Cuando se presiona el botón de actualizar cargo
+   Entonces se espera el siguiente <status> con la "<respuesta>"
+
+   Ejemplos:
+   | nombre         | tipoDesignación    | dia         | status | respuesta                                                                               |
+   | Vicedirector-a | CARGO              | dia         | 200    | Datos del cargo actualizado correctamente |
+   | Preceptor-a    | CARGO              | dia         | 200    | Datos del cargo actualizado correctamente |
+   | Historia       | ESPACIO_CURRICULAR | Lunes       | 200    | Datos del cargo actualizado correctamente |
+   | Geografia      | ESPACIO_CURRICULAR | Martes      | 200    | Datos del cargo actualizado correctamente |
+   | Auxiliar ADM   | CARGO              | dia         | 200    | Datos del cargo actualizado correctamente |
+   | Matematica     | ESPACIO_CURRICULAR | Jueves      | 200    | Datos del cargo actualizado correctamente |
+   | Física         | ESPACIO_CURRICULAR | Viernes     | 200    | Datos del cargo actualizado correctamente |
+   | Tecnología     | ESPACIO_CURRICULAR | Miercoles   | 200    | Datos del cargo actualizado correctamente |
 
 
 Esquema del escenario: Designación de persona en cargos NO cubiertos aún en el perído indicado de forma existosa

@@ -84,11 +84,11 @@ public class LicenciaPresenter {
                 +" a "+licencia.getPersona().getNombre()+" "+licencia.getPersona().getApellido()+" debido a que el agente no posee ningún cargo en la institución", null);
             }
 
-            // if(!service.desigXDia(licencia.getPersona(), licencia.getPedidoDesde())){
-            //     return Response.response(HttpStatus.BAD_REQUEST, "NO se otorga Licencia artículo "+licencia.getArticulo().getArticulo()
-            //     +" a "+licencia.getPersona().getNombre()+" "+licencia.getPersona().getApellido()
-            //     +"i debido a que el agente no tiene designación ese día en la institución", null);
-            // }
+            if(!service.desigXDia(licencia.getPersona(), licencia.getPedidoDesde())){
+                return Response.response(HttpStatus.BAD_REQUEST, "NO se otorga Licencia artículo "+licencia.getArticulo().getArticulo()
+                +" a "+licencia.getPersona().getNombre()+" "+licencia.getPersona().getApellido()
+                +"i debido a que el agente no tiene designación ese día en la institución", null);
+            }
 
             LocalDate localDateDesde = licencia.getPedidoDesde().toLocalDate();
             LocalDate localDateHasta = licencia.getPedidoHasta().toLocalDate();

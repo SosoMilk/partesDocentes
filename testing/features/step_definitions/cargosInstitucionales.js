@@ -60,7 +60,73 @@ When('se presiona el botón de guardar cargo', function () {
     let res = request(
         'POST',
         'http://backend:8080/cargo', { json: this.cargo });
+
     this.response = JSON.parse(res.body, 'utf8');
+
+    return assert.equal(res.statusCode, 200);
+});
+
+
+
+
+
+Given('el cargo institucional existente cuyo nombre es {string}', function (nombre) {
+
+    const nombreCod = encodeURIComponent(nombre);
+
+    let res = request(
+        'GET',
+        'http://backend:8080/cargo/' + nombreCod
+    );
+    const cargo = JSON.parse(res.body, 'utf8').data;
+
+    this.cargo = cargo;
+    //console.log(cargo);
+
+    return assert.equal(res.statusCode, 200);
+
+});
+
+Given('con horario para el {string}', function (dia) {
+    // Write code here that turns the phrase above into concrete actions
+
+    if(dia != "dia"){ 
+        let resH = request(
+            'GET',
+            'http://backend:8080/horario/dia/' + dia
+    );
+
+    const horario = JSON.parse(resH.body, 'utf8').data;
+    
+    this.cargo.horarios = [horario];
+
+    }else{
+        let res = request(
+           'GET',
+            'http://backend:8080/horario/semana'
+    );
+
+    let horarios = JSON.parse(res.body, 'utf8').data;
+
+    this.cargo.horarios = horarios;
+
+    }
+
+    console.log(this.cargo);
+
+    return assert.ok(true);
+});
+
+When('se presiona el botón de actualizar cargo', function () {
+    const { id, ...cargoData } = this.cargo;
+
+    let res = request(
+        'PUT',
+        'http://backend:8080/cargo', { json: this.cargo });
+
+    this.response = JSON.parse(res.body, 'utf8');
+
+    console.log(this.response.message);
 
     return assert.equal(res.statusCode, 200);
 });

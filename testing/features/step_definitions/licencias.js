@@ -35,7 +35,6 @@ Given('que existen las siguientes instancias de designación asignada', function
     const cargo = JSON.parse(res.body, 'utf8').data;
 
     this.auxDesig.cargo = cargo;
-    console.log(cargo);
 
     return assert.equal(res.statusCode, 200);
 });
@@ -82,8 +81,6 @@ When('se solicita el servicio de designación de la persona al cargo en el perí
             'http://backend:8080/designacion', { json: this.auxDesig });
         this.response = JSON.parse(res.body, 'utf8');
 
-        console.log(this.response.message);
-
         return assert.equal(res.statusCode, 200);
     });
 
@@ -96,8 +93,6 @@ Then('se recupera el mensaje', function (docString) {
 
         assert.equal(this.response.message, expectedMessage);
         assert.equal(this.response.status, expectedStatusCode);
-        console.log(this.response.message);
-
     }
 
     return true;

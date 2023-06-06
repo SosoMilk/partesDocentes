@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 
 import unpsjb.labprog.backend.model.Cargo;
+import unpsjb.labprog.backend.model.Horario;
 
 @Service
 public class CargoService {
@@ -25,8 +26,8 @@ public class CargoService {
         return repository.findById(id).orElse(null);
     }
     
-    public Cargo findByNomTip(String nombre) {
-        return repository.findAllByNomTip(nombre).orElse(null);
+    public Cargo findByNom(String nombre) {
+        return repository.findAllByNom(nombre).orElse(null);
     }
 
     @Transactional
@@ -36,5 +37,9 @@ public class CargoService {
 
     public List<Cargo> search(String term) {
         return repository.search("%" + term.toUpperCase() + "%");
+    }
+    
+    public List<Cargo> findByTip(String tipo) {
+        return repository.findAllByTip(tipo);
     }
 }
