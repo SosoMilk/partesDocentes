@@ -90,25 +90,43 @@ Given('el cargo institucional existente cuyo nombre es {string}', function (nomb
 Given('con horario para el {string}', function (dia) {
     // Write code here that turns the phrase above into concrete actions
 
-    if(dia != "dia"){ 
-        let resH = request(
-            'GET',
-            'http://backend:8080/horario/dia/' + dia
-    );
-
-    const horario = JSON.parse(resH.body, 'utf8').data;
-    
-    this.cargo.horarios = [horario];
+    if(dia != "dia"){    
+        this.cargo.horarios = [{
+            id: 0,
+            dia: dia,
+            hora: 13
+        } ];
 
     }else{
-        let res = request(
-           'GET',
-            'http://backend:8080/horario/semana'
-    );
-
-    let horarios = JSON.parse(res.body, 'utf8').data;
-
-    this.cargo.horarios = horarios;
+        this.cargo.horarios = [{
+            id: 0,
+            dia: "Lunes",
+            hora: 13
+        }, {
+            id: 0,
+            dia: "Martes",
+            hora: 13
+        }, {
+            id: 0,
+            dia: "Miércoles",
+            hora: 13
+        }, {
+            id: 0,
+            dia: "Jueves",
+            hora: 13
+        }, {
+            id: 0,
+            dia: "Viernes",
+            hora: 13
+        }, {
+            id: 0,
+            dia: "Sábado",
+            hora: 13
+        }, {
+            id: 0,
+            dia: "Domingo",
+            hora: 13
+        }];
 
     }
 
@@ -118,7 +136,7 @@ Given('con horario para el {string}', function (dia) {
 });
 
 When('se presiona el botón de actualizar cargo', function () {
-    const { id, ...cargoData } = this.cargo;
+    //const { id, ...cargoData } = this.cargo;
 
     let res = request(
         'PUT',
