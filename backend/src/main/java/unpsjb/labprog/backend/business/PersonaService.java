@@ -50,5 +50,7 @@ public class PersonaService {
     public List<Persona> search(String term) {
         return repository.search("%" + term.toUpperCase() + "%");
     }
+
+    
     
 }

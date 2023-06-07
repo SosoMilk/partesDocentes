@@ -1,6 +1,8 @@
 package unpsjb.labprog.backend.business;
 
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -42,14 +44,12 @@ public class LicenciaService {
         return repository.poseeCargo(persona);
     }
 
-    public Integer cantLicenciasMes(Persona persona, Date pedidoDesde){
-        String mes = pedidoDesde.toString().substring(5, 7);
-        return repository.cantLicenciasMes(persona, mes);
+    public Boolean cantLicenciasXMes(Persona persona, Date pedidoDesde){
+       return (repository.cantLicenciasMes(persona, pedidoDesde.toString().substring(5, 7))) < 2;
     }
-    // String anio = desde.toString().substring(0, 4);
-    public Integer cantLicenciasAño(Persona persona, Date pedidoDesde) {
-        String anio = pedidoDesde.toString().substring(0, 4);
-        return repository.cantLicenciasAño(persona, anio);
+
+    public Boolean cantLicenciasXAño(Persona persona, Date pedidoDesde) {
+        return (repository.cantLicenciasAño(persona, pedidoDesde.toString().substring(0, 4)) < 6);
     }
 
     public Boolean desigXDia(Persona persona, Date desde){
@@ -58,5 +58,12 @@ public class LicenciaService {
 
     public Optional<Licencia> findByPADH(Persona persona, ArticuloLicencia articulo, Date desde, Date hasta) {
         return repository.findAllByPADH(persona, articulo, desde, hasta);
+    }
+
+    public boolean validarTopeDiasLicencia(Date desde, Date hasta) {
+        LocalDate localDateDesde = desde.toLocalDate();
+        LocalDate localDateHasta = hasta.toLocalDate();
+        long diasLicencia = ChronoUnit.DAYS.between(localDateDesde, localDateHasta) + 1;
+        return diasLicencia < 30;
     }
 }

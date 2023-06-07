@@ -14,7 +14,7 @@ Esquema del escenario: ingresar nuevas personas
    | 20200200  | Susana    | Álvarez      | 20202002009 | F    | Profesora de historia   | Mitre 154   | +54 (280) 422-2222 | 200    | La persona: Susana Álvarez con DNI 20200200 ingresado/a correctamente |
    | 30300300  | Pedro     | Benítez      | 27303003009 | M    |                         | Jujuy 255   | +54 (280) 433-3333 | 200    | La persona: Pedro Benítez con DNI 30300300 ingresado/a correctamente |
    | 40400400  | Marisa    | Amuchástegui | 20404004009 | F    | Profesora de historia   | Zar 555     | +54 (280) 444-4444 | 200    | La persona: Marisa Amuchástegui con DNI 40400400 ingresado/a correctamente | 
-   | 50500500  | Raúl      | Gómez        | 27505005009 | M    | Profesor de Geografía   | Roca 2458   | +54 (280) 455-5555 | 200    | La persona: Raúl Gómez con DNI 50500500 ingresado/a correctamente | 
+   | 50200200  | Raúl      | Gómez        | 27502002009 | M    | Profesor de Geografía   | Roca 2458   | +54 (280) 455-5555 | 200    | La persona: Raúl Gómez con DNI 50200200 ingresado/a correctamente | 
    | 60600600  | Inés      | Torres       | 20606006009 | F    | Licenciada en Geografía | La Pampa 322| +54 (280) 466-6666 | 200    | La persona: Inés Torres con DNI 60600600 ingresado/a correctamente | 
    | 70700700  | Jorge     | Dismal       | 27707007009 | M    |                         | Mitre 1855  | +54 (280) 477-7777 | 200    | La persona: Jorge Dismal con DNI 70700700 ingresado/a correctamente | 
    | 20000000  | Rosalía   | Fernandez    | 20200000009 | F    | Maestra de grado        | Maiz 356    | +54 (280) 420-0000 | 200    | La persona: Rosalía Fernandez con DNI 20000000 ingresado/a correctamente | 
@@ -69,8 +69,8 @@ Esquema del escenario: ingresar nuevo cargo institucional
    | Historia       | ESPACIO_CURRICULAR | Lunes       | 4            | 2020-03-01 |            | 5   | 2      | Mañana | 200    | Espacio Curricular Historia para la division 5º 2º Turno Mañana ingresado correctamente |
    | Geografia      | ESPACIO_CURRICULAR | Martes      | 3            | 2020-03-01 |            | 3   | 1      | Tarde  | 200    | Espacio Curricular Geografia para la division 3º 1º Turno Tarde ingresado correctamente |
    | Auxiliar ADM   | CARGO              | dia         | 30           | 2020-03-01 |            |     |        |        | 200    | Cargo de Auxiliar ADM ingresado correctamente                                           |
-   | Auxiliar ACAD  | CARGO              | dia         | 30           | 2020-03-01 |            | 3   | 1      | Tarde  | 501    | Cargo de Auxiliar ACAD es CARGO y no corresponde asignar división                       |
-   | Matematica     | ESPACIO_CURRICULAR | Miercoles   | 6            | 2020-03-01 |            |     |        |        | 501    | Espacio Curricular Matematica falta asignar división                                    |
+   | Auxiliar ACAD  | CARGO              | dia         | 30           | 2020-03-01 |            | 3   | 1      | Tarde  | 200    | Cargo de Auxiliar ACAD es CARGO y no corresponde asignar división                       |
+   | Matematica     | ESPACIO_CURRICULAR | Miercoles   | 6            | 2020-03-01 |            |     |        |        | 200    | Espacio Curricular Matematica falta asignar división                                    |
    | Matematica     | ESPACIO_CURRICULAR | Jueves      | 6            | 2020-03-01 |            | 1   | 1      | Tarde  | 200    | Espacio Curricular Matematica para la division 1º 1º Turno Tarde ingresado correctamente |
    | Física         | ESPACIO_CURRICULAR | Viernes     | 6            | 2020-03-01 |            | 2   | 3      | Mañana | 200    | Espacio Curricular Física para la division 2º 3º Turno Mañana ingresado correctamente   |
    | Tecnología     | ESPACIO_CURRICULAR | Miercoles   | 8            | 2020-03-01 |            | 4   | 3      | Mañana | 200    | Espacio Curricular Tecnología para la division 4º 3º Turno Mañana ingresado correctamente   |
@@ -106,7 +106,7 @@ Esquema del escenario: Designación de persona en cargos NO cubiertos aún en el
    | 10100100  | Alberto     | Lopez        | CARGO              | Vicedirector-a    |     |        |       | 2023-03-01 |            | 200    | Alberto Lopez ha sido designado/a como Vicedirector-a exitosamente                                             |
    | 20200200  | Susana      | Álvarez      | CARGO              | Preceptor-a       |     |        |       | 2023-03-01 | 2023-12-31 | 200    | Susana Álvarez ha sido designado/a como Preceptor-a exitosamente                                               |
    | 40400400  | Marisa      | Amuchástegui | ESPACIO_CURRICULAR | Historia          | 5   | 2      | Mañana| 2023-03-01 | 2023-03-03 | 200    | Marisa Amuchástegui ha sido designado/a a la asignatura Historia a la división 5º 2º turno Mañana exitosamente |
-   | 50500500  | Raúl        | Gómez        | ESPACIO_CURRICULAR | Geografia         | 3   | 1      | Tarde | 2023-03-01 | 2025-12-31 | 200    | Raúl Gómez ha sido designado/a a la asignatura Geografia a la división 3º 1º turno Tarde exitosamente          |
+   | 50200200  | Raúl        | Gómez        | ESPACIO_CURRICULAR | Geografia         | 3   | 1      | Tarde | 2023-03-01 | 2025-12-31 | 200    | Raúl Gómez ha sido designado/a a la asignatura Geografia a la división 3º 1º turno Tarde exitosamente          |
    | 20000000  | Rosalía     | Fernandez    | CARGO              | Auxiliar ADM      |     |        |       | 2024-01-01 | 2024-12-31 | 200    | Rosalía Fernandez ha sido designado/a como Auxiliar ADM exitosamente                                            |
    | 99100000  | Ermenegildo | Sábat        | ESPACIO_CURRICULAR | Física            | 2   | 3      | Mañana| 2023-03-01 |            | 200    | Ermenegildo Sábat ha sido designado/a a la asignatura Física a la división 2º 3º turno Mañana exitosamente     |
    | 99200000  | María Rosa  | Gallo        | ESPACIO_CURRICULAR | Matematica        | 1   | 1      | Tarde | 2023-03-01 |            | 200    | María Rosa Gallo ha sido designado/a a la asignatura Matematica a la división 1º 1º turno Tarde exitosamente   |
@@ -142,7 +142,7 @@ Esquema del escenario: Otorgar Distintas licencias según las reglas de los dist
    | 90991000000  | Ermenegildo  | Sábat       | 5A        | ENFERMEDAD DE CORTA EVOLUCIÓN  | 2023-10-04   | 2023-11-10   | 200    | NO se otorga Licencia artículo 5A a Ermenegildo Sábat debido a que supera el tope de 30 días de licencia  |
    | 11992000000  | María Rosa   | Gallo       | 23A       | ATENCIÓN DE UN MIEMBRO DEL GF  | 2023-02-15   | 2023-03-01   | 200    | Se otorga Licencia artículo 23A a María Rosa Gallo  |
    | 11992000000  | María Rosa   | Gallo       | 23A       | ATENCIÓN DE UN MIEMBRO DEL GF  | 2023-04-01   | 2023-04-16   | 200    | Se otorga Licencia artículo 23A a María Rosa Gallo  |
-   | 11992000000  | María Rosa   | Gallo       | 23A       | ATENCIÓN DE UN MIEMBRO DEL GF  | 2023-04-12   | 2023-04-20   | 500    | NO se otorga Licencia artículo 23A a María Rosa Gallo debido a que ya posee una licencia en el mismo período |
+   | 11992000000  | María Rosa   | Gallo       | 23A       | ATENCIÓN DE UN MIEMBRO DEL GF  | 2023-04-12   | 2023-04-20   | 200    | NO se otorga Licencia artículo 23A a María Rosa Gallo debido a que ya posee una licencia en el mismo período |
    | 11992000000  | María Rosa   | Gallo       | 23A       | ATENCIÓN DE UN MIEMBRO DEL GF  | 2023-04-17   | 2023-05-20   | 200    | NO se otorga Licencia artículo 23A a María Rosa Gallo debido a que supera el tope de 30 días de licencia  |
    | 22993000000  | Homero       | Manzi       | 36A       | ASUNTOS PARTICULARES           | 2023-05-08   | 2023-05-08   | 200    | Se otorga Licencia artículo 36A a Homero Manzi  |
    | 22993000000  | Homero       | Manzi       | 36A       | ASUNTOS PARTICULARES           | 2023-05-11   | 2023-05-11   | 200    | Se otorga Licencia artículo 36A a Homero Manzi  |
@@ -152,8 +152,8 @@ Esquema del escenario: Otorgar Distintas licencias según las reglas de los dist
    | 22993000000  | Homero       | Manzi       | 36A       | ASUNTOS PARTICULARES           | 2023-10-24   | 2023-10-25   | 200    | Se otorga Licencia artículo 36A a Homero Manzi  |
    | 22993000000  | Homero       | Manzi       | 36A       | ASUNTOS PARTICULARES           | 2023-10-04   | 2023-10-05   | 200    | Se otorga Licencia artículo 36A a Homero Manzi  |
    | 22993000000  | Homero       | Manzi       | 36A       | ASUNTOS PARTICULARES           | 2023-11-04   | 2023-11-04   | 200    | NO se otorga Licencia artículo 36A a Homero Manzi debido a que supera el tope de 6 dias de licencias por año  |
-   | 27303003009  | Pedro        | Benítez     | 36A       | ASUNTOS PARTICULARES           | 2023-03-04   | 2023-03-04   | 500    | NO se otorga Licencia artículo 36A a Pedro Benítez debido a que el agente no posee ningún cargo en la institución  |
-   | 20404004009  | Marisa       | Amuchástegui| 36A       | ASUNTOS PARTICULARES           | 2023-03-04   | 2023-03-04   | 500    | NO se otorga Licencia artículo 36A a Marisa Amuchástegui debido a que el agente no tiene designación ese día en la institución  |
+   | 27303003009  | Pedro        | Benítez     | 36A       | ASUNTOS PARTICULARES           | 2023-03-04   | 2023-03-04   | 200    | NO se otorga Licencia artículo 36A a Pedro Benítez debido a que el agente no posee ningún cargo en la institución  |
+   | 20404004009  | Marisa       | Amuchástegui| 36A       | ASUNTOS PARTICULARES           | 2023-03-04   | 2023-03-04   | 200    | NO se otorga Licencia artículo 36A a Marisa Amuchástegui debido a que el agente no tiene designación ese día en la institución  |
    | 20202002009  | Susana       | Álvarez     | 5A        | ENFERMEDAD DE CORTA EVOLUCIÓN  | 2023-05-12   | 2023-05-30   | 200    | Se otorga Licencia artículo 5A a Susana Álvarez  |
    | 20200000009  | Rosalía      | Fernandez   | 5A        | ENFERMEDAD DE CORTA EVOLUCIÓN  | 2024-07-05   | 2024-07-15   | 200    | Se otorga Licencia artículo 5A a Rosalía Fernandez  |
 
@@ -194,7 +194,7 @@ Escenario: 1 persona en instancias de designación de cargo que cubre una licenc
    Entonces se recupera el mensaje
       """
       {
-         "StatusCode": 500,
+         "StatusCode": 200,
          "StatusText": "Analía Rojas NO ha sido designado/a como auxiliar ADM. pues el cargo solicitado lo ocupa Rosalía Fernandez para el período"
       }
       """

@@ -8,7 +8,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import unpsjb.labprog.backend.model.Cargo;
-import unpsjb.labprog.backend.model.Horario;
 
 @Repository
 public interface CargoRepository extends CrudRepository<Cargo, Integer>{

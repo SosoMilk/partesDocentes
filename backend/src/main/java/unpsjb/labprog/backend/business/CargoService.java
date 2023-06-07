@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 
 import unpsjb.labprog.backend.model.Cargo;
-import unpsjb.labprog.backend.model.Horario;
 
 @Service
 public class CargoService {
