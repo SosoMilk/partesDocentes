@@ -35,6 +35,10 @@ public class LicenciaService {
     public Licencia save(Licencia licencia) {
         return repository.save(licencia);
     }
+    
+    public Optional<Licencia> findByPADH(Persona persona, ArticuloLicencia articulo, Date desde, Date hasta) {
+        return repository.findAllByPADH(persona, articulo, desde, hasta);
+    }
 
     public Boolean mismosDiasLicencia(Persona persona, Date pedidoHasta, Date pedidoDesde){
         return repository.mismosDiasLicencia(persona, pedidoDesde, pedidoHasta);
@@ -56,11 +60,7 @@ public class LicenciaService {
         return repository.desigXDia(persona, desde);
     }
 
-    public Optional<Licencia> findByPADH(Persona persona, ArticuloLicencia articulo, Date desde, Date hasta) {
-        return repository.findAllByPADH(persona, articulo, desde, hasta);
-    }
-
-    public boolean validarTopeDiasLicencia(Date desde, Date hasta) {
+    public Boolean validarTopeDiasLicencia(Date desde, Date hasta) {
         LocalDate localDateDesde = desde.toLocalDate();
         LocalDate localDateHasta = hasta.toLocalDate();
         long diasLicencia = ChronoUnit.DAYS.between(localDateDesde, localDateHasta) + 1;

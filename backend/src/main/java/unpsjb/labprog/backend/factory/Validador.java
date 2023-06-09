@@ -1,10 +1,11 @@
-package unpsjb.labprog.backend.business;
+package unpsjb.labprog.backend.factory;
 
+import unpsjb.labprog.backend.business.LicenciaService;
 import unpsjb.labprog.backend.model.Licencia;
 
-public class ValidadorService {
+public class Validador {
 
-    public static String validacion(Licencia licencia, LicenciaService service){
+    public static String validacion(Licencia licencia, LicenciaService service){ //posiblemente esta clase se vaya
 
         String response = "";
         Boolean valido = true;

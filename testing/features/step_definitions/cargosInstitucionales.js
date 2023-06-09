@@ -130,8 +130,6 @@ Given('con horario para el {string}', function (dia) {
 
     }
 
-    console.log(this.cargo);
-
     return assert.ok(true);
 });
 
@@ -143,8 +141,6 @@ When('se presiona el botón de actualizar cargo', function () {
         'http://backend:8080/cargo', { json: this.cargo });
 
     this.response = JSON.parse(res.body, 'utf8');
-
-    console.log(this.response.message);
 
     return assert.equal(res.statusCode, 200);
 });

@@ -198,3 +198,56 @@ Escenario: 1 persona en instancias de designación de cargo que cubre una licenc
          "StatusText": "Analía Rojas NO ha sido designado/a como auxiliar ADM. pues el cargo solicitado lo ocupa Rosalía Fernandez para el período"
       }
       """
+
+
+
+Escenario: Verificar el funcionamiento de licencias para un día
+Dada la existencia de las siguientes licencias 
+   | CUIL         | Nombre       | Apellido  | Artículo  | Descripción                    | Desde        | Hasta        | 
+   | 90991000000  | Ermenegildo  | Sábat     | 5A        | ENFERMEDAD DE CORTA EVOLUCIÓN  | 2023-05-07   | 2023-05-17   | 
+   | 20202002009  | Susana       | Álvarez   | 5A        | ENFERMEDAD DE CORTA EVOLUCIÓN  | 2023-05-12   | 2023-05-30   | 
+   | 20200000009  | Rosalía      | Fernandez | 5A        | ENFERMEDAD DE CORTA EVOLUCIÓN  | 2024-07-05   | 2024-07-15   | 
+   | 22993000000  | Homero       | Manzi     | 36A       | ASUNTOS PARTICULARES           | 2023-05-08   | 2023-05-08   | 
+   | 11992000000  | María Rosa   | Gallo     | 23A       | ATENCIÓN DE UN MIEMBRO DEL GF  | 2023-04-01   | 2023-04-16   | 
+Y que se otorgan las siguientes nuevas licencias
+   | CUIL         | Nombre       | Apellido  | Artículo  | Descripción                    | Desde        | Hasta        | 
+   | 27101001009  | Alberto      | Lopez     | 36A       | ASUNTOS PARTICULARES           | 2023-05-15   | 2023-05-15   | 
+   | 11992000000  | María Rosa   | Gallo     | 36A       | ASUNTOS PARTICULARES           | 2023-05-15   | 2023-05-15   | 
+   | 20200000009  | Rosalía      | Fernandez | 36A       | ASUNTOS PARTICULARES           | 2023-05-15   | 2023-05-15   | 
+Cuando se solicita el parte diario para la fecha "2023-05-15"
+Entonces el sistema responde
+   """
+   { "ParteDiario": {
+         "Fecha": "2023-05-15",
+         "Docentes": [
+            {"CUIL": "90991000000", "Nombre": "Ermenegildo", "Apellido": "Sábat","Artículo": "5A", "Descripción": "ENFERMEDAD DE CORTA EVOLUCIÓN","Desde": "2023-05-07", "Hasta": "2023-05-17"},
+            {"CUIL": "20202002009", "Nombre": Susana", "Apellido": "Álvarez","Artículo": "5A", "Descripción": "ENFERMEDAD DE CORTA EVOLUCIÓN","Desde": "2023-05-12", "Hasta": "2023-05-30"},
+            {"CUIL": "22993000000", "Nombre": "Homero", "Apellido": "Manzi","Artículo": "36A", "Descripción": "ASUNTOS PARTICULARES","Desde": "2023-05-08", "Hasta": "2023-05-08"},
+            {"CUIL": "27101001009", "Nombre": "ALberto", "Apellido": "Lopez","Artículo": "36A", "Descripción": "ASUNTOS PARTICULARES","Desde": "2023-05-15", "Hasta": "2023-05-15"},
+            {"CUIL": "11992000000", "Nombre": "María Rosa", "Apellido": "Gallo","Artículo": "36A", "Descripción": "ASUNTOS PARTICULARES","Desde": "2023-05-15", "Hasta": "2023-05-15"},
+            {"CUIL": "20200000009", "Nombre": "Rosalía", "Apellido": "Fernandez","Artículo": "36A", "Descripción": "ASUNTOS PARTICULARES","Desde": "2023-05-15", "Hasta": "2023-05-15"}
+         ]
+      }
+   }
+   """
+
+Escenario: Verificar el parte diario luego de trasncurridos 2 días
+Dada la existencia de las siguientes licencias 
+   | CUIL         | Nombre       | Apellido  | Artículo  | Descripción                    | Desde        | Hasta        | 
+   | 90991000000  | Ermenegildo  | Sábat     | 5A        | ENFERMEDAD DE CORTA EVOLUCIÓN  | 2023-05-07   | 2023-05-17   | 
+   | 20202002009  | Susana       | Álvarez   | 5A        | ENFERMEDAD DE CORTA EVOLUCIÓN  | 2023-05-12   | 2023-05-30   | 
+   | 20200000009  | Rosalía      | Fernandez | 5A        | ENFERMEDAD DE CORTA EVOLUCIÓN  | 2024-07-05   | 2024-07-15   | 
+   | 22993000000  | Homero       | Manzi     | 36A       | ASUNTOS PARTICULARES           | 2023-05-08   | 2023-05-08   | 
+   | 11992000000  | María Rosa   | Gallo     | 23A       | ATENCIÓN DE UN MIEMBRO DEL GF  | 2023-04-01   | 2023-04-16   | 
+Cuando se solicita el parte diario para la fecha "2023-05-17"
+Entonces el sistema responde
+   """
+   { "ParteDiario": {
+         "Fecha": "2023-05-17",
+         "Docentes": [
+            {"CUIL": "90991000000", "Nombre": "Ermenegildo", "Apellido": "Sábat","Artículo": "5A", "Descripción": "ENFERMEDAD DE CORTA EVOLUCIÓN","Desde": "2023-05-07", "Hasta": "2023-05-17"},
+            {"CUIL": "20202002009", "Nombre": "Susana", "Apellido": "Álvarez","Artículo": "5A", "Descripción": "ENFERMEDAD DE CORTA EVOLUCIÓN","Desde": "2023-05-12", "Hasta": "2023-05-30"},
+         ]
+      }
+   }
+   """
