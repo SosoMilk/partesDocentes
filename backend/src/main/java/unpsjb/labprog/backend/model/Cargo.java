@@ -1,7 +1,6 @@
 package unpsjb.labprog.backend.model;
 
 import java.sql.Date;
-import java.util.Collection;
 import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;

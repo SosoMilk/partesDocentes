@@ -1,6 +1,6 @@
 import { Location, JsonPipe } from "@angular/common";
 import { Component, ViewChild } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { DataPackage } from "../data-package";
 import { Licencia } from "./licencia";
 import { PersonaService } from "../personas/personas.service";
@@ -221,6 +221,7 @@ export class LicDetailComponent {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private location: Location,
     private licenciaService: LicenciaService,
     private personaService: PersonaService,

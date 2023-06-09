@@ -36,6 +36,7 @@ import { Component } from "@angular/core";
 					<ul>
 						<a routerLink="/licencias" > Listar </a>
 						<a routerLink="/licencias/new" >Nueva </a>
+						<a routerLink="/licencias/parte/diario" >Parte Diario </a>
 					</ul>
 			</ul>
 		</div>

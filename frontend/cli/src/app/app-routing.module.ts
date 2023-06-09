@@ -12,6 +12,7 @@ import { DeDetailComponent } from './designaciones/de.detail.component';
 import { DesignacionesComponent } from './designaciones/designacion.component';
 import { LicDetailComponent } from './licencias/lic.detail.component';
 import { LicenciasComponent } from './licencias/licencias.component';
+import { ParteDiarioComponent } from './licencias/parteDiario.component';
 
 
 const routes: Routes = [
@@ -25,7 +26,8 @@ const routes: Routes = [
   { path: 'designacion', component: DesignacionesComponent },
   { path: 'designacion/:id', component: DeDetailComponent },
   { path: 'licencias', component: LicenciasComponent },
-  { path: 'licencias/:id', component: LicDetailComponent }
+  { path: 'licencias/:id', component: LicDetailComponent },
+  { path: 'licencias/parte/diario', component: ParteDiarioComponent}
 ]
 
 @NgModule({

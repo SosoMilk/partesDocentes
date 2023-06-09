@@ -1,6 +1,8 @@
 package unpsjb.labprog.backend.business;
 
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -65,5 +67,10 @@ public class LicenciaService {
         LocalDate localDateHasta = hasta.toLocalDate();
         long diasLicencia = ChronoUnit.DAYS.between(localDateDesde, localDateHasta) + 1;
         return diasLicencia < 30;
+    }
+
+    public List<Licencia> parteDiario(String fecha) throws ParseException{
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return repository.parteDiario(dateFormat.parse(fecha));
     }
 }

@@ -1,7 +1,9 @@
 package unpsjb.labprog.backend.presenter;
 
 import java.sql.Date;
+import java.text.ParseException;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Queue;
 import java.util.StringTokenizer;
@@ -47,6 +49,12 @@ public class LicenciaPresenter {
     public ResponseEntity<Object> findByPADH(@PathVariable("persona") Persona persona, @PathVariable("articulo") ArticuloLicencia articulo,
                                             @PathVariable("desde") Date desde, @PathVariable("hasta") Date hasta) {
         Optional<Licencia> licenciaOrNull = service.findByPADH(persona, articulo, desde, hasta);
+        return (licenciaOrNull != null) ? Response.ok(licenciaOrNull) : Response.notFound();
+    }
+
+    @RequestMapping(value = "/parteDiario/{fecha}", method = RequestMethod.GET)
+    public ResponseEntity<Object> parteDiario(@PathVariable("fecha") String fecha) throws ParseException {
+        List<Licencia> licenciaOrNull = service.parteDiario(fecha);
         return (licenciaOrNull != null) ? Response.ok(licenciaOrNull) : Response.notFound();
     }
 

@@ -41,8 +41,6 @@ When('se presiona el botón de guardar licencia', function () {
         'http://backend:8080/licencias', { json: this.licencia });
     this.response = JSON.parse(res.body, 'utf8');
 
-    console.log(this.response.message)
-
     return assert.equal(res.statusCode, 200);
 });
 

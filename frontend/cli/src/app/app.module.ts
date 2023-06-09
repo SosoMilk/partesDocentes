@@ -17,6 +17,7 @@ import { DesignacionesComponent } from './designaciones/designacion.component';
 import { LicDetailComponent } from './licencias/lic.detail.component';
 import { LicenciasComponent } from './licencias/licencias.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ParteDiarioComponent } from './licencias/parteDiario.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     DesignacionesComponent,
     DeDetailComponent,
     LicenciasComponent,
-    LicDetailComponent
+    LicDetailComponent,
+    ParteDiarioComponent
   ],
   imports: [
     BrowserModule,

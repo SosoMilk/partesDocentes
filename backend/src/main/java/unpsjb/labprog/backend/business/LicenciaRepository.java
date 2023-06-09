@@ -1,6 +1,7 @@
 package unpsjb.labprog.backend.business;
 
-import java.sql.Date;
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.Query;
@@ -35,4 +36,8 @@ public interface LicenciaRepository extends CrudRepository<Licencia, Integer>{
 
     @Query("UPDATE Designacion set fechaFin = ?2 where persona = ?1")
     Optional<Designacion> editFecha(Persona persona, Date desde);
+
+    @Query("SELECT l FROM Licencia l WHERE (?1 >= l.pedidoDesde AND ?1 <= l.pedidoHasta)")
+    List<Licencia> parteDiario(Date fecha);
+
 }

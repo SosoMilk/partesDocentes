@@ -5,6 +5,7 @@ import { DataPackage } from "../data-package";
 
 import { Data } from "@angular/router";
 import { Licencia } from "./licencia";
+import { formatDate } from "@angular/common";
 
 @Injectable({
     providedIn: "root",
@@ -21,6 +22,12 @@ export class LicenciaService {
         return this.http.get<DataPackage>(this.licenciasUrl); // REST
     }
 
+    allFecha(fecha: Date): Observable<DataPackage> {
+        const formattedFecha = formatDate(fecha, 'yyyy-MM-dd', 'en-US'); // Formatear la fecha en el formato esperado por el backend
+        const url = `${this.licenciasUrl}/parteDiario/${formattedFecha}`; // Construir la URL de la solicitud
+
+        return this.http.get<DataPackage>(url);
+    }
 
     get(id: number): Observable<DataPackage> {
         return this.http.get<DataPackage>(this.licenciasUrl + "/id/" + id); //
