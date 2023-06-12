@@ -53,18 +53,6 @@ import { LicenciaService } from "./licencias.service";
                 height: 90px;
             }
 
-            .parte-label {
-                width: 650px;
-                height: 35px;
-                background-color: #9fb6f2;
-                text-align: center;
-                line-height: 50px;
-                margin-bottom: 105px;
-                margin-left: 55px;
-                font-weight: bold;
-                border-radius: 10px;
-            }
-
 		`,
   ],
 })

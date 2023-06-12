@@ -1,11 +1,11 @@
 package unpsjb.labprog.backend.factory.base;
 
 import java.io.IOException;
-import java.util.Enumeration;
-import java.util.Properties;
-
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Collection;
+import java.util.Enumeration;
 
 public class MensajeFactory {
     
@@ -20,7 +20,7 @@ public class MensajeFactory {
 
     private MensajeFactory(){
         mensajeMap = new HashMap<>();
-
+        //loadConfig();
         Properties config = new Properties();
 
         try {
@@ -35,8 +35,8 @@ public class MensajeFactory {
         while(e.hasMoreElements()){
             name = (String) e.nextElement();
             try {
-                t = Class.forName(config.getProperty(name));                
-                mensajeMap.put(name, (Mensaje)t.getMethod("getInstance").invoke(null));
+                t = Class.forName("factory.base.mensajes." + config.getProperty(name));               
+                mensajeMap.put(name, (Mensaje) t.getMethod("getInstance").invoke(null));
             } catch (ClassNotFoundException cnfe) {
                 System.err.println("No se encontró la clase: "+config.getProperty(name));
             } catch (NoSuchMethodException nsme){
@@ -57,4 +57,9 @@ public class MensajeFactory {
         return mensajeMap.get(mensaje);
     }
 
+   
+    public Collection<Mensaje> getComandos(){
+        Collection<Mensaje> comandos = mensajeMap.values();
+        return comandos;
+    }
 }

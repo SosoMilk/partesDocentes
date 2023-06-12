@@ -2,14 +2,11 @@ package unpsjb.labprog.backend.presenter;
 
 import java.sql.Date;
 import java.text.ParseException;
-import java.util.LinkedList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.Queue;
-import java.util.StringTokenizer;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -73,32 +70,29 @@ public class LicenciaPresenter {
                 String response = "";
                 // MensajeFactory factory = MensajeFactory.getInstance();
                 // Mensaje command; // Ahora es una instancia de Command
-                
-                // StringTokenizer line;
-    
-                // line = new StringTokenizer(response);
-    
-                //     // Lee el comando y sus argumentos.
-                // while(line.hasMoreTokens()){
+        
+                // Collection<Mensaje> comandos = factory.getComandos();
 
-                //     String comando = line.nextToken();
-                //     command = factory.getCommand(comando);
-                    
-                //     // Ejecuta el comando
-                //     if (command != null){
-                //         response = command.validador(licencia, service);
-                //     }
-                //     else
+                // response = comandos.getClass().getSimpleName();
+
+                // for (Mensaje comando : comandos) {
+                //     response = "j";
+                //     command = factory.getCommand(comando.getClass().getSimpleName());
+
+                //     response = command.validador(licencia, service);
+
+                //     if (!response.isEmpty()) {
                 //         return Response.response(HttpStatus.OK, response, null);
+                //     }
                 // }
 
-                response = Validador.validacion(licencia, service);
-    
-                if(response.isEmpty()){
-                    return Response.ok(service.save(licencia), "Se otorga Licencia artículo "+licencia.getArticulo().getArticulo()+" a "
+            response = Validador.validacion(licencia, service);
+            
+            if(response.isEmpty()){
+            return Response.ok(service.save(licencia), "Se otorga Licencia artículo "+licencia.getArticulo().getArticulo()+" a "
                     + licencia.getPersona().getNombre()+" "+licencia.getPersona().getApellido());
                 }else{
                     return Response.response(HttpStatus.OK, response, null);
                 }
-        }
+    }
 }

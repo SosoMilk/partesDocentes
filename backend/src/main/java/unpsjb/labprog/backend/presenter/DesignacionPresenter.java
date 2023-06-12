@@ -1,7 +1,9 @@
 package unpsjb.labprog.backend.presenter;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -18,6 +20,12 @@ import unpsjb.labprog.backend.business.DesignacionService;
 import unpsjb.labprog.backend.model.Designacion;
 import unpsjb.labprog.backend.model.Persona;
 import unpsjb.labprog.backend.model.TipoDesignacion;
+import unpsjb.labprog.backend.strategy.DesignacionExistenteValidacion;
+import unpsjb.labprog.backend.strategy.DesignacionValidationStrategy;
+import unpsjb.labprog.backend.strategy.FechaValidacion;
+import unpsjb.labprog.backend.strategy.TipoCargoStrategy;
+import unpsjb.labprog.backend.strategy.TipoDesignacionStrategy;
+import unpsjb.labprog.backend.strategy.TipoEspacioStrategy;
 
 @RestController
 @RequestMapping("designacion")
@@ -39,41 +47,17 @@ public class DesignacionPresenter {
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Object> create(@RequestBody Designacion Designacion) {
-        try {
-            if(Designacion.getFechaFin() != null)
-            if (Designacion.getFechaFin().before(Designacion.getFechaInicio())){
-                return Response.response(HttpStatus.CONFLICT, "Existe un error en la seleccion de fechas",null);
+        List<DesignacionValidationStrategy> validationStrategies = new ArrayList<>();
+        validationStrategies.add(new FechaValidacion());
+        validationStrategies.add(new DesignacionExistenteValidacion(service));
+
+        for (DesignacionValidationStrategy strategy : validationStrategies) {
+            ResponseEntity<Object> validationResponse = strategy.validate(Designacion);
+            if (validationResponse != null) {
+                return validationResponse;
             }
-
-            List<Designacion> designacionExistente = service.consultaFechaCargo(
-                Designacion.getCargo(), Designacion.getFechaInicio(), Designacion.getFechaFin());
-
-        if (!designacionExistente.isEmpty()) {
-            Designacion designacionEncontrada = designacionExistente.get(0);
-
-            if (Designacion.getCargo().getTipo() == TipoDesignacion.CARGO) { 
-                return Response.response(HttpStatus.BAD_REQUEST,
-                        Designacion.getPersona().getNombre() + " " + Designacion.getPersona().getApellido()
-                                + " NO ha sido designado/a como " + Designacion.getCargo().getNombre()
-                                + ". pues el cargo solicitado lo ocupa "
-                                + designacionEncontrada.getPersona().getNombre() + " "
-                                + designacionEncontrada.getPersona().getApellido()+ 
-                                " para el periodo",
-                        null);
-            } else {
-                return Response.response(HttpStatus.BAD_REQUEST,
-                        Designacion.getPersona().getNombre() + " " + Designacion.getPersona().getApellido()
-                                + " NO ha sido designado/a debido a que la asignatura "
-                                + Designacion.getCargo().getNombre() + " de la división "
-                                + Designacion.getCargo().getDivision().getAnio() + "º "
-                                + Designacion.getCargo().getDivision().getNumero() + "º turno "
-                                + Designacion.getCargo().getDivision().getTurno() + " lo ocupa "
-                                + designacionEncontrada.getPersona().getNombre() + " "
-                                + designacionEncontrada.getPersona().getApellido() + " para el periodo",
-                        null);
-            }  
         }
-
+        
         Persona persona = service.buscarDesig(Designacion.getCargo(), Designacion.getFechaInicio(), Designacion.getFechaFin());
         if (persona != null) {           
             return Response.ok(service.save(Designacion), Designacion.getPersona().getNombre()+" "+Designacion.getPersona().getApellido()
@@ -81,18 +65,14 @@ public class DesignacionPresenter {
                 +persona.getNombre()+" "+persona.getApellido());
         }
 
-            if (Designacion.getCargo().getTipo() == TipoDesignacion.CARGO) {
-                return Response.ok(service.save(Designacion),
-                        Designacion.getPersona().getNombre() +" "+ Designacion.getPersona().getApellido()+
-                        " ha sido designado/a como "+Designacion.getCargo().getNombre()+" exitosamente");
-            } else {
-                return Response.ok(service.save(Designacion), Designacion.getPersona().getNombre()+" "+
-                Designacion.getPersona().getApellido()+" ha sido designado/a a la asignatura "+Designacion.getCargo().getNombre()
-                +" a la división "+Designacion.getCargo().getDivision().getAnio()+"º "+Designacion.getCargo().getDivision().getNumero()+
-                "º turno "+Designacion.getCargo().getDivision().getTurno()+" exitosamente");
-            }
+        Map<TipoDesignacion, TipoDesignacionStrategy> tipoStrategyMap = new HashMap<>();
+        tipoStrategyMap.put(TipoDesignacion.CARGO, new TipoCargoStrategy(service));
+        tipoStrategyMap.put(TipoDesignacion.ESPACIO_CURRICULAR, new TipoEspacioStrategy(service));
 
-        } catch (DataIntegrityViolationException e) {
+        TipoDesignacionStrategy tipoStrategy = tipoStrategyMap.get(Designacion.getCargo().getTipo());
+        if (tipoStrategy != null) {
+            return tipoStrategy.process(Designacion);
+        }else{
             return Response.response(HttpStatus.CONFLICT, "la Designacion ya existe", null);
         }
     }
