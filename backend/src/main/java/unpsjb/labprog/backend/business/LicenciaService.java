@@ -50,12 +50,23 @@ public class LicenciaService {
         return repository.poseeCargo(persona);
     }
 
-    public Boolean cantLicenciasXMes(Persona persona, Date pedidoDesde){
-       return (repository.cantLicenciasMes(persona, pedidoDesde.toString().substring(5, 7))) < 2;
+    public Boolean cantLicenciasXMes(Persona persona, Date pedidoDesde, Date pedidoHasta){
+        Integer result = repository.cantLicenciasMes(persona, pedidoDesde.toString().substring(5, 7),
+                pedidoDesde.toString().substring(0, 4));
+        int cantLicencias = result != null ? result : 0;
+        LocalDate localDateDesde = pedidoDesde.toLocalDate();
+        LocalDate localDateHasta = pedidoHasta.toLocalDate();
+        int totalDias = cantLicencias + (int) ChronoUnit.DAYS.between(localDateDesde, localDateHasta) + 1;
+        return totalDias <= 2;
     }
 
-    public Boolean cantLicenciasXAño(Persona persona, Date pedidoDesde) {
-        return (repository.cantLicenciasAño(persona, pedidoDesde.toString().substring(0, 4)) < 6);
+    public Boolean cantLicenciasXAño(Persona persona, Date pedidoDesde, Date pedidoHasta) {
+        Integer result = repository.cantLicenciasAño(persona, pedidoDesde.toString().substring(0, 4));
+        int cantLicencias = result != null ? result : 0;
+        LocalDate localDateDesde = pedidoDesde.toLocalDate();
+        LocalDate localDateHasta = pedidoHasta.toLocalDate();
+        int totalDias = cantLicencias + (int) ChronoUnit.DAYS.between(localDateDesde, localDateHasta) + 1;
+        return totalDias < 6;
     }
 
     public Boolean desigXDia(Persona persona, Date desde){
@@ -66,7 +77,7 @@ public class LicenciaService {
         LocalDate localDateDesde = desde.toLocalDate();
         LocalDate localDateHasta = hasta.toLocalDate();
         long diasLicencia = ChronoUnit.DAYS.between(localDateDesde, localDateHasta) + 1;
-        return diasLicencia < 30;
+        return diasLicencia <= 30;
     }
 
     public List<Licencia> parteDiario(String fecha) throws ParseException{

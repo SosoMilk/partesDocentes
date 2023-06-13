@@ -22,7 +22,7 @@ public class CantLicXMesMensaje implements Mensaje{
     @Override
     public String validador(Licencia licencia, LicenciaService service) {
         if (licencia.getArticulo().getId() == 3) { 
-            if (!service.cantLicenciasXMes(licencia.getPersona(), licencia.getPedidoDesde())) {
+            if (!service.cantLicenciasXMes(licencia.getPersona(), licencia.getPedidoDesde(), licencia.getPedidoHasta())) {
                 response = ("NO se otorga Licencia artículo "
                         + licencia.getArticulo().getArticulo() + " a " + licencia.getPersona().getNombre() + " "
                         + licencia.getPersona().getApellido()

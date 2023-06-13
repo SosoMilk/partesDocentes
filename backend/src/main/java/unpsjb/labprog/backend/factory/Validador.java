@@ -11,7 +11,7 @@ public class Validador {
         Boolean valido = true;
 
         if (licencia.getArticulo().getId() == 3) { //httpsStatus.ok
-            if (!service.cantLicenciasXMes(licencia.getPersona(), licencia.getPedidoDesde()) && valido) {
+            if (!service.cantLicenciasXMes(licencia.getPersona(), licencia.getPedidoDesde(), licencia.getPedidoHasta()) && valido) {
                 valido = false;
                 response = ("NO se otorga Licencia artículo "
                         + licencia.getArticulo().getArticulo() + " a " + licencia.getPersona().getNombre() + " "
@@ -19,7 +19,7 @@ public class Validador {
                         + " debido a que supera el tope de 2 dias de licencias por mes");
             }
 
-            if (!service.cantLicenciasXAño(licencia.getPersona(), licencia.getPedidoDesde())) { // httpsStatus.ok
+            if (!service.cantLicenciasXAño(licencia.getPersona(), licencia.getPedidoDesde(), licencia.getPedidoHasta())) { // httpsStatus.ok
                 response = ("NO se otorga Licencia artículo "
                         + licencia.getArticulo().getArticulo() + " a " + licencia.getPersona().getNombre() + " "
                         + licencia.getPersona().getApellido()

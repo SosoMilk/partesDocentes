@@ -22,10 +22,10 @@ public interface LicenciaRepository extends CrudRepository<Licencia, Integer>{
     @Query("SELECT COUNT(d) > 0 FROM Designacion d WHERE d.persona = ?1")
     Boolean poseeCargo(Persona persona);
 
-    @Query("SELECT COUNT(l) FROM Licencia l WHERE l.persona = ?1 AND TO_CHAR(l.pedidoDesde, 'MM') = ?2")
-    Integer cantLicenciasMes(Persona persona, String mes);
+    @Query("SELECT SUM(EXTRACT(DAY FROM l.pedidoHasta) - EXTRACT(DAY FROM l.pedidoDesde) + 1) FROM Licencia l WHERE l.persona = ?1 AND TO_CHAR(l.pedidoDesde, 'MM') = ?2 AND TO_CHAR(l.pedidoDesde, 'YYYY') = ?3")
+    Integer cantLicenciasMes(Persona persona, String mes, String año);
 
-    @Query("SELECT COUNT(l) FROM Licencia l WHERE l.persona = ?1 AND TO_CHAR(l.pedidoDesde, 'YYYY') = ?2")
+    @Query("SELECT SUM(EXTRACT(DAY FROM l.pedidoHasta) - EXTRACT(DAY FROM l.pedidoDesde) + 1) FROM Licencia l WHERE l.persona = ?1 AND TO_CHAR(l.pedidoDesde, 'YYYY') = ?2")
     Integer cantLicenciasAño(Persona persona, String año);
 
     @Query("SELECT COUNT(d) > 0 FROM Designacion d WHERE d.persona = ?1 AND ?2 >= d.fechaInicio AND (d.fechaFin IS NULL OR ?2 <= d.fechaFin)")

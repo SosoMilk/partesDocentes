@@ -147,10 +147,10 @@ Esquema del escenario: Otorgar Distintas licencias según las reglas de los dist
    | 22993000000  | Homero       | Manzi       | 36A       | ASUNTOS PARTICULARES           | 2023-05-08   | 2023-05-08   | 200    | Se otorga Licencia artículo 36A a Homero Manzi  |
    | 22993000000  | Homero       | Manzi       | 36A       | ASUNTOS PARTICULARES           | 2023-05-11   | 2023-05-11   | 200    | Se otorga Licencia artículo 36A a Homero Manzi  |
    | 22993000000  | Homero       | Manzi       | 36A       | ASUNTOS PARTICULARES           | 2023-05-20   | 2023-05-20   | 200    | NO se otorga Licencia artículo 36A a Homero Manzi debido a que supera el tope de 2 dias de licencias por mes  |
-   | 22993000000  | Homero       | Manzi       | 36A       | ASUNTOS PARTICULARES           | 2023-08-13   | 2023-08-14   | 200    | Se otorga Licencia artículo 36A a Homero Manzi  |
-   | 22993000000  | Homero       | Manzi       | 36A       | ASUNTOS PARTICULARES           | 2023-09-24   | 2023-08-25   | 200    | Se otorga Licencia artículo 36A a Homero Manzi  |
-   | 22993000000  | Homero       | Manzi       | 36A       | ASUNTOS PARTICULARES           | 2023-10-24   | 2023-10-25   | 200    | Se otorga Licencia artículo 36A a Homero Manzi  |
-   | 22993000000  | Homero       | Manzi       | 36A       | ASUNTOS PARTICULARES           | 2023-10-04   | 2023-10-05   | 200    | Se otorga Licencia artículo 36A a Homero Manzi  |
+   | 22993000000  | Homero       | Manzi       | 36A       | ASUNTOS PARTICULARES           | 2023-08-13   | 2023-08-13   | 200    | Se otorga Licencia artículo 36A a Homero Manzi  |
+   | 22993000000  | Homero       | Manzi       | 36A       | ASUNTOS PARTICULARES           | 2023-09-24   | 2023-09-24   | 200    | Se otorga Licencia artículo 36A a Homero Manzi  |
+   | 22993000000  | Homero       | Manzi       | 36A       | ASUNTOS PARTICULARES           | 2023-10-24   | 2023-10-24   | 200    | Se otorga Licencia artículo 36A a Homero Manzi  |
+   | 22993000000  | Homero       | Manzi       | 36A       | ASUNTOS PARTICULARES           | 2023-10-04   | 2023-10-04   | 200    | Se otorga Licencia artículo 36A a Homero Manzi  |
    | 22993000000  | Homero       | Manzi       | 36A       | ASUNTOS PARTICULARES           | 2023-11-04   | 2023-11-04   | 200    | NO se otorga Licencia artículo 36A a Homero Manzi debido a que supera el tope de 6 dias de licencias por año  |
    | 27303003009  | Pedro        | Benítez     | 36A       | ASUNTOS PARTICULARES           | 2023-03-04   | 2023-03-04   | 200    | NO se otorga Licencia artículo 36A a Pedro Benítez debido a que el agente no posee ningún cargo en la institución  |
    | 20404004009  | Marisa       | Amuchástegui| 36A       | ASUNTOS PARTICULARES           | 2023-03-04   | 2023-03-04   | 200    | NO se otorga Licencia artículo 36A a Marisa Amuchástegui debido a que el agente no tiene designación ese día en la institución  |
