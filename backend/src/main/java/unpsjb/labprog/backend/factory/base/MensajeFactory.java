@@ -1,5 +1,6 @@
 package unpsjb.labprog.backend.factory.base;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,7 +10,7 @@ import java.util.Enumeration;
 
 public class MensajeFactory {
     
-    private final String filename = "commands.config";
+    private final String filename = "/home/soso/labprog/partesDocentes/tp/backend/src/main/java/unpsjb/labprog/backend/factory/commands.config";
 
     // Mapa donde almacena cada comando.
     // Lo carga en base a un archivo de configuración.
@@ -24,18 +25,19 @@ public class MensajeFactory {
         Properties config = new Properties();
 
         try {
-            config.load(getClass().getClassLoader().getResourceAsStream(filename));
+            config.load(new FileInputStream(filename));
+            //config.load(getClass().getClassLoader().getResourceAsStream(filename));
         } catch (IOException ioe) {
             System.err.println("No se encontró el archivo de configuración: "+filename);
         }
 
-        Enumeration<?> e = config.propertyNames();
+        Enumeration<?> e = config.propertyNames(); 
         String name;
         Class t;
         while(e.hasMoreElements()){
             name = (String) e.nextElement();
             try {
-                t = Class.forName("factory.base.mensajes." + config.getProperty(name));               
+                t = Class.forName(config.getProperty(name));               
                 mensajeMap.put(name, (Mensaje) t.getMethod("getInstance").invoke(null));
             } catch (ClassNotFoundException cnfe) {
                 System.err.println("No se encontró la clase: "+config.getProperty(name));

@@ -73,10 +73,8 @@ public class LicenciaPresenter {
         
                 // Collection<Mensaje> comandos = factory.getComandos();
 
-                // response = comandos.getClass().getSimpleName();
-
+                // //response = factory.getComandos().toString();
                 // for (Mensaje comando : comandos) {
-                //     response = "j";
                 //     command = factory.getCommand(comando.getClass().getSimpleName());
 
                 //     response = command.validador(licencia, service);

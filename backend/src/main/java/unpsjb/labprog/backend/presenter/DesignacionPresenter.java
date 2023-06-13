@@ -45,24 +45,29 @@ public class DesignacionPresenter {
         return (DesignacionOrNull != null) ? Response.ok(DesignacionOrNull) : Response.notFound();
     }
 
+    public List<DesignacionValidationStrategy> validaciones(){
+        List<DesignacionValidationStrategy> validaciones = new ArrayList<>();
+        validaciones.add(new FechaValidacion());
+        validaciones.add(new DesignacionExistenteValidacion(service));
+
+        return validaciones;
+    }
+
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Object> create(@RequestBody Designacion Designacion) {
-        List<DesignacionValidationStrategy> validationStrategies = new ArrayList<>();
-        validationStrategies.add(new FechaValidacion());
-        validationStrategies.add(new DesignacionExistenteValidacion(service));
-
-        for (DesignacionValidationStrategy strategy : validationStrategies) {
-            ResponseEntity<Object> validationResponse = strategy.validate(Designacion);
-            if (validationResponse != null) {
-                return validationResponse;
-            }
-        }
         
         Persona persona = service.buscarDesig(Designacion.getCargo(), Designacion.getFechaInicio(), Designacion.getFechaFin());
         if (persona != null) {           
             return Response.ok(service.save(Designacion), Designacion.getPersona().getNombre()+" "+Designacion.getPersona().getApellido()
                 +" ha sido designado/a al cargo "+Designacion.getCargo().getNombre()+" exitosamente, en reemplado de "
                 +persona.getNombre()+" "+persona.getApellido());
+        }
+
+        for (DesignacionValidationStrategy validacion : validaciones()) {
+            //ResponseEntity<Object> validationResponse = validacion.validate(Designacion);
+            if (validacion.validate(Designacion) != null) {
+                return validacion.validate(Designacion);
+            }
         }
 
         Map<TipoDesignacion, TipoDesignacionStrategy> tipoStrategyMap = new HashMap<>();

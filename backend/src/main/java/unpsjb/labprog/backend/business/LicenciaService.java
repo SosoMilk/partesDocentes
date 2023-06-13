@@ -66,7 +66,7 @@ public class LicenciaService {
         LocalDate localDateDesde = pedidoDesde.toLocalDate();
         LocalDate localDateHasta = pedidoHasta.toLocalDate();
         int totalDias = cantLicencias + (int) ChronoUnit.DAYS.between(localDateDesde, localDateHasta) + 1;
-        return totalDias < 6;
+        return totalDias <= 6;
     }
 
     public Boolean desigXDia(Persona persona, Date desde){
