@@ -1,5 +1,4 @@
 import { Component } from "@angular/core";
-import { CARGOS } from "./mock-cargos";
 import { CargoService } from "./cargos.services";
 import { Cargos } from "./cargo";
 
@@ -52,7 +51,7 @@ import { Cargos } from "./cargo";
     styles: [],
 })
 export class CargosComponent {
-    cargos = CARGOS;
+    cargos : Cargos[] = [];
 
     constructor(private cargoService: CargoService) { }
 

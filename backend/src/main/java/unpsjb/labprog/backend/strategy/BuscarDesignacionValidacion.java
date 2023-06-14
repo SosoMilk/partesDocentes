@@ -7,7 +7,7 @@ import unpsjb.labprog.backend.business.DesignacionService;
 import unpsjb.labprog.backend.model.Designacion;
 import unpsjb.labprog.backend.model.Persona;
 
-public class BuscarDesignacionValidacion implements DesignacionValidationStrategy{
+public class BuscarDesignacionValidacion implements DesignacionValidation{
 
     private DesignacionService service;
 

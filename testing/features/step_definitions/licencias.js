@@ -139,6 +139,7 @@ When('se solicita el servicio de designación de la persona al cargo en el perí
 Then('se recupera el mensaje', function (docString) {
     // Write code here that turns the phrase above into concrete actions
 
+    console.log(this.response.message);
     if (this.response && this.response.status == 200) {
         const expectedMessage = JSON.parse(docString).StatusText;
         const expectedStatusCode = JSON.parse(docString).StatusCode;

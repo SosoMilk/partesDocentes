@@ -10,7 +10,7 @@ import unpsjb.labprog.backend.business.DesignacionService;
 import unpsjb.labprog.backend.model.Designacion;
 import unpsjb.labprog.backend.model.TipoDesignacion;
 
-public class DesignacionExistenteValidacion implements DesignacionValidationStrategy {
+public class DesignacionExistenteValidacion implements DesignacionValidation {
 
     private DesignacionService service;
 

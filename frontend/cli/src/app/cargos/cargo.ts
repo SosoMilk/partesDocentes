@@ -1,4 +1,5 @@
 import { Division } from "../divisiones/division";
+import { Horario } from "../horarios/horario";
 
 export enum TIPOS {
     cargo = "CARGO",
@@ -12,6 +13,7 @@ export interface Cargos{
     fechaInicio: Date,  //probar a cambiar calendar
     fechaFin: Date,
     cargaHoraria: number,
-    division: Division | null
+    division: Division | null,
+    horario: Horario[]
 
 }

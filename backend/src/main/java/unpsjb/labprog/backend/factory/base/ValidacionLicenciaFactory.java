@@ -8,25 +8,25 @@ import java.util.Properties;
 import java.util.Collection;
 import java.util.Enumeration;
 
-public class MensajeFactory {
+public class ValidacionLicenciaFactory {
     
-    private final String filename = "/home/soso/labprog/partesDocentes/tp/backend/src/main/java/unpsjb/labprog/backend/factory/commands.config";
+    private final String filename = "commands.config";
 
     // Mapa donde almacena cada comando.
     // Lo carga en base a un archivo de configuración.
-    private Map<String, Mensaje> mensajeMap;
+    private Map<String, ValidadorLicencia> mensajeMap;
 
     // Singleton
-    private static MensajeFactory instance = null;
+    private static ValidacionLicenciaFactory instance = null;
 
-    private MensajeFactory(){
+    private ValidacionLicenciaFactory(){
         mensajeMap = new HashMap<>();
         //loadConfig();
         Properties config = new Properties();
 
         try {
-            config.load(new FileInputStream(filename));
-            //config.load(getClass().getClassLoader().getResourceAsStream(filename));
+            //config.load(getClass().getResourceAsStream(filename));
+            config.load(getClass().getClassLoader().getResourceAsStream(filename));
         } catch (IOException ioe) {
             System.err.println("No se encontró el archivo de configuración: "+filename);
         }
@@ -38,7 +38,7 @@ public class MensajeFactory {
             name = (String) e.nextElement();
             try {
                 t = Class.forName(config.getProperty(name));               
-                mensajeMap.put(name, (Mensaje) t.getMethod("getInstance").invoke(null));
+                mensajeMap.put(name, (ValidadorLicencia) t.getMethod("getInstance").invoke(null));
             } catch (ClassNotFoundException cnfe) {
                 System.err.println("No se encontró la clase: "+config.getProperty(name));
             } catch (NoSuchMethodException nsme){
@@ -49,19 +49,14 @@ public class MensajeFactory {
         }
     }
 
-    public static MensajeFactory getInstance() {
+    public static ValidacionLicenciaFactory getInstance() {
         if (instance == null)
-            instance = new MensajeFactory();
+            instance = new ValidacionLicenciaFactory();
         return instance;
     }
 
-    public Mensaje getCommand(String mensaje) {
-        return mensajeMap.get(mensaje);
+    public ValidadorLicencia get(String articulo) {
+        return mensajeMap.get(articulo);
     }
 
-   
-    public Collection<Mensaje> getComandos(){
-        Collection<Mensaje> comandos = mensajeMap.values();
-        return comandos;
-    }
 }

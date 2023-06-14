@@ -104,7 +104,7 @@ Esquema del escenario: Designación de persona en cargos NO cubiertos aún en el
    Ejemplos:
    | DNI       | nombre      | apellido     | tipo               | nombreDesignacion | año | número | turno | fechadesde | fechaHasta | status | respuesta                                                                                                      |
    | 10100100  | Alberto     | Lopez        | CARGO              | Vicedirector-a    |     |        |       | 2023-03-01 |            | 200    | Alberto Lopez ha sido designado/a como Vicedirector-a exitosamente                                             |
-   | 20200200  | Susana      | Álvarez      | CARGO              | Preceptor-a       |     |        |       | 2023-03-01 | 2023-12-31 | 200    | Susana Álvarez ha sido designado/a como Preceptor-a exitosamente                                               |
+   | 20200200  | Susana      | Álvarez      | CARGO              | Preceptor-a       |     |        |       | 2020-03-01 | 2023-12-31 | 200    | Susana Álvarez ha sido designado/a como Preceptor-a exitosamente                                               |
    | 40400400  | Marisa      | Amuchástegui | ESPACIO_CURRICULAR | Historia          | 5   | 2      | Mañana| 2023-03-01 | 2023-03-03 | 200    | Marisa Amuchástegui ha sido designado/a a la asignatura Historia a la división 5º 2º turno Mañana exitosamente |
    | 50200200  | Raúl        | Gómez        | ESPACIO_CURRICULAR | Geografia         | 3   | 1      | Tarde | 2023-03-01 | 2025-12-31 | 200    | Raúl Gómez ha sido designado/a a la asignatura Geografia a la división 3º 1º turno Tarde exitosamente          |
    | 20000000  | Rosalía     | Fernandez    | CARGO              | Auxiliar ADM      |     |        |       | 2024-01-01 | 2024-12-31 | 200    | Rosalía Fernandez ha sido designado/a como Auxiliar ADM exitosamente                                            |
@@ -167,9 +167,9 @@ Escenario: 1 persona en instancias de designación de cargo que cubre una licenc
       | cargo           | Preceptor-a             | 36           |
    Y que la instancia de designación está asignada a la persona
       | CUIL       | Nombre    | Apellido     | Desde        | Hasta        |
-      | 20202002009  | Susana    | Álvarez      | 2020-03-01   | 2020-12-31   |
-   Y que la instancia de designación está asignada a la persona con licencia "5A" comprendida en el período desde "2020-05-12" hasta "2020-05-30"
-   Cuando se solicita el servicio de designación de la persona al cargo en el período comprendido desde "2020-05-17" hasta "2020-05-29"
+      | 20202002009  | Susana    | Álvarez      | 2020-03-01   | 2023-12-31   |
+   Y que la instancia de designación está asignada a la persona con licencia "5A" comprendida en el período desde "2023-05-12" hasta "2023-05-30"
+   Cuando se solicita el servicio de designación de la persona al cargo en el período comprendido desde "2023-05-17" hasta "2023-05-29"
    Entonces se recupera el mensaje
       """
       {

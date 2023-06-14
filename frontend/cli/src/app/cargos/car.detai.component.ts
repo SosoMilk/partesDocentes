@@ -1,11 +1,13 @@
 import { Location } from "@angular/common";
 import { Component } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { Cargos } from "./cargo";
+import { Cargos, TIPOS } from "./cargo";
 import { DataPackage } from "../data-package";
 import { CargoService } from "./cargos.services";
 import { Division } from "../divisiones/division";
 import { DivisionService } from "../divisiones/divisiones.service";
+import { ModalService } from "../modal.service";
+import { Horario } from "../horarios/horario";
 
 @Component({
     selector: "app-detail",
@@ -129,6 +131,49 @@ import { DivisionService } from "../divisiones/divisiones.service";
         </div>
       </form>
 
+        <div class="table-responsive">
+          <table class="table table-striped table-sm">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Dia</th>
+                <th>Hora</th>
+                <th>
+                  <button (click)="addHorario()" class="btn btn-success">
+                    Agregar
+                  </button>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let horario of cargo.horario; index as i">
+                <td>{{ i + 1 }}</td>
+                <td>
+                  <input
+                    name="dia{{ i }}"
+                    [(ngModel)]="horario.dia"
+                    class="form-control"
+                  />
+                </td>
+                <td>
+                  <input
+                    name="hora{{ i }}"
+                    [(ngModel)]="horario.hora"
+                    class="form-control"
+                  />
+                </td>
+                <td>
+                  <button
+                    (click)="removeHorario(horario)"
+                    class="btn btn-default"
+                  >
+                    <i class="fa fa-remove"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
       </form>
  
@@ -144,8 +189,10 @@ export class CarDetailComponent {
         private route: ActivatedRoute,
         private location: Location,
         private cargoService: CargoService,
-        private divisionService: DivisionService
-    ) { }
+        private divisionService: DivisionService,
+        private modalService: ModalService
+    ) {
+     }
 
     ngOnInit() {
       if(Event){
@@ -167,12 +214,22 @@ export class CarDetailComponent {
 
     get(): void {
         const id = this.route.snapshot.paramMap.get("id")!;
-        if (id === "new") {
-            this.cargo = <Cargos>{};
-        } else {
-            this.cargoService.get(+id).subscribe(dataPackage =>
-                this.cargo = <Cargos>dataPackage.data);
-        }
+      if (id === "new") {
+        this.cargo = <Cargos>{};
+      } else {
+        this.cargoService.get(+id).subscribe(dataPackage => {
+          this.cargo = <Cargos>dataPackage.data;
+          if (!this.cargo.horario) {
+            this.cargo.horario = [];
+          }
+        });
+      }
+        // if (id === "new") {
+        //     this.cargo = <Cargos>{};
+        // } else {
+        //     this.cargoService.get(+id).subscribe(dataPackage =>
+        //         this.cargo = <Cargos>dataPackage.data);
+        // }
     }
 
     goBack(): void {
@@ -191,5 +248,26 @@ export class CarDetailComponent {
         });
     }
 
+  addHorario(): void {
+    if (!this.cargo.horario) {
+      this.cargo.horario = [];
+    }
+    this.cargo.horario.push({ id: 0, dia: '', hora: 0 });
+  }
 
+  removeHorario(horario: Horario): void {
+    this.modalService
+      .confirm(
+        "Eliminar horario",
+        "¿Está seguro de borrar este horario?",
+        "El cambio no se confirmará hasta que no guarde el cargo."
+      )
+      .then(
+        () => {
+          let horarios = this.cargo.horario;
+          horarios.splice(horarios.indexOf(horario), 1);
+        },
+        () => { }
+      );
+  }
 }

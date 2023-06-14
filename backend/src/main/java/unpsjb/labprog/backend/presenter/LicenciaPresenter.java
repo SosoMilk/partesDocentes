@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import unpsjb.labprog.backend.Response;
 import unpsjb.labprog.backend.business.LicenciaService;
 import unpsjb.labprog.backend.factory.Validador;
-import unpsjb.labprog.backend.factory.base.Mensaje;
-import unpsjb.labprog.backend.factory.base.MensajeFactory;
+import unpsjb.labprog.backend.factory.base.ValidadorLicencia;
+import unpsjb.labprog.backend.factory.base.ValidacionLicenciaFactory;
 import unpsjb.labprog.backend.model.ArticuloLicencia;
 import unpsjb.labprog.backend.model.Licencia;
 import unpsjb.labprog.backend.model.Persona;
@@ -67,30 +67,15 @@ public class LicenciaPresenter {
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Object> create(@RequestBody Licencia licencia) {  //esta seria factory03
-                String response = "";
-                // MensajeFactory factory = MensajeFactory.getInstance();
-                // Mensaje command; // Ahora es una instancia de Command
-        
-                // Collection<Mensaje> comandos = factory.getComandos();
-
-                // //response = factory.getComandos().toString();
-                // for (Mensaje comando : comandos) {
-                //     command = factory.getCommand(comando.getClass().getSimpleName());
-
-                //     response = command.validador(licencia, service);
-
-                //     if (!response.isEmpty()) {
-                //         return Response.response(HttpStatus.OK, response, null);
-                //     }
-                // }
-
-            response = Validador.validacion(licencia, service);
+            String response = "";
+            
+            response = service.validacion(licencia);
             
             if(response.isEmpty()){
-            return Response.ok(service.save(licencia), "Se otorga Licencia artículo "+licencia.getArticulo().getArticulo()+" a "
+                return Response.ok(service.save(licencia), "Se otorga Licencia artículo "+licencia.getArticulo().getArticulo()+" a "
                     + licencia.getPersona().getNombre()+" "+licencia.getPersona().getApellido());
-                }else{
-                    return Response.response(HttpStatus.OK, response, null);
-                }
+            }else{
+                return Response.response(HttpStatus.OK, response, null);
+            }
     }
 }

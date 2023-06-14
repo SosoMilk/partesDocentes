@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import unpsjb.labprog.backend.Response;
 import unpsjb.labprog.backend.model.Designacion;
 
-public class FechaValidacion implements DesignacionValidationStrategy{
+public class FechaValidacion implements DesignacionValidation{
 
     @Override
     public ResponseEntity<Object> validate(Designacion designacion) {

@@ -21,7 +21,7 @@ import unpsjb.labprog.backend.model.Designacion;
 import unpsjb.labprog.backend.model.Persona;
 import unpsjb.labprog.backend.model.TipoDesignacion;
 import unpsjb.labprog.backend.strategy.DesignacionExistenteValidacion;
-import unpsjb.labprog.backend.strategy.DesignacionValidationStrategy;
+import unpsjb.labprog.backend.strategy.DesignacionValidation;
 import unpsjb.labprog.backend.strategy.FechaValidacion;
 import unpsjb.labprog.backend.strategy.TipoCargoStrategy;
 import unpsjb.labprog.backend.strategy.TipoDesignacionStrategy;
@@ -45,12 +45,21 @@ public class DesignacionPresenter {
         return (DesignacionOrNull != null) ? Response.ok(DesignacionOrNull) : Response.notFound();
     }
 
-    public List<DesignacionValidationStrategy> validaciones(){
-        List<DesignacionValidationStrategy> validaciones = new ArrayList<>();
+    public List<DesignacionValidation> validaciones(){
+        List<DesignacionValidation> validaciones = new ArrayList<>();
         validaciones.add(new FechaValidacion());
         validaciones.add(new DesignacionExistenteValidacion(service));
 
         return validaciones;
+    }
+
+    public TipoDesignacionStrategy tipoDelMapa(TipoDesignacion tipo){
+        Map<TipoDesignacion, TipoDesignacionStrategy> mapaTipo = new HashMap<>();
+        mapaTipo.put(TipoDesignacion.CARGO, new TipoCargoStrategy(service));
+        mapaTipo.put(TipoDesignacion.ESPACIO_CURRICULAR, new TipoEspacioStrategy(service));
+
+        return mapaTipo.get(tipo);
+
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -63,20 +72,14 @@ public class DesignacionPresenter {
                 +persona.getNombre()+" "+persona.getApellido());
         }
 
-        for (DesignacionValidationStrategy validacion : validaciones()) {
-            //ResponseEntity<Object> validationResponse = validacion.validate(Designacion);
+        for (DesignacionValidation validacion : validaciones()) {
             if (validacion.validate(Designacion) != null) {
                 return validacion.validate(Designacion);
             }
         }
-
-        Map<TipoDesignacion, TipoDesignacionStrategy> tipoStrategyMap = new HashMap<>();
-        tipoStrategyMap.put(TipoDesignacion.CARGO, new TipoCargoStrategy(service));
-        tipoStrategyMap.put(TipoDesignacion.ESPACIO_CURRICULAR, new TipoEspacioStrategy(service));
-
-        TipoDesignacionStrategy tipoStrategy = tipoStrategyMap.get(Designacion.getCargo().getTipo());
-        if (tipoStrategy != null) {
-            return tipoStrategy.process(Designacion);
+        
+        if (tipoDelMapa(Designacion.getCargo().getTipo()) != null) {
+            return tipoDelMapa(Designacion.getCargo().getTipo()).process(Designacion);
         }else{
             return Response.response(HttpStatus.CONFLICT, "la Designacion ya existe", null);
         }
