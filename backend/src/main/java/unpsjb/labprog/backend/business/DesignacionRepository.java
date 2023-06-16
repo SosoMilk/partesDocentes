@@ -22,4 +22,7 @@ public interface DesignacionRepository extends CrudRepository<Designacion, Integ
             "AND EXISTS (SELECT l FROM Licencia l WHERE l.persona = e.persona AND l.pedidoDesde <= ?2 AND l.pedidoHasta >= ?3)")
     Persona busquedaDesig(Cargo cargo, Date inicio, Date fin);
 
+    @Query("SELECT d.persona FROM Designacion d WHERE EXISTS (SELECT l FROM Licencia l WHERE l.persona = d.persona AND l.articulo = 3)")
+    List<Persona> findReporte();
+
 }

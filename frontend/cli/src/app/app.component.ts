@@ -21,6 +21,7 @@ import { Component } from "@angular/core";
 					<ul>
 						<a routerLink="/division" > Listar </a>
 						<a routerLink="/division/new" >Nueva </a>
+						<a routerLink="/calendario" >Calendario </a>
 					</ul>
 				<li><a routerLink="/cargo">Cargos</a>
 					<ul>
@@ -31,6 +32,7 @@ import { Component } from "@angular/core";
 					<ul>
 						<a routerLink="/designacion" > Listar </a>
 						<a routerLink="/designacion/new" >Nueva </a>
+						<a routerLink="/reporte/concepto" > Reporte de Concepto </a>
 					</ul>
 				<li><a routerLink="/licencias">Licencias</a>
 					<ul>

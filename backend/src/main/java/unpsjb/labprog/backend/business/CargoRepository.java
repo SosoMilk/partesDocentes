@@ -1,5 +1,6 @@
 package unpsjb.labprog.backend.business;
 
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,5 +21,8 @@ public interface CargoRepository extends CrudRepository<Cargo, Integer>{
 
     @Query("SELECT e from Cargo e WHERE e.tipo = ?1")
     List<Cargo> findAllByTip(String tipo);
+
+    @Query("SELECT e FROM Cargo e JOIN e.horarios h WHERE h.horaInicio <= ?1 AND h.horaFin >= ?1 AND h.dia = ?2")
+    List<Cargo> cargosEnHorarioDia(LocalTime horario, String dia);
     
 }

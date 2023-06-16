@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,6 +42,11 @@ public class DesignacionPresenter {
     public ResponseEntity<Object> findById(@PathVariable("id") int id) {
         Designacion DesignacionOrNull = service.findById(id);
         return (DesignacionOrNull != null) ? Response.ok(DesignacionOrNull) : Response.notFound();
+    }
+
+    @RequestMapping(value = "/reporte", method = RequestMethod.GET)
+    public ResponseEntity<Object> findReporte() {
+        return Response.ok(service.findResporte());
     }
 
     public List<DesignacionValidation> validaciones(){

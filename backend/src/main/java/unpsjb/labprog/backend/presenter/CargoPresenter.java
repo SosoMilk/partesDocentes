@@ -1,6 +1,6 @@
 package unpsjb.labprog.backend.presenter;
 
-import java.util.HashSet;
+import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,6 @@ import unpsjb.labprog.backend.Response;
 import unpsjb.labprog.backend.business.CargoService;
 import unpsjb.labprog.backend.model.Cargo;
 import unpsjb.labprog.backend.model.TipoDesignacion;
-import unpsjb.labprog.backend.model.Horario;
 
 @RestController
 @RequestMapping("cargo")
@@ -46,6 +45,12 @@ public class CargoPresenter {
     @RequestMapping(value = "/tipo/{tipo}", method = RequestMethod.GET)
     public ResponseEntity<Object> findByTip(@PathVariable("tipo") String tipo) {
         List<Cargo> cargoOrNull = service.findByTip(tipo);
+        return Response.ok(cargoOrNull);
+    }
+
+    @RequestMapping(value = "/calendario/{horario}/{dia}", method = RequestMethod.GET)
+    public ResponseEntity<Object> cargosEnHorarioDia(@PathVariable("horario")LocalTime horario, @PathVariable("dia")String dia) {
+        List<Cargo> cargoOrNull = service.cargosEnHorarioDia(horario, dia);
         return Response.ok(cargoOrNull);
     }
 

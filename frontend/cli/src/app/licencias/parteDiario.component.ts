@@ -19,7 +19,7 @@ import { LicenciaService } from "./licencias.service";
     </div>
 
 
-   <h2>Parte Diario&nbsp; &nbsp;&nbsp;{{ fechaParteDiario }}</h2>
+   <h2>Parte Diario&nbsp; &nbsp;&nbsp;{{ fechaParteDiario | date:'yyyy/MM/dd' }}</h2>
 
 
     <div class="table-responsive">
@@ -61,7 +61,7 @@ export class ParteDiarioComponent {
   fechaParteDiarioInicial: Date = new Date();
     licencias: Licencia[] = [];
 
-    constructor(private licenciaService: LicenciaService) { }
+    constructor(private licenciaService: LicenciaService) {  }
 
     ngOnInit() {
       this.fechaParteDiarioInicial = new Date();

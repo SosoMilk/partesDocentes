@@ -18,6 +18,8 @@ import { LicDetailComponent } from './licencias/lic.detail.component';
 import { LicenciasComponent } from './licencias/licencias.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ParteDiarioComponent } from './licencias/parteDiario.component';
+import { docenteComponent } from './designaciones/concep.component';
+import { CalendarioComponent } from './divisiones/calendario.component';
 
 @NgModule({
   declarations: [
@@ -27,10 +29,12 @@ import { ParteDiarioComponent } from './licencias/parteDiario.component';
     DetailComponent,
     DivisionesComponent,
     DivDetailComponent,
+    CalendarioComponent,
     CargosComponent,
     CarDetailComponent,
     DesignacionesComponent,
     DeDetailComponent,
+    docenteComponent,
     LicenciasComponent,
     LicDetailComponent,
     ParteDiarioComponent

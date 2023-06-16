@@ -1,5 +1,7 @@
 package unpsjb.labprog.backend.business;
 
+import java.sql.Date;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +29,10 @@ public class CargoService {
     
     public Cargo findByNom(String nombre) {
         return repository.findAllByNom(nombre).orElse(null);
+    }
+
+    public List<Cargo> cargosEnHorarioDia(LocalTime horario, String dia){
+        return repository.cargosEnHorarioDia(horario, dia);
     }
 
     @Transactional

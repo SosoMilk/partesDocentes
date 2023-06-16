@@ -2,7 +2,6 @@ package unpsjb.labprog.backend.presenter;
 
 import java.sql.Date;
 import java.text.ParseException;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,9 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import unpsjb.labprog.backend.Response;
 import unpsjb.labprog.backend.business.LicenciaService;
-import unpsjb.labprog.backend.factory.Validador;
-import unpsjb.labprog.backend.factory.base.ValidadorLicencia;
-import unpsjb.labprog.backend.factory.base.ValidacionLicenciaFactory;
 import unpsjb.labprog.backend.model.ArticuloLicencia;
 import unpsjb.labprog.backend.model.Licencia;
 import unpsjb.labprog.backend.model.Persona;
@@ -71,7 +67,7 @@ public class LicenciaPresenter {
             
             response = service.validacion(licencia);
             
-            if(response.isEmpty()){
+            if(response.isEmpty() || response == null){
                 return Response.ok(service.save(licencia), "Se otorga Licencia artículo "+licencia.getArticulo().getArticulo()+" a "
                     + licencia.getPersona().getNombre()+" "+licencia.getPersona().getApellido());
             }else{

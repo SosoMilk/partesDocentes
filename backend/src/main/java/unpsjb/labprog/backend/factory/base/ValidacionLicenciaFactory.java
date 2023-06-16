@@ -1,11 +1,9 @@
 package unpsjb.labprog.backend.factory.base;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Collection;
 import java.util.Enumeration;
 
 public class ValidacionLicenciaFactory {
@@ -25,8 +23,8 @@ public class ValidacionLicenciaFactory {
         Properties config = new Properties();
 
         try {
-            //config.load(getClass().getResourceAsStream(filename));
-            config.load(getClass().getClassLoader().getResourceAsStream(filename));
+            config.load(getClass().getResourceAsStream(filename));
+            //config.load(getClass().getClassLoader().getResourceAsStream(filename));
         } catch (IOException ioe) {
             System.err.println("No se encontró el archivo de configuración: "+filename);
         }

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
@@ -13,6 +13,8 @@ import { DesignacionesComponent } from './designaciones/designacion.component';
 import { LicDetailComponent } from './licencias/lic.detail.component';
 import { LicenciasComponent } from './licencias/licencias.component';
 import { ParteDiarioComponent } from './licencias/parteDiario.component';
+import { docenteComponent } from './designaciones/concep.component';
+import { CalendarioComponent } from './divisiones/calendario.component';
 
 
 const routes: Routes = [
@@ -21,10 +23,12 @@ const routes: Routes = [
   { path: 'personas/:id', component: DetailComponent },
   { path: 'division', component: DivisionesComponent },
   { path: 'division/:id', component: DivDetailComponent },
+  { path: 'calendario', component: CalendarioComponent},
   { path: 'cargo', component: CargosComponent},
   { path: 'cargo/:id', component: CarDetailComponent },
   { path: 'designacion', component: DesignacionesComponent },
   { path: 'designacion/:id', component: DeDetailComponent },
+  { path: 'reporte/concepto', component: docenteComponent},
   { path: 'licencias', component: LicenciasComponent },
   { path: 'licencias/:id', component: LicDetailComponent },
   { path: 'licencias/parte/diario', component: ParteDiarioComponent}

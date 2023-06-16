@@ -40,7 +40,8 @@ public class DesignacionService {
     public Persona buscarDesig(Cargo cargo, Date inicio, Date fin){
         return repository.busquedaDesig(cargo, inicio, fin);
     }
-    // public boolean consultaFechaEspacio(String nombre, String anio, String numero, Date fechaInicio, Date fechaFin){
-    //     return repository.consultaFechaEspacio(nombre, anio, numero, fechaInicio, fechaFin);
-    // }
+
+    public List<Persona> findResporte() {
+        return repository.findReporte();
+    }
 }

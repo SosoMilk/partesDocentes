@@ -1,5 +1,7 @@
 package unpsjb.labprog.backend.model;
 
+import java.time.LocalTime;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,7 +21,7 @@ public class Horario {
     private int id;
 
     private String dia;
-    private int hora;
-
+    private LocalTime horaInicio;
+    private LocalTime horaFin;
 
 }

@@ -19,6 +19,10 @@ export class DesignacionService {
         return this.http.get<DataPackage>(this.designacionUrl); // REST
     }
 
+    reporte(): Observable<DataPackage> {
+        return this.http.get<DataPackage>(this.designacionUrl+"/reporte"); // REST
+    }
+
 
     get(id: number): Observable<DataPackage> {
         return this.http.get<DataPackage>(this.designacionUrl + "/id/" + id);

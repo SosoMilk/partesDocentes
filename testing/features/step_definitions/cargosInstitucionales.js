@@ -94,38 +94,46 @@ Given('con horario para el {string}', function (dia) {
         this.cargo.horarios = [{
             id: 0,
             dia: dia,
-            hora: 13,
+            horaInicio: LocalTime.parse("13:00"),
+            horaFin: LocalTime.parse("14:00")
         }];
 
     } else {
         this.cargo.horarios = [{
             id: 0,
             dia: "Lunes",
-            hora: 13,
+            horaInicio: LocalTime.parse("13:00"),
+            horaFin: LocalTime.parse("14:00")
         }, {
             id: 0,
             dia: "Martes",
-            hora: 13,
+            horaInicio: LocalTime.parse("13:00"),
+            horaFin: LocalTime.parse("14:00")
         }, {
             id: 0,
             dia: "Miércoles",
-            hora: 13,
+            horaInicio: LocalTime.parse("13:00"),
+            horaFin: LocalTime.parse("14:00")
         }, {
             id: 0,
             dia: "Jueves",
-            hora: 13,
+            horaInicio: LocalTime.parse("13:00"),
+            horaFin: LocalTime.parse("14:00")
         }, {
             id: 0,
             dia: "Viernes",
-            hora: 13,
+            horaInicio: LocalTime.parse("13:00"),
+            horaFin: LocalTime.parse("14:00")
         }, {
             id: 0,
             dia: "Sábado",
-            hora: 13,
+            horaInicio: LocalTime.parse("13:00"),
+            horaFin: LocalTime.parse("14:00")
         }, {
             id: 0,
             dia: "Domingo",
-            hora: 13,
+            horaInicio: LocalTime.parse("13:00"),
+            horaFin: LocalTime.parse("14:00")
         }];
 
     }
