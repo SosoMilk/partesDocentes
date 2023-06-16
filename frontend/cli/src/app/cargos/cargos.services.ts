@@ -20,16 +20,8 @@ export class CargoService {
         return this.http.get<DataPackage>(this.cargoUrl); // REST
     }
 
-    allCalendario(horario: LocalTime, dia: String): Observable<DataPackage> {
-        const horaFormateada = horario.format(DateTimeFormatter.ofPattern('HH:mm'));
-
-        // Luego puedes enviar la hora formateada al backend
-        const params = new HttpParams()
-            .set('horario', horaFormateada)
-            .set('dia', dia);
-
-        return this.http.get<DataPackage>(this.cargoUrl, { params });
-        return this.http.get<DataPackage>(this.cargoUrl); // REST
+    allCalendario(horario: String, dia: String): Observable<DataPackage> {
+        return this.http.get<DataPackage>(this.cargoUrl+"/calendario/"+horario+"/"+dia); // REST
     }
 
     get(id: number): Observable<DataPackage> {

@@ -25,4 +25,8 @@ public interface DesignacionRepository extends CrudRepository<Designacion, Integ
     @Query("SELECT d.persona FROM Designacion d WHERE EXISTS (SELECT l FROM Licencia l WHERE l.persona = d.persona AND l.articulo = 3)")
     List<Persona> findReporte();
 
+//     @Query("SELECT e.persona, COUNT(l) FROM Designacion e JOIN e.licencias l " +
+//                 "GROUP BY e.persona ORDER BY COUNT(l) DESC")
+//         List<Object[]> findReporte();
+
 }

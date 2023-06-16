@@ -1,8 +1,8 @@
 import { Component } from "@angular/core";
-import { DIVISIONES } from "./mock-diviones";
-import { DivisionService } from "./divisiones.service";
-import { Division } from "./division";
 import { CargoService } from "../cargos/cargos.services";
+import { HorarioService } from "../horarios/horario.service";
+import { Horario } from "../horarios/horario";
+import { formatDate } from "@angular/common";
 
 @Component({
     selector: "app-calendario",
@@ -27,22 +27,55 @@ import { CargoService } from "../cargos/cargos.services";
                     </tr>
                 </tbody>
             </table>
-  `,
+    `,
     styles: [],
 })
 export class CalendarioComponent {
-    divisiones = DIVISIONES;
+    //divisiones = DIVISIONES;
+    //horarios: Horario[] = [];
+    dias = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes"];
+    horas: Horario [] = [];
+    tabla: any = {};
 
-    constructor(private divisionService: DivisionService,
-                private cargoService: CargoService) { }
+    constructor(
+                private cargoService: CargoService,
+                private horarioService: HorarioService) { }
 
     ngOnInit() {
-        this.getDivisiones();
+        this.getHoras();
     }
 
-    getDivisiones(): void {
-        this.divisionService.all()
-            .subscribe(dataPackage => this.divisiones = <Division[]>dataPackage.data);
+    getHoras(): void {
+        this.horarioService.all().subscribe(dataPackage => {
+            if (Array.isArray(dataPackage.data)) {
+                this.horas = dataPackage.data;
+                this.dias = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"];
+                this.cargarCalendario();
+            }
+        });
     }
 
+    cargarCalendario(): void {
+        if (this.horas.length > 0 && this.dias.length > 0) {
+            const horario = formatDate(new Date(), 'HH:mm', 'en-US');
+            const dia = this.dias[0];
+            const formattedHorario = encodeURIComponent(horario);
+            const formattedDia = encodeURIComponent(dia);
+
+            this.cargoService.allCalendario(formattedHorario, formattedDia)
+                .subscribe(dataPackage => {
+                    this.tabla = dataPackage.data;
+                });
+        }
+    }
+
+    getHorarios(): void {
+        this.horarioService.all().subscribe(
+            dataPackage => {
+                if (Array.isArray(dataPackage.data)) {
+                    this.horas = dataPackage.data;
+                }
+            }
+        );
+    }
 }

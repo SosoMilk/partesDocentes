@@ -41,6 +41,10 @@ public class DesignacionService {
         return repository.busquedaDesig(cargo, inicio, fin);
     }
 
+    // public List<Object[]> findResporte() {
+    //     return repository.findReporte();
+    // }
+
     public List<Persona> findResporte() {
         return repository.findReporte();
     }

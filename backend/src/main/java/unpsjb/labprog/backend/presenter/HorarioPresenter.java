@@ -1,5 +1,6 @@
 package unpsjb.labprog.backend.presenter;
 
+import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,12 @@ public class HorarioPresenter {
     @RequestMapping(value = "/semana", method = RequestMethod.GET)
     public ResponseEntity<Object> findSemana() {
         List<Horario> horarioOrNull = service.findSemana();
+        return Response.ok(horarioOrNull);
+    }
+
+    @RequestMapping(value = "/horarios", method = RequestMethod.GET)
+    public ResponseEntity<Object> horarios() {
+        List<LocalTime> horarioOrNull = service.horarios();
         return Response.ok(horarioOrNull);
     }
 

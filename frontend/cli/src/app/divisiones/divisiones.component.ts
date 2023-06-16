@@ -64,5 +64,3 @@ export class DivisionesComponent {
     //   }
     // }
 }
-
-//<a routerLink="/division/{{ division.anio }}">

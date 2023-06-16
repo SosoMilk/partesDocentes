@@ -1,5 +1,6 @@
 package unpsjb.labprog.backend.business;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,5 +37,9 @@ public class HorarioService {
 
     public Horario findDiaSemana(String dia) {
         return repository.dia(dia);
+    }
+
+    public List<LocalTime> horarios(){
+        return repository.horarios();
     }
 }

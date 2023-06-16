@@ -69,7 +69,6 @@ When('se presiona el botón de guardar cargo', function () {
 
 
 
-
 Given('el cargo institucional existente cuyo nombre es {string}', function (nombre) {
 
     const nombreCod = encodeURIComponent(nombre);
@@ -87,55 +86,44 @@ Given('el cargo institucional existente cuyo nombre es {string}', function (nomb
 
 });
 
+function createLocalTime(hours, minutes, seconds) {
+    return {
+        hours: hours,
+        minutes: minutes,
+        seconds: seconds
+    };
+}
+
+function getLocalTime(localTime) {
+    return {
+        hours: localTime.hours,
+        minutes: localTime.minutes,
+        seconds: localTime.seconds
+    };
+}
+
 Given('con horario para el {string}', function (dia) {
     // Write code here that turns the phrase above into concrete actions
+    let horaInicio = createLocalTime(13, 0, 0);
+    let horaFin = createLocalTime(13, 0, 0);
 
-    if (dia != "dia") {
+    if (dia !== "dia") {
         this.cargo.horarios = [{
             id: 0,
             dia: dia,
-            horaInicio: LocalTime.parse("13:00"),
-            horaFin: LocalTime.parse("14:00")
+            horaInicio: null,
+            horaFin: null
         }];
-
     } else {
-        this.cargo.horarios = [{
-            id: 0,
-            dia: "Lunes",
-            horaInicio: LocalTime.parse("13:00"),
-            horaFin: LocalTime.parse("14:00")
-        }, {
-            id: 0,
-            dia: "Martes",
-            horaInicio: LocalTime.parse("13:00"),
-            horaFin: LocalTime.parse("14:00")
-        }, {
-            id: 0,
-            dia: "Miércoles",
-            horaInicio: LocalTime.parse("13:00"),
-            horaFin: LocalTime.parse("14:00")
-        }, {
-            id: 0,
-            dia: "Jueves",
-            horaInicio: LocalTime.parse("13:00"),
-            horaFin: LocalTime.parse("14:00")
-        }, {
-            id: 0,
-            dia: "Viernes",
-            horaInicio: LocalTime.parse("13:00"),
-            horaFin: LocalTime.parse("14:00")
-        }, {
-            id: 0,
-            dia: "Sábado",
-            horaInicio: LocalTime.parse("13:00"),
-            horaFin: LocalTime.parse("14:00")
-        }, {
-            id: 0,
-            dia: "Domingo",
-            horaInicio: LocalTime.parse("13:00"),
-            horaFin: LocalTime.parse("14:00")
-        }];
-
+        this.cargo.horarios = [
+            { id: 0, dia: "Lunes", horaInicio: null, horaFin: null },
+            { id: 0, dia: "Martes", horaInicio: null, horaFin: null },
+            { id: 0, dia: "Miércoles", horaInicio: null, horaFin: null },
+            { id: 0, dia: "Jueves", horaInicio: null, horaFin: null },
+            { id: 0, dia: "Viernes", horaInicio: null, horaFin: null },
+            { id: 0, dia: "Sábado", horaInicio: null, horaFin: null },
+            { id: 0, dia: "Domingo", horaInicio: null, horaFin: null }
+        ];
     }
 
     return assert.ok(true);

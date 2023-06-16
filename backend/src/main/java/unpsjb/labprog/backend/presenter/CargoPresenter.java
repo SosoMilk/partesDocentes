@@ -49,7 +49,7 @@ public class CargoPresenter {
     }
 
     @RequestMapping(value = "/calendario/{horario}/{dia}", method = RequestMethod.GET)
-    public ResponseEntity<Object> cargosEnHorarioDia(@PathVariable("horario")LocalTime horario, @PathVariable("dia")String dia) {
+    public ResponseEntity<Object> cargosEnHorarioDia(@PathVariable("horario")String horario, @PathVariable("dia")String dia) {
         List<Cargo> cargoOrNull = service.cargosEnHorarioDia(horario, dia);
         return Response.ok(cargoOrNull);
     }

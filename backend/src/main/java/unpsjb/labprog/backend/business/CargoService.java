@@ -2,6 +2,7 @@ package unpsjb.labprog.backend.business;
 
 import java.sql.Date;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,8 +32,9 @@ public class CargoService {
         return repository.findAllByNom(nombre).orElse(null);
     }
 
-    public List<Cargo> cargosEnHorarioDia(LocalTime horario, String dia){
-        return repository.cargosEnHorarioDia(horario, dia);
+    public List<Cargo> cargosEnHorarioDia(String horario, String dia){
+        LocalTime horarioLocalTime = LocalTime.parse(horario, DateTimeFormatter.ofPattern("HH:mm"));
+        return repository.cargosEnHorarioDia(horarioLocalTime, dia);
     }
 
     @Transactional

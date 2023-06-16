@@ -1,7 +1,10 @@
+import { Time } from "@angular/common";
+
 export interface Horario {
 
     id: number,
     dia: string,
-    hora: number,
+    horaInicio: Date,
+    horaFin: Date
 
 }

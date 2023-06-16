@@ -8,6 +8,7 @@ import { Division } from "../divisiones/division";
 import { DivisionService } from "../divisiones/divisiones.service";
 import { ModalService } from "../modal.service";
 import { Horario } from "../horarios/horario";
+import { HorarioService } from "../horarios/horario.service";
 
 @Component({
     selector: "app-detail",
@@ -149,17 +150,25 @@ import { Horario } from "../horarios/horario";
               <tr *ngFor="let horario of cargo.horario; index as i">
                 <td>{{ i + 1 }}</td>
                 <td>
-                  <input
-                    name="dia{{ i }}"
-                    [(ngModel)]="horario.dia"
-                    class="form-control"
-                  />
+                  <div>
+                  <select
+                  [(ngModel)]="horario.dia"
+                  class="form-control"
+                >
+                  <option value="Lunes">Lunes</option>
+                  <option value="Martes">Martes</option>
+                  <option value="Miercoles">Miercoles</option>
+                  <option value="Jueves">Jueves</option>
+                  <option value="Viernes">Viernes</option>
+                </select>
+                </div>
                 </td>
                 <td>
                   <input
                     name="hora{{ i }}"
-                    [(ngModel)]="horario.hora"
+                    [(ngModel)]="horario.horaInicio"
                     class="form-control"
+                    type="time"
                   />
                 </td>
                 <td>
@@ -190,7 +199,8 @@ export class CarDetailComponent {
         private location: Location,
         private cargoService: CargoService,
         private divisionService: DivisionService,
-        private modalService: ModalService
+        private modalService: ModalService,
+        private horarioService: HorarioService
     ) {
      }
 
@@ -224,12 +234,6 @@ export class CarDetailComponent {
           }
         });
       }
-        // if (id === "new") {
-        //     this.cargo = <Cargos>{};
-        // } else {
-        //     this.cargoService.get(+id).subscribe(dataPackage =>
-        //         this.cargo = <Cargos>dataPackage.data);
-        // }
     }
 
     goBack(): void {
@@ -246,13 +250,29 @@ export class CarDetailComponent {
             this.cargo = <Cargos>dataPackage.data;
             this.goBack();
         });
+
+      if (this.cargo.horario && this.cargo.horario.length > 0) {
+        for (let horario of this.cargo.horario) {
+          this.horarioService.save(horario).subscribe(dataPackage => { //error aca
+            horario = <Horario>dataPackage.data;// Aquí puedes manejar la respuesta del backend, si es necesario
+          });
+        }
+      }
     }
 
   addHorario(): void {
     if (!this.cargo.horario) {
       this.cargo.horario = [];
     }
-    this.cargo.horario.push({ id: 0, dia: '', hora: 0 });
+
+    const nuevoHorario: Horario = {
+      id: 0,
+      dia: "",
+      horaInicio: new Date(),
+      horaFin: new Date()
+    };
+
+    this.cargo.horario.push(nuevoHorario);
   }
 
   removeHorario(horario: Horario): void {
