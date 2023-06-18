@@ -5,5 +5,5 @@ import unpsjb.labprog.backend.model.Licencia;
 
 public interface ValidadorLicencia {
     
-    public String validador(Licencia licencia, LicenciaRepository repository);
+    public String validador(Licencia licencia);
 }

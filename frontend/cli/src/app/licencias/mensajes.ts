@@ -29,3 +29,10 @@ export class TopeDosHandler extends BaseErrorHandler {
         return message.includes("debido a que supera el tope de 2 dias de licencias por mes");
     }
 }
+
+export class noDesignadoHandler extends BaseErrorHandler{
+    override canHandle(message: string): boolean {
+        return message.includes("debido a que el agente no tiene designación ese día en la institución");
+    }
+
+}

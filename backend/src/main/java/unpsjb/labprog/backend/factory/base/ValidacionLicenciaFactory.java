@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+
+import unpsjb.labprog.backend.business.LicenciaRepository;
+
 import java.util.Enumeration;
 
 public class ValidacionLicenciaFactory {
@@ -16,6 +19,8 @@ public class ValidacionLicenciaFactory {
 
     // Singleton
     private static ValidacionLicenciaFactory instance = null;
+
+    private static LicenciaRepository repository;
 
     private ValidacionLicenciaFactory(){
         mensajeMap = new HashMap<>();
@@ -36,7 +41,7 @@ public class ValidacionLicenciaFactory {
             name = (String) e.nextElement();
             try {
                 t = Class.forName(config.getProperty(name));               
-                mensajeMap.put(name, (ValidadorLicencia) t.getMethod("getInstance").invoke(null));
+                mensajeMap.put(name, (ValidadorLicencia) t.getMethod("getInstance").invoke(repository));
             } catch (ClassNotFoundException cnfe) {
                 System.err.println("No se encontró la clase: "+config.getProperty(name));
             } catch (NoSuchMethodException nsme){
@@ -47,7 +52,8 @@ public class ValidacionLicenciaFactory {
         }
     }
 
-    public static ValidacionLicenciaFactory getInstance() {
+    public static ValidacionLicenciaFactory getInstance(LicenciaRepository aRepository) {
+        repository = aRepository;
         if (instance == null)
             instance = new ValidacionLicenciaFactory();
         return instance;

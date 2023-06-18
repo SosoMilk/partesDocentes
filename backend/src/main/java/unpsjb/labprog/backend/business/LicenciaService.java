@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 import unpsjb.labprog.backend.factory.Validador;
 import unpsjb.labprog.backend.factory.base.ValidacionLicenciaFactory;
+import unpsjb.labprog.backend.factory.base.ValidadorLicencia;
 import unpsjb.labprog.backend.model.ArticuloLicencia;
 import unpsjb.labprog.backend.model.Licencia;
 import unpsjb.labprog.backend.model.Persona;
@@ -88,16 +89,15 @@ public class LicenciaService {
     }
 
     public String validacion(Licencia licencia) {
-        String response = "";
-        // ValidacionLicenciaFactory factory = ValidacionLicenciaFactory.getInstance();
+        // String response = "";
+        // ValidacionLicenciaFactory factory = ValidacionLicenciaFactory.getInstance(repository);
         // ValidadorLicencia command; // Ahora es una instancia de Command
 
         // command = factory.get(licencia.getArticulo().getArticulo());
 
-        // response = command.validador(licencia, repository);
+        // response = command.validador(licencia);
 
-        //response = Validador.validador(licencia, this);
+        // return response;
         return Validador.validador(licencia, this);
-        //return response;
     }
 }

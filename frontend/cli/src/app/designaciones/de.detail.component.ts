@@ -11,6 +11,8 @@ import { CargoService } from "../cargos/cargos.services";
 
 import { Observable, Subject, merge, OperatorFunction, of } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, filter, map, switchMap, tap } from 'rxjs/operators';
+import { errorFechaHandler, fechaOcupadaHandler, reemplazoHandler } from "./mensajes";
+import { ErrorHandler } from "../errorHandler";
 
 @Component({
     selector: "app-detail",
@@ -119,27 +121,17 @@ import { catchError, debounceTime, distinctUntilChanged, filter, map, switchMap,
           </div>
       </div>
 
-      <div *ngIf="fechaOcupada" class="alert alert-danger alert-dismissible fade show">
-          La fecha para este cargo institucional ya esta ocupada
-      <button 
-        type="button"
-        class="btn-close" 
-        aria-label="Close"
-        (click) = "fechaOcupada = false"
-      >
-      </button>
-    </div>
-
-        <div *ngIf="errorFecha" class="alert alert-danger alert-dismissible fade show">
-          La fecha que ingreso cuenta con un error.
-          <button 
-            type="button"
-            class="btn-close" 
-            aria-label="Close"
-            (click) = "errorFecha = false"
-          >
-          </button>
-        </div>
+        <ng-container *ngFor="let handler of errorHandlers; let i = index">
+          <div *ngIf="handler.displayError" class="alert alert-danger alert-dismissible fade show">
+            {{ respuesta }}
+            <button 
+              type="button"
+              class="btn-close" 
+              aria-label="Close"
+              (click)="handler.displayError = false"
+            ></button>
+          </div>
+        </ng-container>
 
       </form>
 
@@ -187,6 +179,13 @@ export class DeDetailComponent {
   errorFecha: boolean = false;
   searching: boolean = false;
   searchFailed: boolean = false;
+  errorHandled: boolean = false;
+  respuesta: string | undefined;
+  errorHandlers: ErrorHandler[] = [
+    new fechaOcupadaHandler(),
+    new errorFechaHandler(),
+    //new reemplazoHandler()
+  ];
 
 
     constructor(
@@ -195,7 +194,7 @@ export class DeDetailComponent {
         private designacionService: DesignacionService,
         private personaService: PersonaService,
         private cargoService: CargoService
-    ) { }
+    ) { this.respuesta = ""; }
 
     ngOnInit() {
         this.get();
@@ -218,14 +217,18 @@ export class DeDetailComponent {
     save(): void {
       this.fechaOcupada = false;
       this.errorFecha = false;
+      this.errorHandlers.forEach((handler) => (handler.displayError = false));
         this.designacionService.save(this.designacion).subscribe(dataPackage => {
-          if (dataPackage.message == "Existe un error en la seleccion de fechas"){
-            this.errorFecha = true;
+
+          for (const handler of this.errorHandlers) {
+            if (handler.handleError(dataPackage.message)) {
+              this.respuesta = dataPackage.message;
+              this.errorHandled = true;
+              break;
+            }
           }
 
-          if (dataPackage.message.includes(" NO ha sido designado/a ")){
-            this.fechaOcupada = true;
-          } else{
+          if (!this.errorHandled) {
             this.designacion = <Designaciones>dataPackage.data;
             this.goBack();
           }

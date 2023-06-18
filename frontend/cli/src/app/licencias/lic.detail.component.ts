@@ -10,7 +10,7 @@ import { Articulo } from "../articulos/articulo";
 import { ArticuloService } from "../articulos/articulos.service";
 import { Observable, catchError, debounceTime, distinctUntilChanged, map, of, switchMap, tap } from "rxjs";
 import { ErrorHandler } from "../errorHandler";
-import { NoCargoHandler, TopeDosHandler, TopeSeisHandler, TopeTreintaHandler, YaHayLicenciaFechaHandler } from "./mensajes";
+import { NoCargoHandler, TopeDosHandler, TopeSeisHandler, TopeTreintaHandler, YaHayLicenciaFechaHandler, noDesignadoHandler } from "./mensajes";
 
 
 @Component({
@@ -103,60 +103,17 @@ import { NoCargoHandler, TopeDosHandler, TopeSeisHandler, TopeTreintaHandler, Ya
             </form>
         </div>
 
-        <div *ngIf="errorHandlers[0].displayError" class="alert alert-danger alert-dismissible fade show">
-          La persona ya habia solicitado una licencia para la fecha.
-          <button 
-            type="button"
-            class="btn-close" 
-            aria-label="Close"
-            (click) = "errorHandlers[0].displayError = false"
-          >
-          </button>
-        </div>
-
-        <div *ngIf="errorHandlers[1].displayError" class="alert alert-danger alert-dismissible fade show">
-          La persona ya tomo los 6 dias de licencias por año correpondientes.
-          <button 
-            type="button"
-            class="btn-close" 
-            aria-label="Close"
-            (click) = "errorHandlers[1].displayError = false"
-          >
-          </button>
-        </div>
-
-        <div *ngIf="errorHandlers[2].displayError" class="alert alert-danger alert-dismissible fade show">
-          La persona supera el limite de 30 dias de licencia.
-          <button 
-            type="button"
-            class="btn-close" 
-            aria-label="Close"
-            (click) = "errorHandlers[2].displayError = false"
-          >
-          </button>
-        </div>
-
-        <div *ngIf="errorHandlers[3].displayError" class="alert alert-danger alert-dismissible fade show">
-          La persona no posee un cargo en la institucion.
-          <button 
-            type="button"
-            class="btn-close" 
-            aria-label="Close"
-            (click) = "errorHandlers[3].displayError = false"
-          >
-          </button>
-        </div>
-
-        <div *ngIf="errorHandlers[4].displayError" class="alert alert-danger alert-dismissible fade show">
-          La persona ya se tomo 2 dias de licencia por mes.
-          <button 
-            type="button"
-            class="btn-close" 
-            aria-label="Close"
-            (click) = "errorHandlers[4].displayError = false"
-          >
-          </button>
-        </div>
+       <ng-container *ngFor="let handler of errorHandlers; let i = index">
+          <div *ngIf="handler.displayError" class="alert alert-danger alert-dismissible fade show">
+            {{ respuesta }}
+            <button 
+              type="button"
+              class="btn-close" 
+              aria-label="Close"
+              (click)="handler.displayError = false"
+            ></button>
+          </div>
+        </ng-container>
    
     `,
   styles: [
@@ -203,20 +160,17 @@ export class LicDetailComponent {
   licencia!: Licencia;
   personaes: Persona[] = [];
   articulos: Articulo[] = [];
-  fechaOcupada: boolean = false;
-  yaHayLicenciaFecha: boolean = false;
-  topeSeis: Boolean = false;
-  topeTreinta: Boolean = false;
-  noCargo: Boolean = false;
-  topeDos: Boolean = false;
   searching: boolean = false;
   searchFailed: boolean = false;
+  errorHandled: boolean = false;
+  respuesta: string | undefined;
   errorHandlers: ErrorHandler[] = [
     new YaHayLicenciaFechaHandler(),
     new TopeSeisHandler(),
     new TopeTreintaHandler(),
     new NoCargoHandler(),
-    new TopeDosHandler()
+    new TopeDosHandler(),
+    new noDesignadoHandler()
   ];
 
   constructor(
@@ -226,7 +180,7 @@ export class LicDetailComponent {
     private licenciaService: LicenciaService,
     private personaService: PersonaService,
     private articuloService: ArticuloService
-  ) { }
+  ) { this.respuesta = "";}
 
   ngOnInit() {
     this.getArticulos();
@@ -262,16 +216,15 @@ export class LicDetailComponent {
     this.licenciaService.save(this.licencia).subscribe((dataPackage) => {
       console.log(dataPackage.message);
 
-      let errorHandled = false;
-
       for (const handler of this.errorHandlers) {
         if (handler.handleError(dataPackage.message)) {
-          errorHandled = true;
+          this.respuesta = dataPackage.message;
+          this.errorHandled = true;
           break;
         }
       }
 
-      if (!errorHandled) {
+      if (!this.errorHandled) {
         this.licencia = <Licencia>dataPackage.data;
         this.goBack();
       }

@@ -12,7 +12,7 @@ import unpsjb.labprog.backend.model.Persona;
 public class Validacion36A implements ValidadorLicencia {
     
 
-    private LicenciaRepository repository;
+    private static LicenciaRepository repository;
 
     private String response = "";
     private Boolean valido = true;
@@ -21,16 +21,15 @@ public class Validacion36A implements ValidadorLicencia {
 
     private Validacion36A(){}
 
-    public static Validacion36A getInstance() {
+    public static Validacion36A getInstance(LicenciaRepository aRepository) {
+        repository = aRepository;
         if (instance == null)
             instance = new Validacion36A();
         return instance;
     }
     
     @Override
-    public String validador(Licencia licencia, LicenciaRepository repository) {
-        this.repository = repository;
-
+    public String validador(Licencia licencia) {
         if (!poseeCargo(licencia.getPersona()) && valido) {
             valido = false; 
             response = ("NO se otorga Licencia artículo " + licencia.getArticulo().getArticulo()

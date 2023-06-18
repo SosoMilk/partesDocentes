@@ -1,6 +1,5 @@
 package unpsjb.labprog.backend.presenter;
 
-import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
