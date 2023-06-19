@@ -15,66 +15,56 @@ public class Validacion36A implements ValidadorLicencia {
     private static LicenciaRepository repository;
 
     private String response = "";
-    private Boolean valido = true;
 
     private static Validacion36A instance = null;
 
     private Validacion36A(){}
 
     public static Validacion36A getInstance(LicenciaRepository aRepository) {
-        repository = aRepository;
-        if (instance == null)
+        if (instance == null){
             instance = new Validacion36A();
+        }
+
+        instance.repository = aRepository;
         return instance;
     }
     
     @Override
-    public String validador(Licencia licencia) {
-        if (!poseeCargo(licencia.getPersona()) && valido) {
-            valido = false; 
-            response = ("NO se otorga Licencia artículo " + licencia.getArticulo().getArticulo()
+    public String validador(Licencia licencia, LicenciaRepository aRepository) {
+        repository = aRepository;
+
+        if (!poseeCargo(licencia.getPersona())) { 
+            return ("NO se otorga Licencia artículo " + licencia.getArticulo().getArticulo()
                             + " a " + licencia.getPersona().getNombre() + " " + licencia.getPersona().getApellido()
                             + " debido a que el agente no posee ningún cargo en la institución");
         }
 
-        if (!desigXDia(licencia.getPersona(), licencia.getPedidoDesde()) && valido) {
-            valido = false; 
-            response = ("NO se otorga Licencia artículo " + licencia.getArticulo().getArticulo()
+        if (!desigXDia(licencia.getPersona(), licencia.getPedidoDesde())) { 
+            return ("NO se otorga Licencia artículo " + licencia.getArticulo().getArticulo()
                             + " a " + licencia.getPersona().getNombre() + " " + licencia.getPersona().getApellido()
                             + " debido a que el agente no tiene designación ese día en la institución");
         }
 
-        if (!validarTopeDiasLicencia(licencia.getPedidoDesde(), licencia.getPedidoHasta()) && valido) { 
-            valido = false;
-            response = ("NO se otorga Licencia artículo " + licencia.getArticulo().getArticulo()
-                            + " a " + licencia.getPersona().getNombre() + " " + licencia.getPersona().getApellido()
-                            + " debido a que supera el tope de 30 días de licencia");
-        }
-
-        if (mismosDiasLicencia(licencia.getPersona(), licencia.getPedidoHasta(), licencia.getPedidoDesde()) && valido) { 
-            valido = false;
-            response = ("NO se otorga Licencia artículo " + licencia.getArticulo().getArticulo() + " a "
+        if (mismosDiasLicencia(licencia.getPersona(), licencia.getPedidoHasta(), licencia.getPedidoDesde())) { 
+            return ("NO se otorga Licencia artículo " + licencia.getArticulo().getArticulo() + " a "
                             + licencia.getPersona().getNombre() + " " + licencia.getPersona().getApellido()
                             + " debido a que ya posee una licencia en el mismo período");
         }
 
-        if (!cantLicenciasXMes(licencia.getPersona(), licencia.getPedidoDesde(), licencia.getPedidoHasta()) && valido) {
-            valido = false;
-            response = ("NO se otorga Licencia artículo "
+        if (!cantLicenciasXMes(licencia.getPersona(), licencia.getPedidoDesde(), licencia.getPedidoHasta())) {
+            return ("NO se otorga Licencia artículo "
             + licencia.getArticulo().getArticulo() + " a " + licencia.getPersona().getNombre() + " "
             + licencia.getPersona().getApellido()
             + " debido a que supera el tope de 2 dias de licencias por mes");
         }
         
-        if (!cantLicenciasXAño(licencia.getPersona(), licencia.getPedidoDesde(), licencia.getPedidoHasta()) && valido) {
-            valido = false;
-            response = ("NO se otorga Licencia artículo "
+        if (!cantLicenciasXAño(licencia.getPersona(), licencia.getPedidoDesde(), licencia.getPedidoHasta())) {
+            return ("NO se otorga Licencia artículo "
             + licencia.getArticulo().getArticulo() + " a " + licencia.getPersona().getNombre() + " "
             + licencia.getPersona().getApellido()
             + " debido a que supera el tope de 6 dias de licencias por año");
         }
         
-        //return "soy 36A";
         return response;
     }
     
@@ -119,16 +109,6 @@ public class Validacion36A implements ValidadorLicencia {
                 System.err.println("fallo en el cargo");
             }
             return repository.poseeCargo(persona);
-        }
-
-        private Boolean validarTopeDiasLicencia(Date desde, Date hasta) {
-            if (repository == null) {
-                System.err.println("fallo en el tope");
-            }
-            LocalDate localDateDesde = desde.toLocalDate();
-            LocalDate localDateHasta = hasta.toLocalDate();
-            long diasLicencia = ChronoUnit.DAYS.between(localDateDesde, localDateHasta) + 1;
-            return diasLicencia <= 30;
         }
 
         private Boolean mismosDiasLicencia(Persona persona, Date pedidoHasta, Date pedidoDesde) {

@@ -55,43 +55,43 @@ public class LicenciaService {
         return repository.findAllByPADH(persona, articulo, desde, hasta);
     }
 
-    public Boolean mismosDiasLicencia(Persona persona, Date pedidoHasta, Date pedidoDesde){
-        return repository.mismosDiasLicencia(persona, pedidoDesde, pedidoHasta);
-    }
+    // public Boolean mismosDiasLicencia(Persona persona, Date pedidoHasta, Date pedidoDesde){
+    //     return repository.mismosDiasLicencia(persona, pedidoDesde, pedidoHasta);
+    // }
 
-    public Boolean poseeCargo(Persona persona){
-        return repository.poseeCargo(persona);
-    }
+    // public Boolean poseeCargo(Persona persona){
+    //     return repository.poseeCargo(persona);
+    // }
 
-    public Boolean cantLicenciasXMes(Persona persona, Date pedidoDesde, Date pedidoHasta){
-        Integer result = repository.cantLicenciasMes(persona, pedidoDesde.toString().substring(5, 7),
-                pedidoDesde.toString().substring(0, 4));
-        int cantLicencias = result != null ? result : 0;
-        LocalDate localDateDesde = pedidoDesde.toLocalDate();
-        LocalDate localDateHasta = pedidoHasta.toLocalDate();
-        int totalDias = cantLicencias + (int) ChronoUnit.DAYS.between(localDateDesde, localDateHasta) + 1;
-        return totalDias <= 2;
-    }
+    // public Boolean cantLicenciasXMes(Persona persona, Date pedidoDesde, Date pedidoHasta){
+    //     Integer result = repository.cantLicenciasMes(persona, pedidoDesde.toString().substring(5, 7),
+    //             pedidoDesde.toString().substring(0, 4));
+    //     int cantLicencias = result != null ? result : 0;
+    //     LocalDate localDateDesde = pedidoDesde.toLocalDate();
+    //     LocalDate localDateHasta = pedidoHasta.toLocalDate();
+    //     int totalDias = cantLicencias + (int) ChronoUnit.DAYS.between(localDateDesde, localDateHasta) + 1;
+    //     return totalDias <= 2;
+    // }
 
-    public Boolean cantLicenciasXAño(Persona persona, Date pedidoDesde, Date pedidoHasta) {
-        Integer result = repository.cantLicenciasAño(persona, pedidoDesde.toString().substring(0, 4));
-        int cantLicencias = result != null ? result : 0;
-        LocalDate localDateDesde = pedidoDesde.toLocalDate();
-        LocalDate localDateHasta = pedidoHasta.toLocalDate();
-        int totalDias = cantLicencias + (int) ChronoUnit.DAYS.between(localDateDesde, localDateHasta) + 1;
-        return totalDias <= 6;
-    }
+    // public Boolean cantLicenciasXAño(Persona persona, Date pedidoDesde, Date pedidoHasta) {
+    //     Integer result = repository.cantLicenciasAño(persona, pedidoDesde.toString().substring(0, 4));
+    //     int cantLicencias = result != null ? result : 0;
+    //     LocalDate localDateDesde = pedidoDesde.toLocalDate();
+    //     LocalDate localDateHasta = pedidoHasta.toLocalDate();
+    //     int totalDias = cantLicencias + (int) ChronoUnit.DAYS.between(localDateDesde, localDateHasta) + 1;
+    //     return totalDias <= 6;
+    // }
 
-    public Boolean desigXDia(Persona persona, Date desde){
-        return repository.desigXDia(persona, desde);
-    }
+    // public Boolean desigXDia(Persona persona, Date desde){
+    //     return repository.desigXDia(persona, desde);
+    // }
 
-    public Boolean validarTopeDiasLicencia(Date desde, Date hasta) {
-        LocalDate localDateDesde = desde.toLocalDate();
-        LocalDate localDateHasta = hasta.toLocalDate();
-        long diasLicencia = ChronoUnit.DAYS.between(localDateDesde, localDateHasta) + 1;
-        return diasLicencia <= 30;
-    }
+    // public Boolean validarTopeDiasLicencia(Date desde, Date hasta) {
+    //     LocalDate localDateDesde = desde.toLocalDate();
+    //     LocalDate localDateHasta = hasta.toLocalDate();
+    //     long diasLicencia = ChronoUnit.DAYS.between(localDateDesde, localDateHasta) + 1;
+    //     return diasLicencia <= 30;
+    // }
 
     public List<Licencia> parteDiario(String fecha) throws ParseException{
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -99,15 +99,15 @@ public class LicenciaService {
     }
 
     public String validacion(Licencia licencia) {
-        // String response = "";
-        // ValidacionLicenciaFactory factory = ValidacionLicenciaFactory.getInstance(repository);
-        // ValidadorLicencia command; // Ahora es una instancia de Command
+        String response = "";
+        ValidacionLicenciaFactory factory = ValidacionLicenciaFactory.getInstance(repository);
+        ValidadorLicencia command; // Ahora es una instancia de Command
 
-        // command = factory.get(licencia.getArticulo().getArticulo());
+        command = factory.get(licencia.getArticulo().getArticulo());
 
-        // response = command.validador(licencia);
+        response = command.validador(licencia, repository);
 
-        // return response;
-        return Validador.validador(licencia, this);
+        return response;
+        //return Validador.validador(licencia, this);
     }
 }

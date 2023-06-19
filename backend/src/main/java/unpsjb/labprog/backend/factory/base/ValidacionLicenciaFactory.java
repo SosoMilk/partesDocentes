@@ -20,7 +20,7 @@ public class ValidacionLicenciaFactory {
     // Singleton
     private static ValidacionLicenciaFactory instance = null;
 
-    private static LicenciaRepository repository;
+    private LicenciaRepository repository;
 
     private ValidacionLicenciaFactory(){
         mensajeMap = new HashMap<>();
@@ -41,7 +41,9 @@ public class ValidacionLicenciaFactory {
             name = (String) e.nextElement();
             try {
                 t = Class.forName(config.getProperty(name));               
-                mensajeMap.put(name, (ValidadorLicencia) t.getMethod("getInstance").invoke(repository));
+                //mensajeMap.put(name, (ValidadorLicencia) t.getMethod("getInstance").invoke(repository));
+                mensajeMap.put(name, (ValidadorLicencia) t.getMethod("getInstance", LicenciaRepository.class)
+                        .invoke(null, repository));
             } catch (ClassNotFoundException cnfe) {
                 System.err.println("No se encontró la clase: "+config.getProperty(name));
             } catch (NoSuchMethodException nsme){
@@ -53,9 +55,11 @@ public class ValidacionLicenciaFactory {
     }
 
     public static ValidacionLicenciaFactory getInstance(LicenciaRepository aRepository) {
-        repository = aRepository;
-        if (instance == null)
+        if (instance == null) {
             instance = new ValidacionLicenciaFactory();
+        }
+
+        instance.repository = aRepository;
         return instance;
     }
 

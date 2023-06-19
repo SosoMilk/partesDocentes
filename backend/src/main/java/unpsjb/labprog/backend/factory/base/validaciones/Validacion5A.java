@@ -16,46 +16,44 @@ public class Validacion5A implements ValidadorLicencia{
     private static LicenciaRepository repository;
 
     private String response = "";
-    private Boolean valido = true;
 
     private static Validacion5A instance = null;
 
     private Validacion5A(){}
 
     public static Validacion5A getInstance(LicenciaRepository aRepository) {
-        repository = aRepository;
-        if (instance == null)
+        if (instance == null){
             instance = new Validacion5A();
+        }
+
+        instance.repository = aRepository;
         return instance;
     }
 
     @Override
-    public String validador(Licencia licencia) {
+    public String validador(Licencia licencia, LicenciaRepository aRepository) {
+        repository = aRepository;
 
-        if (!poseeCargo(licencia.getPersona()) && valido) {
-            valido = false;
-            response = ("NO se otorga Licencia artículo " + licencia.getArticulo().getArticulo()
+        if (!poseeCargo(licencia.getPersona())) {
+            return ("NO se otorga Licencia artículo " + licencia.getArticulo().getArticulo()
                     + " a " + licencia.getPersona().getNombre() + " " + licencia.getPersona().getApellido()
                     + " debido a que el agente no posee ningún cargo en la institución");
         }
 
-        if (!desigXDia(licencia.getPersona(), licencia.getPedidoDesde()) && valido) {
-            valido = false;
-            response = ("NO se otorga Licencia artículo " + licencia.getArticulo().getArticulo()
+        if (!desigXDia(licencia.getPersona(), licencia.getPedidoDesde())) {
+            return ("NO se otorga Licencia artículo " + licencia.getArticulo().getArticulo()
                     + " a " + licencia.getPersona().getNombre() + " " + licencia.getPersona().getApellido()
                     + " debido a que el agente no tiene designación ese día en la institución");
         }
 
-        if (!validarTopeDiasLicencia(licencia.getPedidoDesde(), licencia.getPedidoHasta()) && valido) {
-            valido = false;
-            response = ("NO se otorga Licencia artículo " + licencia.getArticulo().getArticulo()
+        if (!validarTopeDiasLicencia(licencia.getPedidoDesde(), licencia.getPedidoHasta())) {
+            return ("NO se otorga Licencia artículo " + licencia.getArticulo().getArticulo()
                     + " a " + licencia.getPersona().getNombre() + " " + licencia.getPersona().getApellido()
                     + " debido a que supera el tope de 30 días de licencia");
         }
 
-        if (mismosDiasLicencia(licencia.getPersona(), licencia.getPedidoHasta(), licencia.getPedidoDesde()) && valido) {
-            valido = false;
-            response = ("NO se otorga Licencia artículo " + licencia.getArticulo().getArticulo() + " a "
+        if (mismosDiasLicencia(licencia.getPersona(), licencia.getPedidoHasta(), licencia.getPedidoDesde())) {
+            return ("NO se otorga Licencia artículo " + licencia.getArticulo().getArticulo() + " a "
                     + licencia.getPersona().getNombre() + " " + licencia.getPersona().getApellido()
                     + " debido a que ya posee una licencia en el mismo período");
         }

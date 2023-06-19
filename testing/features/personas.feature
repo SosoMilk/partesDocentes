@@ -222,7 +222,6 @@ Entonces el sistema responde
          "Docentes": [
             {"CUIL": "90991000000", "Nombre": "Ermenegildo", "Apellido": "Sábat","Artículo": "5A", "Descripción": "ENFERMEDAD DE CORTA EVOLUCIÓN","Desde": "2023-05-07", "Hasta": "2023-05-17"},
             {"CUIL": "20202002009", "Nombre": "Susana", "Apellido": "Álvarez","Artículo": "5A", "Descripción": "ENFERMEDAD DE CORTA EVOLUCIÓN","Desde": "2023-05-12", "Hasta": "2023-05-30"},
-            {"CUIL": "22993000000", "Nombre": "Homero", "Apellido": "Manzi","Artículo": "36A", "Descripción": "ASUNTOS PARTICULARES","Desde": "2023-05-08", "Hasta": "2023-05-08"},
             {"CUIL": "27101001009", "Nombre": "ALberto", "Apellido": "Lopez","Artículo": "36A", "Descripción": "ASUNTOS PARTICULARES","Desde": "2023-05-15", "Hasta": "2023-05-15"},
             {"CUIL": "11992000000", "Nombre": "María Rosa", "Apellido": "Gallo","Artículo": "36A", "Descripción": "ASUNTOS PARTICULARES","Desde": "2023-05-15", "Hasta": "2023-05-15"},
             {"CUIL": "20200000009", "Nombre": "Rosalía", "Apellido": "Fernandez","Artículo": "36A", "Descripción": "ASUNTOS PARTICULARES","Desde": "2023-05-15", "Hasta": "2023-05-15"}
