@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { Licencia } from "./licencia";
 import { LicenciaService } from "./licencias.service";
+import { ModalService } from "../modal.service";
 
 @Component({
     selector: "app-licencias",
@@ -42,7 +43,12 @@ import { LicenciaService } from "./licencias.service";
                 <i class="fa fa-pencil mx-2"></i>
                 </a>
               
+                <button
+                    (click)="eliminarLicencia(licencia)"
+                    class="btn btn-default"
+                  >
                 <i class="fa fa-trash-o text-danger mx-2 "></i>
+                </button>
             </td>
           </tr>
         </tbody>
@@ -54,7 +60,8 @@ import { LicenciaService } from "./licencias.service";
 export class LicenciasComponent {
     licencias: Licencia[] = [];;
 
-    constructor(private licenciaService: LicenciaService) { }
+    constructor(private licenciaService: LicenciaService,
+                private modalService: ModalService) { }
 
     ngOnInit() {
       this.getlicencias();
@@ -65,10 +72,19 @@ export class LicenciasComponent {
             .subscribe(dataPackage => this.licencias = <Licencia[]>dataPackage.data);
     }
 
-    // eliminarPersona(persona: Persona): void {
-    //   if (confirm(`¿Está seguro de que desea eliminar a ${persona.Nombre} ${persona.Apellido}?`)) {
-    //     this.personaService.delete(persona.Dni).subscribe(() => {this.personas = this.personas.filter((p) => p !== persona);
-    //     });
-    //   }
-    // }
+  eliminarLicencia(licencia: Licencia): void {
+    this.modalService.confirm(
+      "Eliminar licencia",
+      "¿Está seguro de borrar esta licencia?",
+      "El cambio no se confirmará hasta que no guarde el cargo."
+    ).then(() => {
+            this.licenciaService.delete(licencia).subscribe((dataPackage) => {
+              this.licencias = this.licencias.filter((p) => p !== licencia);
+          console.log(dataPackage.message);
+        });
+      
+    });
+    console.log("no funcionaaaaa");
+  }
+
 }

@@ -24,7 +24,7 @@ export class PersonaService {
 
 
     get(id: number): Observable<DataPackage> {
-        return this.http.get<DataPackage>(this.personasUrl + "/id/"+id); //
+        return this.http.get<DataPackage>(`${this.personasUrl}/id/${id}`); //
     }
 
     save(persona: Persona): Observable<DataPackage> {
@@ -39,7 +39,7 @@ export class PersonaService {
     }
     
     delete(persona: Persona): Observable<DataPackage>{
-        return this.http.delete<DataPackage>(`${this.personasUrl}/${persona.cuit}`);
+        return this.http.delete<DataPackage>(`${this.personasUrl}/id/${persona.id}`);
     }
 
     search(text: string): Observable<DataPackage> {

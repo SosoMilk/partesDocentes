@@ -58,6 +58,12 @@ public class DivisionPresenter {
         } catch (DataIntegrityViolationException e) {
             return Response.response(HttpStatus.CONFLICT, "La division ya existe", null);
         }
+    }
 
+    @RequestMapping(value = "/id/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Object> delete(@PathVariable("id") int id) {
+        Division division = service.findById(id);
+        return (division != null) ? Response.ok(service.delete(id), "division eliminada")
+                : Response.notFound("no se puede eliminar");
     }
 }

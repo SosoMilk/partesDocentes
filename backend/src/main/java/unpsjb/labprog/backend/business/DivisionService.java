@@ -33,4 +33,13 @@ public class DivisionService {
     public Division save(Division division) {
         return repository.save(division);
     }
+
+    @Transactional
+    public Division delete(int id) {
+        Division division = findById(id);
+        if (division != null)
+            repository.delete(division);
+
+        return division;
+    }
 }

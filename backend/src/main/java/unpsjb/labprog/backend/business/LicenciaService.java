@@ -40,6 +40,16 @@ public class LicenciaService {
     public Licencia save(Licencia licencia) {
         return repository.save(licencia);
     }
+
+    @Transactional
+    public Licencia delete(int id) {
+        Licencia licencia = findById(id);
+        
+        if (licencia != null)
+            repository.delete(licencia);
+
+        return licencia;
+    }
     
     public Optional<Licencia> findByPADH(Persona persona, ArticuloLicencia articulo, Date desde, Date hasta) {
         return repository.findAllByPADH(persona, articulo, desde, hasta);

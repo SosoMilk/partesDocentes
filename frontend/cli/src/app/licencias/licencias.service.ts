@@ -30,7 +30,7 @@ export class LicenciaService {
     }
 
     get(id: number): Observable<DataPackage> {
-        return this.http.get<DataPackage>(this.licenciasUrl + "/id/" + id); //
+        return this.http.get<DataPackage>(`${this.licenciasUrl}/id/${id}`); //
     }
 
     save(licencia: Licencia): Observable<DataPackage> {
@@ -38,7 +38,7 @@ export class LicenciaService {
     }
 
     delete(licencia: Licencia): Observable<DataPackage> {
-        return this.http.delete<DataPackage>(`${this.licenciasUrl}/${licencia.id}`); //esto cambiar a otra cosa
+        return this.http.delete<DataPackage>(`${this.licenciasUrl}/id/${licencia.id}`);
     }
 
 }

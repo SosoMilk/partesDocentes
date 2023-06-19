@@ -33,6 +33,15 @@ public class DesignacionService {
         return repository.save(Designacion);
     }
 
+    @Transactional
+    public Designacion delete(int id) {
+        Designacion designacion = findById(id);
+        if (designacion != null)
+            repository.delete(designacion);
+
+        return designacion;
+    }
+
     public List<Designacion> consultaFechaCargo(Cargo nombre, Date fechaInicio, Date fechaFin) {
         return repository.consultaFecha(nombre, fechaInicio, fechaFin);
     }

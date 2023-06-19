@@ -35,8 +35,9 @@ export class CargoService {
     search(text: string): Observable<DataPackage> {
         return this.http.get<DataPackage>(`${this.cargoUrl}/search/${text}`);
     }
-    // delete(id: number): void{
-    //     dCargoS.splice(dCargoS.findIndex(dCargo => dCargo.Dni == dCargo.Dni)!);
-    // }
+
+    delete(cargo: Cargos): Observable<DataPackage> {
+        return this.http.delete<DataPackage>(`${this.cargoUrl}/id/${cargo.id}`);
+    }
 
 }

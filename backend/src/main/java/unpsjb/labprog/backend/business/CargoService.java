@@ -48,4 +48,13 @@ public class CargoService {
     public List<Cargo> findByTip(String tipo) {
         return repository.findAllByTip(tipo);
     }
+
+    @Transactional
+    public Cargo delete(int id) {
+        Cargo cargo = findById(id);
+        if (cargo != null)
+            repository.delete(cargo);
+
+        return cargo;
+    }
 }

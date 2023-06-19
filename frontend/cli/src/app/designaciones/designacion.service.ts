@@ -32,8 +32,8 @@ export class DesignacionService {
         return this.http.post<DataPackage>(this.designacionUrl, designacion);
     }
 
-    // delete(id: number): void{
-    //     dCargoS.splice(dCargoS.findIndex(dCargo => dCargo.Dni == dCargo.Dni)!);
-    // }
+    delete(designacion: Designaciones): Observable<DataPackage> {
+        return this.http.delete<DataPackage>(`${this.designacionUrl}/id/${designacion.id}`);
+    }
 
 }

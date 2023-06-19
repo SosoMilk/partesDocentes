@@ -75,16 +75,10 @@ public class PersonaPresenter {
 
     }
 
-    @RequestMapping(value = "/{cuit}", method = RequestMethod.DELETE)
-    public ResponseEntity<Object> delete(@PathVariable("cuit") String cuit) {
-        return (service.delete(cuit) != null) ? Response.ok(null, "Persona eliminada correctamente")
-                : Response.notFound("la persona con cuil " + cuit + " no existe");
+    @RequestMapping(value = "/id/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Object> delete(@PathVariable("id") int id) {
+    Persona apersonaOrNull = service.findById(id);
+    return (apersonaOrNull != null) ? Response.ok(service.delete(id), "persona eliminada") :
+    Response.notFound("no se puede eliminar");
     }
-
-    // @RequestMapping(method = RequestMethod.DELETE)
-    // public ResponseEntity<Object> delete(@PathVariable("id") int id) {
-    // Persona apersonaOrNull = service.findById(id);
-    // return (apersonaOrNull != null) ? Response.ok(apersonaOrNull) :
-    // Response.notFound();
-    // }
 }

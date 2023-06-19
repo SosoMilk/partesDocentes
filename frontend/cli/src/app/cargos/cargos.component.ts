@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { CargoService } from "./cargos.services";
 import { Cargos } from "./cargo";
+import { ModalService } from "../modal.service";
 
 @Component({
     selector: "app-cargo",
@@ -8,6 +9,9 @@ import { Cargos } from "./cargo";
     <h2>cargos&nbsp;
       <a routerLink="/cargo/new" class="btn btn-success float-right">Nuevo</a>
     </h2>
+    
+    <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show">{{ errorMessage }}</div>
+
     <div class="table-responsive">
       <table class="table table-striped table-sm">
         <thead>
@@ -41,7 +45,12 @@ import { Cargos } from "./cargo";
                 <i class="fa fa-pencil mx-2"></i>
                 </a>
               
+                <button
+                    (click)="eliminarCargo(cargo)"
+                    class="btn btn-default"
+                  >
                 <i class="fa fa-trash-o text-danger mx-2 "></i>
+                </button>
             </td>
           </tr>
         </tbody>
@@ -51,9 +60,11 @@ import { Cargos } from "./cargo";
     styles: [],
 })
 export class CargosComponent {
-    cargos : Cargos[] = [];
+  cargos : Cargos[] = [];
+  errorMessage: string | undefined;
 
-    constructor(private cargoService: CargoService) { }
+    constructor(private cargoService: CargoService,
+      private modalService: ModalService) { }
 
     ngOnInit() {
         this.getCargos();
@@ -64,10 +75,26 @@ export class CargosComponent {
             .subscribe(dataPackage => this.cargos = <Cargos[]>dataPackage.data);
     }
 
-    // eliminarPersona(persona: Persona): void {
-    //   if (confirm(`¿Está seguro de que desea eliminar a ${persona.Nombre} ${persona.Apellido}?`)) {
-    //     this.personaService.delete(persona.Dni).subscribe(() => {this.personas = this.personas.filter((p) => p !== persona);
-    //     });
-    //   }
-    // }
+  eliminarCargo(cargo: Cargos): void {
+    this.modalService
+      .confirm(
+        "Eliminar cargo",
+        "¿Está seguro de borrar este cargo?",
+        ""
+      )
+      .then(() => {
+        this.cargoService.delete(cargo).subscribe(
+          (dataPackage) => {
+            this.cargos = this.cargos.filter((p) => p !== cargo);
+            console.log(dataPackage.message);
+          },
+          (error) => {
+            if (error.status === 500) {
+              this.errorMessage = 'No es posible eliminar el cargo ' + cargo.nombre + ' porque ya tiene una persona designada.';
+            }
+          }
+        );
+      });
+    console.log("no funcionaaaaa");
+  }
 }

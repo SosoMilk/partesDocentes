@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { DesignacionService } from "./designacion.service";
 import { Designaciones } from "./designacion";
+import { ModalService } from "../modal.service";
 
 @Component({
     selector: "app-designacion",
@@ -8,6 +9,9 @@ import { Designaciones } from "./designacion";
     <h2>designaciones&nbsp;
       <a routerLink="/designacion/new" class="btn btn-success float-right">Nuevo</a>
     </h2>
+
+    <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show">{{ errorMessage }}</div>
+
     <div class="table-responsive">
       <table class="table table-striped table-sm">
         <thead>
@@ -41,7 +45,12 @@ import { Designaciones } from "./designacion";
                 <i class="fa fa-pencil mx-2"></i>
                 </a>
               
+                <button
+                    (click)="eliminarDesignacion(designacion)"
+                    class="btn btn-default"
+                  >
                 <i class="fa fa-trash-o text-danger mx-2 "></i>
+                </button>
             </td>
           </tr>
         </tbody>
@@ -51,9 +60,11 @@ import { Designaciones } from "./designacion";
     styles: [],
 })
 export class DesignacionesComponent {
-  designaciones: Designaciones[] = [];;
+  designaciones: Designaciones[] = [];
+  errorMessage: string | undefined;
 
-    constructor(private designacionService: DesignacionService) { }
+    constructor(private designacionService: DesignacionService,
+      private modalService: ModalService) { }
 
     ngOnInit() {
         this.getdesignaciones();
@@ -64,10 +75,27 @@ export class DesignacionesComponent {
             .subscribe(dataPackage => this.designaciones = <Designaciones[]>dataPackage.data);
     }
 
-    // eliminarPersona(persona: Persona): void {
-    //   if (confirm(`¿Está seguro de que desea eliminar a ${persona.Nombre} ${persona.Apellido}?`)) {
-    //     this.personaService.delete(persona.Dni).subscribe(() => {this.personas = this.personas.filter((p) => p !== persona);
-    //     });
-    //   }
-    // }
+  eliminarDesignacion(designacion: Designaciones): void {
+    this.modalService
+      .confirm(
+        "Eliminar designacion",
+        "¿Está seguro de borrar esta designacion?",
+        ""
+      )
+      .then(() => {
+        this.designacionService.delete(designacion).subscribe(
+          (dataPackage) => {
+            this.designaciones = this.designaciones.filter((p) => p !== designacion);
+            console.log(dataPackage.message);
+          },
+          (error) => {
+            if (error.status === 500) {
+              this.errorMessage = 'No es posible eliminar la designacion con cargo ' + designacion.cargo.nombre + ' y la persona '
+              +designacion.persona.nombre+' '+designacion.persona.apellido;
+            }
+          }
+        );
+      });
+    console.log("no funcionaaaaa");
+  }
 }

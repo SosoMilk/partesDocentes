@@ -74,4 +74,10 @@ public class LicenciaPresenter {
                 return Response.response(HttpStatus.OK, response, null);
             }
     }
+
+    @RequestMapping(value = "/id/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Object> delete(@PathVariable("id") int id) {
+    Licencia licencia = service.findById(id);
+    return (licencia != null) ? Response.ok(service.delete(id), "licencia eliminada") : Response.error("algo salio mal");
+    }
 }

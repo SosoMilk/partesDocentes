@@ -30,9 +30,8 @@ export class DivisionService {
         return this.http.post<DataPackage>(this.divisionUrl, division);
     }
 
-
-    // delete(id: number): void{
-    //     divisionS.splice(divisionS.findIndex(division => division.Dni == division.Dni)!);
-    // }
+    delete(division: Division): Observable<DataPackage> {
+        return this.http.delete<DataPackage>(`${this.divisionUrl}/id/${division.id}`);
+    }
 
 }

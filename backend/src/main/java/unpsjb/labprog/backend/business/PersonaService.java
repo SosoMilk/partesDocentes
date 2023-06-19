@@ -35,8 +35,8 @@ public class PersonaService {
     }
 
     @Transactional
-    public Persona delete(String cuit) {
-        Persona Persona = findByCuit(cuit);
+    public Persona delete(int id) {
+        Persona Persona = findById(id);
         if (Persona != null)
             repository.delete(Persona);
 

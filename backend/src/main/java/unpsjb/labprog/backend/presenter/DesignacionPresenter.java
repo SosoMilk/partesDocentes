@@ -88,4 +88,11 @@ public class DesignacionPresenter {
             return Response.response(HttpStatus.CONFLICT, "la Designacion ya existe", null);
         }
     }
+
+    @RequestMapping(value = "/id/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Object> delete(@PathVariable("id") int id) {
+        Designacion designacion = service.findById(id);
+        return (designacion != null) ? Response.ok(service.delete(id), "designacion eliminada")
+                : Response.notFound("no se puede eliminar");
+    }
 }

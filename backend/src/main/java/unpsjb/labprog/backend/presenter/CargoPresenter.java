@@ -96,4 +96,11 @@ public class CargoPresenter {
             return Response.response(HttpStatus.CONFLICT, "el cargo ya existe", null);
         }
     }
+
+    @RequestMapping(value = "/id/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Object> delete(@PathVariable("id") int id) {
+        Cargo cargo = service.findById(id);
+        return (cargo != null) ? Response.ok(service.delete(id), "cargo eliminado")
+                : Response.notFound("no se puede eliminar");
+    }
 }
