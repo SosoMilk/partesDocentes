@@ -42,4 +42,14 @@ public class HorarioService {
     public List<LocalTime> horarios(){
         return repository.horarios();
     }
+
+    @Transactional
+    public Horario delete(int id) {
+        Horario horario = findById(id);
+
+        if (horario != null)
+            repository.delete(horario);
+
+        return horario;
+    }
 }

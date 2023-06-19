@@ -55,4 +55,11 @@ public class HorarioPresenter {
     public ResponseEntity<Object> create(@RequestBody Horario horario) {
         return Response.ok(service.save(horario), "Dia ingresado correctamente");
     }
+
+    @RequestMapping(value = "/id/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Object> delete(@PathVariable("id") int id) {
+        Horario horario = service.findById(id);
+        return (horario != null) ? Response.ok(service.delete(id), "horario eliminado")
+                : Response.error("algo salio mal");
+    }
 }
