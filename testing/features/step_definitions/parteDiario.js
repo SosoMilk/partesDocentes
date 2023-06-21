@@ -32,7 +32,7 @@ Given('la existencia de las siguientes licencias', function (dataTable) {
         return assert.equal(resL.statusCode, 200);
     }
 
-    return assert.ok(true);
+    //return assert.ok(true);
 });
 
 Given('que se otorgan las siguientes nuevas licencias', function (dataTable) {

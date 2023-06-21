@@ -22,8 +22,9 @@ public interface DesignacionRepository extends CrudRepository<Designacion, Integ
             "AND EXISTS (SELECT l FROM Licencia l WHERE l.persona = e.persona AND l.pedidoDesde <= ?2 AND l.pedidoHasta >= ?3)")
     Persona busquedaDesig(Cargo cargo, Date inicio, Date fin);
 
-    @Query("SELECT d.persona FROM Designacion d WHERE EXISTS (SELECT l FROM Licencia l WHERE l.persona = d.persona AND l.articulo = 3)")
-    List<Persona> findReporte();
+    @Query("SELECT d.persona FROM Designacion d WHERE EXISTS (SELECT l FROM Licencia l WHERE l.persona = d.persona AND l.articulo = 3 "+
+        "AND TO_CHAR(l.pedidoDesde, 'MM') = ?1)")
+    List<Persona> findReporte(String mes);
 
 //     @Query("SELECT e.persona, COUNT(l) FROM Designacion e JOIN e.licencias l " +
 //                 "GROUP BY e.persona ORDER BY COUNT(l) DESC")

@@ -3,7 +3,6 @@ const { Given, When, Then, BeforeAll, AfterAll } = require('cucumber');
 const jd = require('json-diff');
 const request = require('sync-request');
 
-
 Given('el cargo institucional cuyo {string} que da título al mismo', function (nombre) {
     this.cargo = {
         nombre: nombre

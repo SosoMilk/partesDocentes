@@ -30,8 +30,5 @@ export class HorarioService {
     search(text: string): Observable<DataPackage> {
         return this.http.get<DataPackage>(`${this.horarioUrl}/search/${text}`);
     }
-    // delete(id: number): void{
-    //     dCargoS.splice(dCargoS.findIndex(dCargo => dCargo.Dni == dCargo.Dni)!);
-    // }
 
 }

@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable, catchError, throwError } from "rxjs";
 import { DataPackage } from "../data-package";
 import { Designaciones } from "./designacion";
+import { formatDate } from "@angular/common";
 
 @Injectable({
     providedIn: "root",
@@ -19,8 +20,8 @@ export class DesignacionService {
         return this.http.get<DataPackage>(this.designacionUrl); // REST
     }
 
-    reporte(): Observable<DataPackage> {
-        return this.http.get<DataPackage>(this.designacionUrl+"/reporte"); // REST
+    reporte(fecha: String): Observable<DataPackage> {
+        return this.http.get<DataPackage>(this.designacionUrl+"/reporte/"+fecha); // REST
     }
 
 

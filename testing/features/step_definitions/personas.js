@@ -29,10 +29,6 @@ BeforeAll(async function () {
     response = JSON.parse(res.body, 'utf8');
     this.licencias = response.data;
 
-    res = request('GET', 'http://backend:8080/horario');
-    response = JSON.parse(res.body, 'utf8');
-    this.horarios = response.data;
-
     for (let designacion of this.designaciones) {
         await request('DELETE', `http://backend:8080/designacion/id/${designacion.id}`);
     }
@@ -41,9 +37,6 @@ BeforeAll(async function () {
         await request('DELETE', `http://backend:8080/licencias/id/${licencia.id}`);
     }
 
-    for (let horario of this.horarios) {
-        await request('DELETE', `http://backend:8080/horario/id/${horario.id}`);
-    }
 
     for (let cargo of this.cargos) {
         await request('DELETE', `http://backend:8080/cargo/id/${cargo.id}`);
@@ -57,8 +50,20 @@ BeforeAll(async function () {
         await request('DELETE', 'http://backend:8080/personas/id/' + persona.id);
     }
 
+    request('POST', 'http://backend:8080/cargos',
+        {
+            json: {
+                id: 0,
+                nombre: "Portero/a",
+                cargaHoraria: 36,
+                fechaInicio: "2020-03-01",
+                fechaFin: "",
+                division: null,
+                tipoDesignacion: "CARGO",
+                horarios: []
+            }
+        });
 });
-
 
 Given('la persona con {string}, {string}, {int}, {string}, {string}, {string}, {string}, {string}', 
 function (nombre, apellido, Dni, Cuit, sexo, titulo, domicilio, telefono) {
@@ -79,6 +84,7 @@ function (nombre, apellido, Dni, Cuit, sexo, titulo, domicilio, telefono) {
         'http://backend:8080/personas',
         { json: persona }
     );
+
 
     this.response = JSON.parse(res.body, 'utf8');
 
@@ -118,13 +124,5 @@ AfterAll(async function () {
 
     for (let designacion of this.designaciones) {
         await request('POST', 'http://backend:8080/designacion', { json: designacion });
-    }
-
-    for (let horario of this.horarios){
-        await request('POST', 'http://backend:8080/horario',{json:horario});
-    }
-
-    for (let licencia of this.licencias){
-        await request('POST', 'http://backend:8080/licencias',{json:licencia})
     }
 });

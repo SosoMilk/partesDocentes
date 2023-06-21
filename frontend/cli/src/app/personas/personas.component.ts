@@ -8,7 +8,7 @@ import { ModalService } from "../modal.service";
     selector: "app-personas",
     template: `
     <h2>Personas&nbsp;
-    <a routerLink="/division/new" class="btn btn-success float-right">Nueva</a>
+    <a routerLink="/personas/new" class="btn btn-success float-right">Nueva</a>
     </h2>
     
     <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show">{{ errorMessage }}</div>

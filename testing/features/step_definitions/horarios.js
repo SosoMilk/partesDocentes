@@ -19,4 +19,3 @@ Given('el horario del dia {string}', function (dia) {
 
     return assert.equal(res.statusCode, 200);
 });
-

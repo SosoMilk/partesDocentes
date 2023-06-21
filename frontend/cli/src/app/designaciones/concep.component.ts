@@ -2,11 +2,18 @@ import { Component } from "@angular/core";
 import { DesignacionService } from "./designacion.service";
 import { Persona } from "../personas/persona";
 import { ReporteItem } from "./reporte";
+import { formatDate } from "@angular/common";
 
 @Component({
   selector: "app-reporte",
   template: `
     <h2>Docentes&nbsp;</h2>
+  
+  <div style="display: inline-block;">
+  <input [(ngModel)]="fechaReporte" type="month" name="mes" max=fechaMax>
+  &nbsp;<button (click)="ngOnInit()" class="btn btn-success">Buscar</button>
+  </div>
+
     <div class="table-responsive">
       <table class="table table-striped table-sm">
         <thead>
@@ -27,7 +34,9 @@ import { ReporteItem } from "./reporte";
   styles: [],
 })
 export class docenteComponent {
-  docentes: Persona[] = [];;
+  docentes: Persona[] = [];
+  fechaMax= new Date;
+  fechaReporte = new Date;
 
   constructor(private designacionService: DesignacionService) { }
 
@@ -36,51 +45,10 @@ export class docenteComponent {
   }
 
   getpersona(): void {
-    this.designacionService.reporte()
+    const mes = formatDate(this.fechaReporte, 'MM', 'en-US');
+    this.designacionService.reporte(mes)
       .subscribe(dataPackage => {
         this.docentes = <Persona[]>dataPackage.data;
       });
   }
 }
-// @Component({
-//     selector: "app-reporte",
-//     template: `
-//     <h2>Docentes&nbsp;</h2>
-//     <div class="table-responsive">
-//       <table class="table table-striped table-sm">
-//         <thead>
-//           <tr>
-//             <th>#</th>
-//             <th>Docente</th>
-//             <th>Cantidad de Licencias</th>
-//           </tr>
-//         </thead>
-//         <tbody>
-//           <tr *ngFor="let item of reporte; index as i">
-//             <td>{{ i + 1 }}</td>
-//             <td>{{ item.persona.nombre + " " + item.persona.apellido }}</td>
-//             <td>{{ item.cantidadLicencias }}</td>
-//           </tr>
-//         </tbody>
-//       </table>
-//     </div>
-//   `,
-//     styles: [],
-// })
-// export class docenteComponent {
-//   reporte: ReporteItem[] = [];
-//     docentes: Persona[] = [];;
-
-//     constructor(private designacionService: DesignacionService) { }
-
-//     ngOnInit() {
-//         this.getReporte();
-//     }
-
-
-//     getReporte(): void {
-//       this.designacionService.reporte().subscribe((dataPackage) => {
-//         this.reporte = <ReporteItem[]>dataPackage.data;
-//       });
-//     }
-// }

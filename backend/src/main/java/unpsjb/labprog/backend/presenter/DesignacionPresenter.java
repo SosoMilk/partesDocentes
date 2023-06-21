@@ -44,9 +44,9 @@ public class DesignacionPresenter {
         return (DesignacionOrNull != null) ? Response.ok(DesignacionOrNull) : Response.notFound();
     }
 
-    @RequestMapping(value = "/reporte", method = RequestMethod.GET)
-    public ResponseEntity<Object> findReporte() {
-        return Response.ok(service.findResporte());
+    @RequestMapping(value = "/reporte/{mes}", method = RequestMethod.GET)
+    public ResponseEntity<Object> findReporte(@PathVariable("mes") String mes) {
+        return Response.ok(service.findResporte(mes));
     }
 
     public List<DesignacionValidation> validaciones(){

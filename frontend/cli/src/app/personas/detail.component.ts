@@ -144,10 +144,6 @@ export class DetailComponent {
         return;
       }
 
-      // this.comprobarPersonaExistente();
-      //   if (this.personaExiste) {
-      //     this.mensaje = { texto: "La persona con cuil " + this.persona.cuit + " ya existe.", tipo: "error" };
-      //   } else {
           this.personaService.save(this.persona).subscribe(dataPackage => {
             this.persona = <Persona>dataPackage.data;
             this.mensaje = { texto: "La persona se ha guardado exitosamente.", tipo: "success" };

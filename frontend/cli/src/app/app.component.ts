@@ -21,7 +21,6 @@ import { Component } from "@angular/core";
 					<ul>
 						<a routerLink="/division" > Listar </a>
 						<a routerLink="/division/new" >Nueva </a>
-						<a routerLink="/calendario" >Calendario </a>
 					</ul>
 				<li><a routerLink="/cargo">Cargos</a>
 					<ul>

@@ -54,7 +54,7 @@ public class DesignacionService {
     //     return repository.findReporte();
     // }
 
-    public List<Persona> findResporte() {
-        return repository.findReporte();
+    public List<Persona> findResporte(String mes) {
+        return repository.findReporte(mes);
     }
 }

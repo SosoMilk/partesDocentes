@@ -138,7 +138,8 @@ import { HorarioService } from "../horarios/horario.service";
               <tr>
                 <th>#</th>
                 <th>Dia</th>
-                <th>Hora</th>
+                <th>Hora inicio</th>
+                <th>Hora fin</th>
                 <th>
                   <button (click)="addHorario()" class="btn btn-success">
                     Agregar
@@ -147,33 +148,31 @@ import { HorarioService } from "../horarios/horario.service";
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let horario of cargo.horario; index as i">
-                <td>{{ i + 1 }}</td>
-                <td>
-                  <div>
-                  <select
-                  [(ngModel)]="horario.dia"
-                  class="form-control"
-                >
-                  <option value="Lunes">Lunes</option>
-                  <option value="Martes">Martes</option>
-                  <option value="Miercoles">Miercoles</option>
-                  <option value="Jueves">Jueves</option>
-                  <option value="Viernes">Viernes</option>
-                </select>
-                </div>
-                </td>
-                <td>
-                  <input
-                    name="hora{{ i }}"
-                    [(ngModel)]="horario.horaInicio"
-                    class="form-control"
-                    type="time"
-                  />
-                </td>
+               <tr *ngFor="let h of cargo.horario; index as i">
+                        <td>{{i + 1}}</td>
+                        <td>
+                            <select name="dia{{i}}" class="form-control horario-input" [(ngModel)]="h.dia"
+                                [ngModelOptions]="{standalone: true}" placeholder="Día" required>
+                                <option>Lunes</option>
+                                <option>Martes</option>
+                                <option>Miércoles</option>
+                                <option>Jueves</option>
+                                <option>Viernes</option>
+                                <option>Sábado</option>
+                                <option>Domingo</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input type="time" name="hora{{i}}" [(ngModel)]="h.horaInicio"
+                                [ngModelOptions]="{standalone: true}" placeholder="Hora" class="form-control horario-input" required>
+                        </td>
+                        <td>
+                            <input type="time" name="horaFin{{i}}" [(ngModel)]="h.horaFin"
+                                [ngModelOptions]="{standalone: true}" placeholder="Hora" class="form-control horario-input" required>
+                        </td>
                 <td>
                   <button
-                    (click)="removeHorario(horario)"
+                    (click)="removeHorario(h)"
                     class="btn btn-default"
                   >
                     <i class="fa fa-remove"></i>
@@ -205,10 +204,7 @@ export class CarDetailComponent {
      }
 
     ngOnInit() {
-      if(Event){
-
         this.get();
-      }
       this.getDivisiones();
     }
 
@@ -220,6 +216,10 @@ export class CarDetailComponent {
         }
       }
     );
+  }
+
+  getHorarios(){
+    this.horarioService.all().subscribe()
   }
 
     get(): void {
@@ -261,18 +261,9 @@ export class CarDetailComponent {
     }
 
   addHorario(): void {
-    if (!this.cargo.horario) {
-      this.cargo.horario = [];
-    }
-
-    const nuevoHorario: Horario = {
-      id: 0,
-      dia: "",
-      horaInicio: new Date(),
-      horaFin: new Date()
-    };
-
-    this.cargo.horario.push(nuevoHorario);
+    console.log(this.cargo.horario);
+    this.cargo.horario = this.cargo.horario.concat([<Horario>{}]);
+    console.log(this.cargo.horario);
   }
 
   removeHorario(horario: Horario): void {
