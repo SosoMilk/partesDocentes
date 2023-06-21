@@ -10,7 +10,7 @@ import { formatDate } from "@angular/common";
     <h2>Docentes&nbsp;</h2>
   
   <div style="display: inline-block;">
-  <input [(ngModel)]="fechaReporte" type="month" name="mes" max=fechaMax>
+  <input [(ngModel)]="fechaReporte" type="month" name="mes" >
   &nbsp;<button (click)="ngOnInit()" class="btn btn-success">Buscar</button>
   </div>
 

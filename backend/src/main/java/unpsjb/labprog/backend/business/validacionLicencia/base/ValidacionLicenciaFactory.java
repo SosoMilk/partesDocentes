@@ -1,4 +1,4 @@
-package unpsjb.labprog.backend.factory.base;
+package unpsjb.labprog.backend.business.validacionLicencia.base;
 
 import java.io.IOException;
 import java.util.HashMap;

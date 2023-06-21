@@ -1,31 +1,32 @@
-package unpsjb.labprog.backend.factory.base.validaciones;
+package unpsjb.labprog.backend.business.validacionLicencia.base.validaciones;
+
 
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 import unpsjb.labprog.backend.business.LicenciaRepository;
-import unpsjb.labprog.backend.factory.base.ValidadorLicencia;
+import unpsjb.labprog.backend.business.validacionLicencia.base.ValidadorLicencia;
 import unpsjb.labprog.backend.model.Licencia;
 import unpsjb.labprog.backend.model.Persona;
 
 
-public class Validacion23A implements ValidadorLicencia{
+public class Validacion5A implements ValidadorLicencia{
 
     private static LicenciaRepository repository;
 
     private String response = "";
-    private static Validacion23A instance = null;
 
-    private Validacion23A(){}
+    private static Validacion5A instance = null;
 
-    public static Validacion23A getInstance(LicenciaRepository aRepository) {
+    private Validacion5A(){}
+
+    public static Validacion5A getInstance(LicenciaRepository aRepository) {
         if (instance == null){
-            instance = new Validacion23A();
+            instance = new Validacion5A();
         }
 
         instance.repository = aRepository;
-
         return instance;
     }
 
@@ -52,7 +53,7 @@ public class Validacion23A implements ValidadorLicencia{
         }
 
         if (mismosDiasLicencia(licencia.getPersona(), licencia.getPedidoHasta(), licencia.getPedidoDesde())) {
-            return("NO se otorga Licencia artículo " + licencia.getArticulo().getArticulo() + " a "
+            return ("NO se otorga Licencia artículo " + licencia.getArticulo().getArticulo() + " a "
                     + licencia.getPersona().getNombre() + " " + licencia.getPersona().getApellido()
                     + " debido a que ya posee una licencia en el mismo período");
         }
@@ -91,4 +92,5 @@ public class Validacion23A implements ValidadorLicencia{
         }
         return repository.mismosDiasLicencia(persona, pedidoDesde, pedidoHasta);
     }
+    
 }

@@ -16,15 +16,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import unpsjb.labprog.backend.Response;
 import unpsjb.labprog.backend.business.DesignacionService;
+import unpsjb.labprog.backend.business.validacionDesignacion.DesignacionExistenteValidacion;
+import unpsjb.labprog.backend.business.validacionDesignacion.DesignacionValidation;
+import unpsjb.labprog.backend.business.validacionDesignacion.FechaValidacion;
+import unpsjb.labprog.backend.business.validacionDesignacion.TipoCargoStrategy;
+import unpsjb.labprog.backend.business.validacionDesignacion.TipoDesignacionStrategy;
+import unpsjb.labprog.backend.business.validacionDesignacion.TipoEspacioStrategy;
 import unpsjb.labprog.backend.model.Designacion;
 import unpsjb.labprog.backend.model.Persona;
 import unpsjb.labprog.backend.model.TipoDesignacion;
-import unpsjb.labprog.backend.strategy.DesignacionExistenteValidacion;
-import unpsjb.labprog.backend.strategy.DesignacionValidation;
-import unpsjb.labprog.backend.strategy.FechaValidacion;
-import unpsjb.labprog.backend.strategy.TipoCargoStrategy;
-import unpsjb.labprog.backend.strategy.TipoDesignacionStrategy;
-import unpsjb.labprog.backend.strategy.TipoEspacioStrategy;
 
 @RestController
 @RequestMapping("designacion")

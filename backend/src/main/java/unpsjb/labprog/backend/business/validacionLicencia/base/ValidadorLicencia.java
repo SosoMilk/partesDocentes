@@ -1,4 +1,4 @@
-package unpsjb.labprog.backend.factory.base;
+package unpsjb.labprog.backend.business.validacionLicencia.base;
 
 import unpsjb.labprog.backend.business.LicenciaRepository;
 import unpsjb.labprog.backend.model.Licencia;

@@ -62,14 +62,11 @@ public class LicenciaPresenter {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Object> create(@RequestBody Licencia licencia) {  //esta seria factory03
-            String response = "";
+    public ResponseEntity<Object> create(@RequestBody Licencia licencia) {             
+            String response = service.resultadoValidacion(licencia);
             
-            response = service.validacion(licencia);
-            
-            if(response.isEmpty() || response == null){
-                return Response.ok(service.save(licencia), "Se otorga Licencia artículo "+licencia.getArticulo().getArticulo()+" a "
-                    + licencia.getPersona().getNombre()+" "+licencia.getPersona().getApellido());
+            if(response.contains("Se otorga Licencia")){
+                return Response.response(HttpStatus.OK, response, null);
             }else{
                 return Response.response(HttpStatus.OK, response, null);
             }

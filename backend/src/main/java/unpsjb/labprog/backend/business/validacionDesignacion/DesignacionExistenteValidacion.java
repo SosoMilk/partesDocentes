@@ -1,4 +1,4 @@
-package unpsjb.labprog.backend.strategy;
+package unpsjb.labprog.backend.business.validacionDesignacion;
 
 import java.util.List;
 

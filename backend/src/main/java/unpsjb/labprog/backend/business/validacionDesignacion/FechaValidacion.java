@@ -1,4 +1,4 @@
-package unpsjb.labprog.backend.strategy;
+package unpsjb.labprog.backend.business.validacionDesignacion;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

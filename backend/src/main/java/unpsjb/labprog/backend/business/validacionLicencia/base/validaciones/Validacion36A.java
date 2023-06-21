@@ -1,11 +1,11 @@
-package unpsjb.labprog.backend.factory.base.validaciones;
+package unpsjb.labprog.backend.business.validacionLicencia.base.validaciones;
 
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 import unpsjb.labprog.backend.business.LicenciaRepository;
-import unpsjb.labprog.backend.factory.base.ValidadorLicencia;
+import unpsjb.labprog.backend.business.validacionLicencia.base.ValidadorLicencia;
 import unpsjb.labprog.backend.model.Licencia;
 import unpsjb.labprog.backend.model.Persona;
 
