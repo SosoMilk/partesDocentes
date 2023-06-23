@@ -9,7 +9,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import unpsjb.labprog.backend.model.ArticuloLicencia;
-import unpsjb.labprog.backend.model.Designacion;
 import unpsjb.labprog.backend.model.Licencia;
 import unpsjb.labprog.backend.model.Persona;
 
@@ -33,9 +32,6 @@ public interface LicenciaRepository extends CrudRepository<Licencia, Integer>{
 
     @Query("SELECT l FROM Licencia l where l.persona = ?1 AND l.articulo = ?2 AND l.pedidoDesde = ?3 AND l.pedidoHasta = ?4")
     Optional<Licencia> findAllByPADH(Persona persona, ArticuloLicencia articulo, Date desde, Date hasta);
-
-    @Query("UPDATE Designacion set fechaFin = ?2 where persona = ?1")
-    Optional<Designacion> editFecha(Persona persona, Date desde);
 
     @Query("SELECT l FROM Licencia l WHERE (?1 >= l.pedidoDesde AND ?1 <= l.pedidoHasta)")
     List<Licencia> parteDiario(Date fecha);
