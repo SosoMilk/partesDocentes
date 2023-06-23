@@ -67,21 +67,14 @@ public class LicenciaService {
 
         response = command.validador(licencia, repository);
 
-        return response;
-    }
-
-    public String resultadoValidacion(Licencia licencia){
-        String response = "";
-
-        response = validacion(licencia);
-
         if (response.isEmpty() || response == null) {
             Response.ok(save(licencia), "Se otorga Licencia artículo " + licencia.getArticulo().getArticulo() + " a "
                     + licencia.getPersona().getNombre() + " " + licencia.getPersona().getApellido());
             return "Se otorga Licencia artículo " + licencia.getArticulo().getArticulo() + " a "
-                            + licencia.getPersona().getNombre() + " " + licencia.getPersona().getApellido();
+                    + licencia.getPersona().getNombre() + " " + licencia.getPersona().getApellido();
         } else {
             return response;
         }
     }
+
 }

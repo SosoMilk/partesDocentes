@@ -63,13 +63,9 @@ public class LicenciaPresenter {
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Object> create(@RequestBody Licencia licencia) {             
-            String response = service.resultadoValidacion(licencia);
+        String response = service.validacion(licencia);
             
-            if(response.contains("Se otorga Licencia")){
-                return Response.response(HttpStatus.OK, response, null);
-            }else{
-                return Response.response(HttpStatus.OK, response, null);
-            }
+        return Response.response(HttpStatus.OK, response, null);
     }
 
     @RequestMapping(value = "/id/{id}", method = RequestMethod.DELETE)
